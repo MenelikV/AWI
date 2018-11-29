@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>New Sails App</title>
 
-    <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<head>
+  <title>New Sails App</title>
 
-    <%/* If you want to discourage search engines from indexing this site, uncomment the following line: */%>
-    <%/* <meta name="robots" content="noindex"> */%>
+  <!-- Viewport mobile tag for sensible mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <%/* If you want to discourage search engines from indexing this site, uncomment the following line: */%>
+  <%/* <meta name="robots" content="noindex"> */%>
 
 
-    <!--
+  <!--
         Stylesheets and Preprocessors
         ==============================
 
@@ -31,43 +32,83 @@
             + Use a different or additional preprocessor, like SASS, SCSS or Stylus
     -->
 
-    <!--STYLES-->
-    <link rel="stylesheet" href="/styles/importer.css">
-    <!--STYLES END-->
-  </head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
 
-  <body>
-    <%- body %>
+  <!--STYLES-->
+  <link rel="stylesheet" href="/styles/importer.css">
+  <link rel="stylesheet" href="/styles/style.css">
+  <!--STYLES END-->
+</head>
+
+<body>
+
+  <!-- Navbar Section -->
+  <header id="page-header">
+
+    <nav class="navbar navbar-expand-md fixed-top">
+      <div class="container-fluid">
+        <!--  Logo icon -->
+        <a href="/" class="navbar-brand"><img src="https://media.glassdoor.com/sqll/3059/airbus-group-squarelogo-1484558058652.png"></a>
+
+        <div class="collapse navbar-collapse" id="menu">
+          <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+              <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- End navbar section-->
 
 
+  <!-- Start background-->
+  <div class="back">
+    <!--  Start body content -->
+    <div class="site">
+      <div class="formclass">
+        <div class="container-fluid">
+          <%- body %>
 
-    <!--
-        Client-side Templates
-        ========================
+        </div>
+      </div>
+    </div>
+    <!-- End body content -->
 
-        HTML templates are important prerequisites of modern, rich client applications.
-        To work their magic, frameworks like React, Vue.js, Angular, Ember, and Backbone
-        require that you load these templates client-side.
+    <!-- Start of footer -->
+    <footer class="myfooter">
+      <div class="row">
+        <div class="col md-4"></div>
+        <div class="col md-4 text-center">
+          <a href="https://www.assystemtechnologies.com/" class="navbar-brand"><img src="https://dwglogo.com/wp-content/uploads/2015/11/Assystem-White-Logo.png"></a>
+        </div>
+        <div class="col md-4"></div>
+      </div>
 
-        By default, your Gruntfile is configured to automatically load and precompile
-        client-side JST templates in your `assets/templates` folder, then
-        include them here automatically (between TEMPLATES and TEMPLATES END).
+      <div class="row">
+        <div class="col md-4"></div>
+        <div class="col md-4 text-center">
+          <strong>Assystem Technologies</strong>
+        </div>
+        <div class="col md-4"></div>
+      </div>
+    </footer>
+    <!-- End of footer -->
+  </div>
+  <!-- End of background-->
 
-        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
-        For example, here are a few things you could do:
-
-            + Import templates from other directories
-            + Use a different view engine (handlebars, dust, pug/jade, etc.)
-            + Internationalize your client-side templates using a server-side
-              stringfile before they're served.
-    -->
-
-    <!--TEMPLATES-->
-    
-    <!--TEMPLATES END-->
+  <!--TEMPLATES-->
+  
+  <!--TEMPLATES END-->
 
 
-    <!--
+  <!--
         Server-side View Locals
         ========================
 
@@ -83,7 +124,7 @@
     -->
 
 
-    <!--
+  <!--
 
       Client-side Javascript
       ========================
@@ -106,8 +147,14 @@
 
     -->
 
-    <!--SCRIPTS-->
-    <script src="/dependencies/sails.io.js"></script>
-    <!--SCRIPTS END-->
-  </body>
+  <!--SCRIPTS-->
+  <script src="/dependencies/sails.io.js"></script>
+  <!--SCRIPTS END-->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
+</body>
+
 </html>
