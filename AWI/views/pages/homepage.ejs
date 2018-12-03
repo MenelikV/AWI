@@ -1,71 +1,74 @@
 <div class="jumbotron jumbostyle">
-  <div class="container">
-      <!-- Title and Activity container-->
-      <div class="row">
-          <div class="col md-4"></div>
-          <div class="col md-4">
-              <h1 class="display 4 text-center" style="padding-top:2rem;"> Autoval DGPS </h1>
-          </div>
+    <div class="container">
+        <!-- Title and Activity container-->
+        <div class="row">
+            <div class="col md-4"></div>
+            <div class="col md-4">
+                <h1 class="display 4 text-center" style="padding-top:2rem;"> Autoval DGPS </h1>
+            </div>
 
-          <div class="col md-4">
-              <div class="row">
-                  <div class="col-md-8">
-                      <div class="form-group " style="padding-top:2rem;">
-                          <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                                  <label class="input-group-text" for="rights">Activity</label>
-                              </div>
-                              <select class="custom-select" id="rights" v-model.trim="formData.rights">
-                                  <option value="1">Autoval</option>
-                                  <option value="2">Activity</option>
-                              </select>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <hr style="padding-bottom:2rem;">
-      <!-- End title and Activity container-->
+            <div class="col md-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group " style="padding-top:2rem;">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="rights">Activity</label>
+                                </div>
+                                <select class="custom-select" id="rights" v-model.trim="formData.rights">
+                                    <option value="1">Autoval</option>
+                                    <option value="2">Activity</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="padding-bottom:2rem;">
+        <!-- End title and Activity container-->
 
-      <!-- Tables container -->
-      <div class="row">
+        <!-- Tables container -->
+        <div class="row">
 
-          <!-- Flight Overview container -->
-          <div class="col md-6">
-              <div class="card text-center">
-                  <div class="card-header">
-                      Flight Overview
-                  </div>
-                  <div class="card-body">
-                      <h5 class="card-title">Data goes here</h5>
-                      <p class="card-text">Data goes here</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                  <div class="card-footer text-muted">
-                  </div>
-              </div>
-          </div>
-          <!-- End flight Overview container -->
+            <!-- Flight Overview container -->
+            <div class="col md-6">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Flight Overview
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Data goes here</h5>
+                        <p class="card-text">Data goes here</p>
 
-          <!-- Pvol data container -->
-          <div class="col md-6">
-              <div class="card text-center">
-                  <div class="card-header">
-                      PVOL
-                  </div>
-                  <div class="card-body">
-                      <h5 class="card-title">Data goes here</h5>
-                      <p class="card-text">Data goes here</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                  <div class="card-footer text-muted">
-                  </div>
-              </div>
-          </div>
-          <!-- End Pvol data container -->
+                        <a href="/file/getInfo" class="btn btn-primary">Read file</a>
 
-      </div>
-      <!-- End tables container -->
-  </div>
+
+                    </div>
+                    <div class="card-footer text-muted">
+                    </div>
+                </div>
+            </div>
+            <!-- End flight Overview container -->
+
+            <!-- Pvol data container -->
+            <div class="col md-6">
+                <div class="card text-center">
+                    <div class="card-header">
+                        PVOL
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Data goes here</h5>
+                        <p class="card-text">Data goes here</p>
+                        <a href="/benchmark" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                    </div>
+                </div>
+            </div>
+            <!-- End Pvol data container -->
+
+        </div>
+        <!-- End tables container -->
+    </div>
 </div>

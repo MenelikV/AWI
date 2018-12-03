@@ -21,6 +21,10 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  'GET /file/getInfo' : 'FileController.getInfo',
+
+  'GET /error-files': {view: 'pages/error-files'}
+
 
   /***************************************************************************
   *                                                                          *

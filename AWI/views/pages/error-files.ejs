@@ -1,0 +1,76 @@
+<div class="jumbotron jumbostyle">
+    <div class="container">
+        <!-- Title and Activity container-->
+        <div class="row">
+            <div class="col md-4"></div>
+            <div class="col md-4">
+                <h1 class="display 4 text-center" style="padding-top:2rem;"> Autoval DGPS </h1>
+            </div>
+
+            <div class="col md-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group " style="padding-top:2rem;">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="rights">Activity</label>
+                                </div>
+                                <select class="custom-select" id="rights" v-model.trim="formData.rights">
+                                    <option value="1">Autoval</option>
+                                    <option value="2">Activity</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="padding-bottom:2rem;">
+        <!-- End title and Activity container-->
+
+        <!-- Start of each table -->
+        <!-- Iterate over documents -->
+        <% for(var a=0; a< data.length; a++) { %>
+        <!-- Tables container -->
+        <div class="row">
+            <!-- Flight Overview container -->
+            <div class="container-fluid" style="background-color:white; overflow:auto;">
+                <h4 style="padding-top:0.5rem">Flight Overview <%= name[a] %></h4>
+                    
+                        <table class="table table-striped text-center  width=100%">
+
+                            <thead>
+                                <tr>
+                                    <% for(var i=0; i< headers[a].length; i++) { %>
+                                    <th>
+                                        <%= headers[a][i] %>
+                                    </th>
+                                    <% } %>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <!-- Iterate over errors rows-->
+                                <% for(var j=0; j< data[a].length; j++) { %>
+                                <tr>
+                                    <!-- Iterate over each field data-->
+                                    <% for(var k=0; k< headers[a].length; k++) { %>
+                                    <td>
+                                        <%=  data[a][j][headers[a][k]] %>
+                                    </td>
+                                    <% } %>
+                                </tr>
+                                <% } %>
+                            </tbody>
+
+                        </table>
+                        <!-- End of array -->
+                <hr>
+            </div>
+            <!-- End flight Overview container -->
+        </div>
+        <!-- End tables container -->
+        <br>
+        <% } %>
+    </div>
+</div>
