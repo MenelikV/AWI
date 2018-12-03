@@ -29,6 +29,7 @@ module.exports = {
                 //parsing file content
                 Papa.parse(content, {
                     header: true,
+                    skipEmptyLines: true,
                     delimiter: ";",
                     complete: function (results) {
                         headers.push(results.meta["fields"])
