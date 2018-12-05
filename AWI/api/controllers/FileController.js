@@ -26,7 +26,7 @@ module.exports = {
                 var param = [];
                 var type = [];
                 fileName.push(file)
-                var filePath = path.join('C:/Users/vmasiero.ASSYSTEM/test/.tmp/csv', file)
+                var filePath = path.join(folderpath, file)
                 var content = fs.readFileSync(filePath, "utf8");
                 //parsing file content
                 Papa.parse(content, {
