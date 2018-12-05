@@ -19,11 +19,13 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
+  '/': {
+    view: 'pages/flights',
+    controller: 'FileController',
+    action: 'getInfo'
+  },
 
-  'GET /file/getInfo' : 'FileController.getInfo',
-
-  'GET /error-files': {view: 'pages/error-files'}
+  'GET /flightOverview/:id': 'FileController.getFlightOverview'
 
 
   /***************************************************************************
