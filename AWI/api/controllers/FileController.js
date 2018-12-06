@@ -7,68 +7,47 @@ module.exports = {
 
     getInfo: async function (req, res) {
         var fs = require('fs');
-        var folderpath = 'C:/Users/vmasiero.ASSYSTEM/AWI/AWI/.tmp/csv';
+        const folderpath = 'C:/Users/vmasiero.ASSYSTEM/test/.tmp/csv';
 
         fs.readdir(folderpath, function (err, files) {
             //handling error
-            if (err) { return console.log('Unable to scan directory: ' + err) }
-            
+            if (err) {
+                return console.log('Unable to scan directory: ' + err);
+            }
             var Papa = require('papaparse');
             var path = require('path');
-            var headers = [];
-            var finalData = [];
-            var fileName = [];
             var flights = [];
-            var counts = {};
-            var paramName = [];
+            var aircraftHeaders = [];
+
             //listing all files
             files.forEach(function (file) {
-                var param = [];
-                var type = [];
-                fileName.push(file)
                 var filePath = path.join(folderpath, file)
                 var content = fs.readFileSync(filePath, "utf8");
                 //parsing file content
                 Papa.parse(content, {
+                    worker: true,
                     header: true,
                     delimiter: ";",
                     skipEmptyLines: true,
                     complete: function (results) {
-                        headers.push(results.meta["fields"])
-                        finalData.push(results.data)
-
-                        results.data.forEach(function (error) {
-                            param.push(error["PARAMETER"])
-                            type.push(error["TYPE"])
-                        })
-
-                        for (var i = 0; i < param.length; i++) {
-                            var num = param[i];
-                            counts[num] = counts[num] ? counts[num] + 1 : 1;
-                        }
-
-                        paramName = Object.keys(counts);
-                        for (var i = 0; i < paramName.length; i++) {
-                            var flightInfo = {};
-                            flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
-                            flightInfo["MSN"] = results.data[0]["TEST"]
-                            flightInfo["PARAMETER"] = paramName[i]
-                            flightInfo["TYPE"] = results.data[i]["TYPE"]
-                            flights.push(flightInfo)
-                        }
-                        headers = Object.keys(flights[0])
+                        var flightInfo = {};
+                        flightInfo["YEAR"] = results.data[0]["YEAR"]
+                        flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
+                        flightInfo["TEST"] = results.data[0]["TEST"]
+                        flightInfo["CRITICITY"] = ''
+                        flights.push(flightInfo)
                     }
                 });
             });
-            res.status(200)
-            return res.view("pages/flights", { info: flights, headers: headers })
+            aircraftHeaders = Object.keys(flights[0])
+            return res.view("pages/flights", { info: flights, headers: aircraftHeaders })
         });
     },
 
     getFlightOverview: async function (req, res) {
-        var fs = require('fs');
         var fileName = 'Output_PVOL-' + req.param('id') + '.csv';
-        var filePath = 'C:/Users/vmasiero.ASSYSTEM/AWI/AWI/.tmp/pvol/' + fileName;
+        var filePath = 'C:/Users/vmasiero.ASSYSTEM/test/.tmp/pvol/' + fileName;
+        var fs = require('fs');
 
         fs.readFile(filePath, 'utf8', function (err, data) {
             if (err) {
@@ -77,7 +56,7 @@ module.exports = {
             }
             var Papa = require('papaparse');
             var flightHeader;
-            var flightData;
+            var flightData
             var content = data;
             Papa.parse(content, {
                 header: true,
