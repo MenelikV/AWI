@@ -20,6 +20,8 @@ module.exports = {
             var flights = [];
             var aircraftHeaders = [];
 
+            console.log(Activity.getCurrentActivityName())
+
             //listing all files
             files.forEach(function (file) {
                 var filePath = path.join(folderpath, file)
