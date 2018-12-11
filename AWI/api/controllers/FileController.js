@@ -69,6 +69,7 @@ module.exports = {
             //Array with array of objects (errors) for each period in PVOL
             //If there is no error, its an emtpy array
             var GMTcsv = [];
+            var errorHeader;
 
             Papa.parse(content, {
                 header: true,
@@ -102,7 +103,7 @@ module.exports = {
                     complete: function (results) {
                         /*For each period in PVOL, read the csv file and verify if the 
                         error is in the given period. If it is, add it to an array.*/
-
+                        errorHeader = results.meta["fields"];
                         GMTpvol.forEach(function (period) {
                             var items = [];
                             var startpvol = period["START"]
@@ -117,7 +118,11 @@ module.exports = {
                             })
                             GMTcsv.push(items)
                         })
-                        return res.view("pages/flight-overview", { headers: flightHeader, data: flightData, name: PVOLfileName, CSVerrors: GMTcsv })
+
+                     
+
+
+                        return res.view("pages/flight-overview", { headers: flightHeader, data: flightData, name: PVOLfileName, CSVerrors: GMTcsv, CSVheaders: errorHeader })
                     }
                 })
             })

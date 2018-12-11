@@ -144,7 +144,11 @@ h3.heading {
 } 
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(107, 213, 255, 0.075);
+  background-color: rgba(159, 225, 255, 0.411);
+}
+
+.subtable-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(75, 161, 211, 0.315);
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
