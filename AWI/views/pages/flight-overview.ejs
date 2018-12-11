@@ -34,7 +34,7 @@
                         <h4 style="padding-top:0.5rem">
                             Flight Summary
                         </h4>
-                        <table class="table table-striped text-center width=100%">
+                        <table class="table text-center width=100%">
                         </table>
                     </div>
                     <!-- End Flight Summary container -->
@@ -47,7 +47,7 @@
                             <%= (name) %>
                         </h4>
     
-                        <table id="pvol" class="table table-striped text-left width=100%">
+                        <table id="pvol" class="table text-left width=100%">
     
                             <thead>
                                 <tr>
@@ -86,12 +86,12 @@
                                 </tr>
     
                                 <!--Start collapse div-->
-                                <tr class="hidden">
+                                <tr class="hidden" >
                                     <td colspan="2">
                                         <div id="<%='demo_'+j%>" class="collapse text-center">
                                             <!-- Start subtable-->
                                             <% if(CSVerrors[j].length) {  %>
-                                            <table class="subtable-striped">
+                                            <table >
                                                 <thead>
                                                     <tr>
                                                         <% for(var i=0; i< CSVheaders.length; i++) { %>
@@ -100,13 +100,13 @@
                                                         </th>
                                                         <% } %>
                                                     </tr>
-                                                </thead>
+                                                </thead >
     
-                                                <tbody>
+                                                <tbody style="background-color:rgba(137, 202, 255, 0.075)">
                                                     <% for(var i=0; i< CSVerrors[j].length; i++) { %>
-                                                    <tr>
+                                                    <tr >
                                                         <% for(var k=0; k < CSVheaders.length; k++) { %>
-                                                        <td>
+                                                        <td style="border-bottom: 1px solid #ddd;">
                                                             <%= CSVerrors[j][i][CSVheaders[k]] %>
                                                         </td>
                                                         <% } %>
