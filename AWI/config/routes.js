@@ -18,14 +18,28 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
+  
+  'GET /': {
 
-  '/': {
-    view: 'pages/flights',
-    controller: 'FileController',
-    action: 'getInfo'
+    view: 'pages/home',
+
+    locals: {
+      layout: 'layouts/home-layout'
+    }
   },
 
-  'GET /flightOverview/:id': 'FileController.getFlightOverview'
+  'GET /Activities/DGPS/flights': { 
+    view: 'pages/Activities/DGPS/flights',
+    controller: 'Activities/DGPSController',
+    action: 'getInfo' },
+
+    'GET /Activities/MCI/flights': { 
+      view: 'pages/Activities/MCI/flights',
+      controller: 'Activities/MCIController',
+      action: 'getInfo'},
+
+  'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview'
+
 
 
   /***************************************************************************

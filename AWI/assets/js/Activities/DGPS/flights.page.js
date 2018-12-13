@@ -4,6 +4,6 @@ $(document).ready(function() {
         var aircraft = currentRow.find("td").eq(1).text().replace(/\s/g, '');
         var msn = currentRow.find("td").eq(2).text().replace(/\s/g, '');
         var info = aircraft+msn
-        window.location.href = '/flightOverview/'+info; 
+        window.location.href = '/Activities/DGPS/flightOverview/'+info; 
     });
 });

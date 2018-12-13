@@ -1,0 +1,31 @@
+<div class="masthead d-flex">
+    <div class="container text-center my-auto">
+        <h1>Welcome</h1>
+        <h3 class="mb-5">
+            <em>Please select the activity you would like to view</em>
+        </h3>
+        <div class="row">
+            <div class="col md-4"></div>
+            <div class="col md-4 text-center">
+                <div class="form-group ">
+                    <div class="input-group mb-3">
+
+                        <select id="selected" class="custom-select" id="activity" v-model.trim="formData.activity">
+                            <option disabled selected style="display:none">Select...</option>
+                            <option value="DGPS">DGPS</option>
+                            <option value="MCI">MCI</option>
+                        </select>
+                        <div class="input-group-prepend">
+                            <a id="start" type="button" class="input-group-text" style="background-color: #a2daff9f; cursor : pointer;"
+                                for="activity"> <i style="color:black" class="fa fa-arrow-right "></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col md-4">
+            </div>
+        </div>
+    </div>
+    <div class="overlay"></div>
+</div>

@@ -6,7 +6,6 @@
 module.exports = {
 
     getInfo: async function (req, res) {
-
         var fs = require('fs');
         const folderpath = '../AWI/assets/test_files/csv';
 
@@ -19,8 +18,6 @@ module.exports = {
             var path = require('path');
             var flights = [];
             var aircraftHeaders = [];
-
-            console.log(Activity.getCurrentActivityName())
 
             //listing all files
             files.forEach(function (file) {
@@ -43,11 +40,12 @@ module.exports = {
                 });
             });
             aircraftHeaders = Object.keys(flights[0])
-            return res.view("pages/flights", { info: flights, headers: aircraftHeaders })
+            return res.view("pages/Activities/DGPS/flights", { info: flights, headers: aircraftHeaders, activity: 'DGPS' })
         });
     },
 
     getFlightOverview: async function (req, res) {
+        
         var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
         var PVOLfilePath = '../AWI/assets/test_files/pvol/' + PVOLfileName;
 
@@ -58,7 +56,7 @@ module.exports = {
         fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
             if (err) {
                 console.log('Could not read the file ', err)
-                return res.redirect('/')
+                return res.send(err)
             }
 
             var Papa = require('papaparse');
@@ -118,11 +116,7 @@ module.exports = {
                             })
                             GMTcsv.push(items)
                         })
-
-                     
-
-
-                        return res.view("pages/flight-overview", { headers: flightHeader, data: flightData, name: PVOLfileName, CSVerrors: GMTcsv, CSVheaders: errorHeader })
+                        return res.view("pages/Activities/DGPS/flight-overview", { headers: flightHeader, data: flightData, name: PVOLfileName, CSVerrors: GMTcsv, CSVheaders: errorHeader, activity:'DGPS' })
                     }
                 })
             })
