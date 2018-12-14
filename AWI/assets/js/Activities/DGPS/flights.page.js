@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('#aircrafts').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+    
     $( "#aircrafts tbody tr" ).on( "click", function( event ) {
         var currentRow=$(this).closest("tr");
         var aircraft = currentRow.find("td").eq(1).text().replace(/\s/g, '');

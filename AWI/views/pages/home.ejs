@@ -1,30 +1,29 @@
 <div class="masthead d-flex">
     <div class="container text-center my-auto">
         <h1>Welcome</h1>
-        <h3 class="mb-5">
+        <h3 class="mb-3">
             <em>Please select the activity you would like to view</em>
         </h3>
         <div class="row">
-            <div class="col md-4"></div>
-            <div class="col md-4 text-center">
-                <div class="form-group ">
-                    <div class="input-group mb-3">
 
-                        <select id="selected" class="custom-select" id="activity" v-model.trim="formData.activity">
-                            <option disabled selected style="display:none">Select...</option>
-                            <option value="DGPS">DGPS</option>
-                            <option value="MCI">MCI</option>
-                        </select>
-                        <div class="input-group-prepend">
-                            <a id="start" type="button" class="input-group-text" style="background-color: #a2daff9f; cursor : pointer;"
-                                for="activity"> <i style="color:black" class="fa fa-arrow-right "></i>
-                            </a>
-                        </div>
-                    </div>
+
+            <div class="col md-12 text-center">
+                <div class="sel">
+                    <select id="selected">
+                        <option value="">Select...</option>
+                        <option value="DGPS">DGPS</option>
+                        <option value="MCI">MCI</option>
+                    </select>
                 </div>
+
+                <a id="start" for="activity">
+                    <i id="check" style="color:rgba(0, 0, 0, 0.89); cursor: pointer;" class="fa fa-arrow-right fa-2x faa-tada animated-hover"></i>
+                    <i id="spin" style="color:rgb(252, 252, 252); display:none;" class="fa fa-spinner fa-3x fa-spin"></i>
+
+                </a>
             </div>
-            <div class="col md-4">
-            </div>
+
+
         </div>
     </div>
     <div class="overlay"></div>
