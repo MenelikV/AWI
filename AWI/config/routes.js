@@ -38,7 +38,9 @@ module.exports.routes = {
       controller: 'Activities/MCIController',
       action: 'getInfo'},
 
-  'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview'
+  'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
+
+  'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 
 
 
