@@ -7,7 +7,7 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    const folderpath = Actitivty.DGPS.AutovalCSVDirectory;
+    const folderpath = Activity.DGPS.AutoValCSVDirectory;
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -54,7 +54,7 @@ module.exports = {
     var PVOLfilePath = Activity.DGPS.PVolCSVDirectory + PVOLfileName;
     //FIXME: suffix should not be hardcoded here, if actually hardcoded
     var activityfileName = req.param('id') + 'DGPS_DF.csv';
-    var activityfilePath = '../AWI/assets/test_files/csv/' + activityfileName;
+    var activityfilePath = Activity.DGPS.AutoValCSVDirectory + activityfileName;
     var fs = require('fs');
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {

@@ -3,7 +3,8 @@ const request = require("request").defaults({
   jar: true,
   forever: true
 })
-const fs = require("fs")
+const moment = require("moment")
+const numeral = require("numeral")
 
 /* Class Definition */
 var IDADataManager = function () {
@@ -13,24 +14,28 @@ var IDADataManager = function () {
   this.mode = "GMT_DATE";
   this.pwd = pwd
   this.mr_register = {};
-  this.OpenSessionSecured();
+  this.times_register = {};
 }
 IDADataManager.url = "http://ida-r970.eu.airbus.corp:8970/isx-servlet/IdaServlet"
 IDADataManager.prototype.OpenSessionSecured = async function () {
+  // TODO If it fails, go through the non Secured Option
+  // It fails fails raise an error to the user
   let res = await this.doRequest({
     msg: "OpenSessionSecured",
     user: this.user,
     id: this.id,
     pwd: this.pwd
   })
+  return res
 }
 IDADataManager.prototype.CloseMR = async function (mr_adress) {
   var mr_id = await this.getMRID(mr_adress)
-  let res = await this.doRequest({
+  await this.doRequest({
     msg: "CloseMR",
     key: mr_id
   })
   delete this.mr_register[mr_adress]
+  delete this.times_register[mr_adress]
 }
 IDADataManager.prototype.getMRID = async function (mr_adress) {
   var cached_id = this.mr_register[mr_adress]
@@ -46,10 +51,12 @@ IDADataManager.prototype.getMRID = async function (mr_adress) {
 
 }
 IDADataManager.prototype.CloseSession = async function () {
-  let res = await this.doRequest({
+  // TODO Close All MR before before closing Session ?
+  await this.doRequest({
     msg: "CloseSession"
   })
   this.mr_register = {}
+  this.times_register = {}
 }
 IDADataManager.prototype.OpenMR = async function (mr_adress) {
   let mr_id = await this.doRequest({
@@ -57,8 +64,10 @@ IDADataManager.prototype.OpenMR = async function (mr_adress) {
     name: mr_adress
   })
   if (mr_id === undefined) {
+    console.log("Problem with IDA")
     throw MRLoading("IDA Does not manage to open the MetaRessource " + mr_adress)
   } else {
+    console.log("IDA openened the MR with sucess")
     this.mr_register[mr_adress] = mr_id.replace(/\D/g, '')
     console.log(mr_id)
   }
@@ -71,6 +80,28 @@ IDADataManager.prototype.GetParamsInfo = async function (mr_adress, params) {
     list: params.join("~")
   })
 
+}
+IDADataManager.prototype.GetMRTimes = async function(mr_adress){
+  if(this.times_register[mr_adress] !== undefined){
+    // Fetch Dat From Cache
+    return this.times_register[mr_adress]
+  }
+  let mr_id = await this.getMRID(mr_adress)
+  let res = await this.doRequest({
+    msg: "GetResourceTimeIntervalList",
+    key: mr_id
+  })
+  // Remove the last element
+  var times = res.split(" | ")
+  times.pop()
+  var input_format = "DDD-HH:MM:SS"
+  // Convert to Moment Object
+  times.forEach((o, i, a) => a[i] = moment(a[i], input_format))
+  // Convert back to String using moment format
+  ouput_format = "HH:MM:SS"
+  times.forEach((o, i, a) => a[i] = a[i].format(ouput_format))
+  this.times_register[mr_adress] = times
+  return times
 }
 IDADataManager.prototype.ReadAllSamples = async function (mr_adress, startt, endt, params) {
   var mr_id = await this.getMRID(mr_adress)
@@ -126,6 +157,7 @@ IDADataManager.prototype.validate = function (res) {
   }
 }
 IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, params) {
+  // TODO Cache it ?
   let data = []
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
   while (this.validate(res)) {
@@ -133,15 +165,39 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
     var res = await this.ReadParamsSamplesNext(mr_adress)
   }
   data = Buffer.concat(data)
-  return data
+  // TODO Protobuf Decoding of the data
+  var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
+  return res
+}
+IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
+  mr_id = this.getMRID(mr_adress)
+  var times = this.GetMRTimes(mr_adress)
+  var startt = times[0]
+  var endt = times[1]
+  var internal_format = "HH:MM:SS"
+  res = {}
+  for(let key of Object.keys(config)){
+    if(config[key]["minute"] < 0){
+      var fetcht = moment(endt, internal_format).add(config[key].time).format(internal_format)
+    }
+    else{
+      var fetcht = moment(startt, internal_format).add(config[key].time).format(internal_format)
+    }
+    var data = this.ReadData(mr_adress, fetcht, fetcht, [config[key].id])
+    console.log("RAW DATA")
+    console.log(data)
+    res[key] = numeral(data).format(config[key].format)
+  }
+  return res
 }
 IDADataManager.prototype.doRequest = function (form, encoding) {
+  // TODO Check Server Status Message and Raise an Error
   if (encoding === undefined) {
     var enc = "utf8"
   } else {
     var enc = encoding
   }
-  console.log(form)
+  //console.log(form)
   return new Promise(function (resolve, reject) {
     request.post({
       url: IDADataManager.url,
@@ -152,6 +208,7 @@ IDADataManager.prototype.doRequest = function (form, encoding) {
       if (!err && res.statusCode === 200) {
         resolve(res.body)
       } else {
+        console.error(err)
         reject(err)
       }
     })

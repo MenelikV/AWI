@@ -7,7 +7,7 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    const folderpath = Activity.MCI.AutovalCSVDirectory;
+    const folderpath = Activity.MCI.AutoValCSVDirectory;
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -39,7 +39,11 @@ module.exports = {
           }
         });
       });
-      aircraftHeaders = Object.keys(flights[0])
+      if (flights.length) {
+        aircraftHeaders = Object.keys(flights[0])
+      } else {
+        return res.serverError("No Flights Found")
+      }
       return res.view("pages/Activities/MCI/flights", {
         info: flights,
         headers: aircraftHeaders,
@@ -50,23 +54,39 @@ module.exports = {
 
   getFlightOverview: async function (req, res) {
 
-    var AutovalCSVDirectory = Activity.MCI.AutovalCSVDirectory;
+    var AutovalCSVDirectory = Activity.MCI.AutoValCSVDirectory;
     var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
-    var glob = require("glob-fs")
+    var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
-    switch (resLength) {
-      case resLength === 1:
-        var filepath = activityFiles[0]
-        var filename = filepath.replace(/^.*[\\\/]/, '')
-        var mr = filename.split('.').pop()
-        IDADataManager.OpenMR(mr)
-        // Fetch Data from Server 
-        return
-      case resLength < 1:
-        return res.serverError('Activity not found')
-      case resLength > 1:
-        return res.serverError("Several Activities found")
+    if (resLength === 1) {
+      var filepath = activityFiles[0]
+      var filename = filepath.replace(/^.*[\\\/]/, '')
+      var discipline = Activity.MCI.discipline
+      var mr = discipline + filename.split('.').shift()
+      console.log("Starting IDA Services")
+      var summary = new MCISummary()
+      var IDADataManager = new IDA()
+      await IDADataManager.OpenSessionSecured()
+      await IDADataManager.OpenMR(mr)
+      var times = await IDADataManager.GetMRTimes(mr)
+      summary.start_gmt = times[0]
+      summary.end_gmt = times[1]
+      var res = await IDADataManager.FetchParameters(mr, MCIConfig)
+      Object.assign(res, summary)
+      await IDADataManager.CloseMR(mr)
+      await IDADataManager.CloseSession()
+      // Fetch Data from Server 
+      return res.view("pages/Activities/MCI/flight-overview", {
+        activity: "MCI",
+        summary: summary
+      })
+    } else {
+      if (resLength === 0) {
+        return res.serverError("Actinity not found")
+      } else {
+        return res.serverError("Several Activities Found")
+      }
     }
   }
 
