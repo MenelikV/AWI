@@ -36,7 +36,7 @@
                         <thead>
                             <tr>
                                 <% for(var i=0; i< headers.length; i++) { %>
-                                <%if(headers[i] == "START" ||  headers[i] == "END") {%>
+                                <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
                                 <th>
                                     <%= headers[i] %>
                                 </th>
@@ -72,7 +72,14 @@
                                         <%}%>
                                     </p>
                                 </td>
-                                <% } } %>
+                                <% } else{%>
+                                <%if(headers[k] == "PHASE"){%>
+                                <td> 
+                                <%= data[j][headers[k]] %>
+                                </td>
+                                <%}%>
+                                <%}
+                              } %>
                             </tr>
 
                             <!--Start collapse div-->
