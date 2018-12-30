@@ -19,7 +19,7 @@ var IDADataManager = function () {
 IDADataManager.url = "http://ida-r970.eu.airbus.corp:8970/isx-servlet/IdaServlet"
 IDADataManager.prototype.OpenSessionSecured = async function () {
   // TODO If it fails, go through the non Secured Option
-  // It fails fails raise an error to the user
+  // It that fails raise an error to the user
   let res = await this.doRequest({
     msg: "OpenSessionSecured",
     user: this.user,
