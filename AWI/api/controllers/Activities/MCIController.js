@@ -72,10 +72,11 @@ module.exports = {
       var times = await IDADataManager.GetMRTimes(mr)
       summary.start_gmt = times[0]
       summary.end_gmt = times[1]
-      var res = await IDADataManager.FetchParameters(mr, MCIConfig)
-      Object.assign(res, summary)
-      await IDADataManager.CloseMR(mr)
-      await IDADataManager.CloseSession()
+      var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig)
+      Object.assign(summary, parameters_values)
+      // FIXME Warning Problem with the session closing, raises a `socket hang up`error
+      //await IDADataManager.CloseMR(mr)
+      //await IDADataManager.CloseSession()
       // Fetch Data from Server 
       return res.view("pages/Activities/MCI/flight-overview", {
         activity: "MCI",
