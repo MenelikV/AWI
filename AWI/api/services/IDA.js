@@ -5,6 +5,7 @@ const request = require("request").defaults({
 })
 const moment = require("moment")
 const numeral = require("numeral")
+const Proto = require("./Proto")
 
 /* Class Definition */
 var IDADataManager = function () {
@@ -31,7 +32,7 @@ IDADataManager.prototype.OpenSessionSecured = async function () {
 IDADataManager.prototype.CloseMR = async function (mr_adress) {
   var mr_id = await this.getMRID(mr_adress)
   await this.doRequest({
-    msg: "CloseMR",
+    msg: "CloseRes",
     key: mr_id
   })
   delete this.mr_register[mr_adress]
@@ -125,7 +126,7 @@ IDADataManager.prototype.ReadParamsSamplesSampling = async function (mr_adress, 
   } else {
     return this.doRequest({
       key: mr_id,
-      start: startt,
+      startt: startt,
       endt: endt,
       rate: "10",
       list: params.join("~"),
@@ -167,26 +168,32 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
   data = Buffer.concat(data)
   // TODO Protobuf Decoding of the data
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
+  var list = res.listParamSamplesPerGmtDate
+  if(!list.length){
+    // No Valid Data
+    return undefined
+  }
   return res
 }
 IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   mr_id = this.getMRID(mr_adress)
-  var times = this.GetMRTimes(mr_adress)
+  var times = await this.GetMRTimes(mr_adress)
   var startt = times[0]
   var endt = times[1]
-  var internal_format = "HH:MM:SS"
+  var internal_format = "HH:mm:ss"
   res = {}
   for(let key of Object.keys(config)){
-    if(config[key]["minute"] < 0){
-      var fetcht = moment(endt, internal_format).add(config[key].time).format(internal_format)
+    if(config[key].time.minutes < 0){
+      var _s = moment(endt, internal_format).add(config[key].time).format(internal_format)
+      var _e = moment(endt, internal_format).add({seconds: -59}).format(internal_format)
     }
     else{
-      var fetcht = moment(startt, internal_format).add(config[key].time).format(internal_format)
+      var _e = moment(startt, internal_format).add(config[key].time).format(internal_format)
+      var _s = moment(startt, internal_format).add({seconds: 59}).format(internal_format)
     }
-    var data = this.ReadData(mr_adress, fetcht, fetcht, [config[key].id])
-    console.log("RAW DATA")
-    console.log(data)
-    res[key] = numeral(data).format(config[key].format)
+    var data = await this.ReadData(mr_adress, _s, _e, [config[key].id])
+    //res[key] = numeral(data).format(config[key].format)
+    res[key] = data
   }
   return res
 }
@@ -204,6 +211,10 @@ IDADataManager.prototype.doRequest = function (form, encoding) {
       form: form,
       encoding: enc
     }, function (err, res) {
+      if(res === undefined){
+        reject(err)
+        return
+      }
       console.log(res.headers)
       if (!err && res.statusCode === 200) {
         resolve(res.body)
