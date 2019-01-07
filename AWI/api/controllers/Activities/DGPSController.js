@@ -51,7 +51,7 @@ module.exports = {
   getFlightOverview: async function (req, res) {
 
     var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
-    var PVOLfilePath = Activity.DGPS.PVolCSVDirectory + PVOLfileName;
+    var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
     //FIXME: suffix should not be hardcoded here, if actually hardcoded
     var activityfileName = req.param('id') + 'DGPS_DF.csv';
     var activityfilePath = Activity.DGPS.AutoValCSVDirectory + activityfileName;
@@ -72,6 +72,7 @@ module.exports = {
       //If there is no error, its an emtpy array
       var GMTcsv = [];
       var errorHeader;
+      var summary = new DGPSSummary()
 
       Papa.parse(content, {
         header: true,
@@ -85,6 +86,7 @@ module.exports = {
             var GMTpvolinfo = {};
             GMTpvolinfo["START"] = item["START"].split("-")[1];
             GMTpvolinfo["END"] = item["END"].split("-")[1];
+            GMTpvolinfo["PHASE"] = item["PHASE"]
 
             GMTpvol.push(GMTpvolinfo);
           })
@@ -115,6 +117,8 @@ module.exports = {
                 var startcsv = item["START"].split("-")[1];
                 var endcsv = item["END"].split("-")[1];
                 if (startcsv > startpvol && endcsv < endpvol) {
+                  item.MAX = sails.helpers.numberFormat(item.MAX)
+                  item.MIN = sails.helpers.numberFormat(item.MIN)
                   items.push(item)
                 }
               })
@@ -126,7 +130,8 @@ module.exports = {
               name: PVOLfileName,
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,
-              activity: 'DGPS'
+              activity: 'DGPS',
+              summary: summary
             })
           }
         })

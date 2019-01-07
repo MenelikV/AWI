@@ -36,7 +36,7 @@
                         <thead>
                             <tr>
                                 <% for(var i=0; i< headers.length; i++) { %>
-                                <%if(headers[i] == "START" ||  headers[i] == "END") {%>
+                                <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
                                 <th>
                                     <%= headers[i] %>
                                 </th>
@@ -72,7 +72,14 @@
                                         <%}%>
                                     </p>
                                 </td>
-                                <% } } %>
+                                <% } else{%>
+                                <%if(headers[k] == "PHASE"){%>
+                                <td> 
+                                <%= data[j][headers[k]] %>
+                                </td>
+                                <%}%>
+                                <%}
+                              } %>
                             </tr>
 
                             <!--Start collapse div-->
@@ -89,6 +96,9 @@
                                                         <%= CSVheaders[i] %>
                                                     </th>
                                                     <% } %>
+                                                    <th>
+                                                        ACTIONS
+                                                    </th>
                                                 </tr>
                                             </thead>
 
@@ -100,6 +110,12 @@
                                                         <%= CSVerrors[j][i][CSVheaders[k]] %>
                                                     </td>
                                                     <% } %>
+                                                    <td style='white-space: nowrap'>
+                                                    <div class="btn-group tbl-op" role="toolbar">
+                                                        <i class="fa fa-line-chart fa-lg" title="See Parameter"></i>
+                                                        <i class="fa fa-filter fa-lg"  title="Filter"></i>                                    
+                                                    </div>
+                                                    </td>
                                                 </tr>
                                                 <% } %>
                                             </tbody>
