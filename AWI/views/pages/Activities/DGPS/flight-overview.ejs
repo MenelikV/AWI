@@ -88,7 +88,7 @@
                                     <div id="<%='demo_'+j%>" class="collapse text-center">
                                         <!-- Start subtable-->
                                         <% if(CSVerrors[j].length) {  %>
-                                        <table>
+                                        <table id="<%='subtable_'+j%>">
                                             <thead>
                                                 <tr>
                                                     <% for(var i=0; i< CSVheaders.length; i++) { %>
@@ -111,10 +111,12 @@
                                                     </td>
                                                     <% } %>
                                                     <td style='white-space: nowrap'>
-                                                    <div class="btn-group tbl-op" role="toolbar">
-                                                        <i class="fa fa-line-chart fa-lg" title="See Parameter"></i>
-                                                        <i class="fa fa-filter fa-lg"  title="Filter"></i>                                    
-                                                    </div>
+                                                        <button type="button" class="btn btn-sm" style="margin-right: 16px; background-color: transparent" aria-hidden="true" data-id="see_par">
+                                                            <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm" style="background-color: transparent" aria-hidden="true" data-id="filter_par">
+                                                            <i class="fa fa-filter fa-lg"  title="Filter"></i>                                    
+                                                        </button>
                                                     </td>
                                                 </tr>
                                                 <% } %>
