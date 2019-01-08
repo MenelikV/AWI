@@ -3,6 +3,7 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
+const path = require("path")
 module.exports = {
 
   getInfo: async function (req, res) {
@@ -52,15 +53,24 @@ module.exports = {
 
     var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
     var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
-    //FIXME: suffix should not be hardcoded here, if actually hardcoded
-    var activityfileName = req.param('id') + 'DGPS_DF.csv';
-    var activityfilePath = Activity.DGPS.AutoValCSVDirectory + activityfileName;
+    var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
+    var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
+    var glob = require("glob-fs")()
+    var activityFiles = glob.readdirSync(search)
+    var resLength = activityFiles.length
+    if(resLength === 1){
+      activityfilePath = activityFiles[0]
+      var mr = discipline + path.parse(filepath).name
+    }
+    else{
+      return res.serverError('Problem while searching the folder')
+    }
     var fs = require('fs');
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
       if (err) {
         console.log('Could not read the file ', err)
-        return res.send(err)
+        return res.serverError(err)
       }
 
       var Papa = require('papaparse');
@@ -131,7 +141,8 @@ module.exports = {
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,
               activity: 'DGPS',
-              summary: summary
+              summary: summary,
+              mr: mr
             })
           }
         })

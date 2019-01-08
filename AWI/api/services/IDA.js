@@ -82,9 +82,10 @@ IDADataManager.prototype.GetParamsInfo = async function (mr_adress, params) {
   })
 
 }
-IDADataManager.prototype.GetMRTimes = async function(mr_adress){
+IDADataManager.prototype.GetMRTimes = async function(mr_adress, format){
   if(this.times_register[mr_adress] !== undefined){
     // Fetch Dat From Cache
+    if(format !== undefined){return this.times_register[mr_adress].map(d => d.format(format))}
     return this.times_register[mr_adress]
   }
   let mr_id = await this.getMRID(mr_adress)
@@ -95,13 +96,14 @@ IDADataManager.prototype.GetMRTimes = async function(mr_adress){
   // Remove the last element
   var times = res.split(" | ")
   times.pop()
-  var input_format = "DDD-HH:MM:SS"
+  var input_format = "DDD-HH:mm:ss"
   // Convert to Moment Object
   times.forEach((o, i, a) => a[i] = moment(a[i], input_format))
-  // Convert back to String using moment format
-  ouput_format = "HH:MM:SS"
-  times.forEach((o, i, a) => a[i] = a[i].format(ouput_format))
   this.times_register[mr_adress] = times
+  // Convert back to String using moment format
+  if(format !== undefined){
+  times.forEach((o, i, a) => a[i] = a[i].format(ouput_format))
+}
   return times
 }
 IDADataManager.prototype.ReadAllSamples = async function (mr_adress, startt, endt, params) {
@@ -184,12 +186,12 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   res = {}
   for(let key of Object.keys(config)){
     if(config[key].time.minutes < 0){
-      var _s = moment(endt, internal_format).add(config[key].time).format(internal_format)
-      var _e = moment(endt, internal_format).add({seconds: -59}).format(internal_format)
+      var _s = startt.add(config[key].time).format(internal_format)
+      var _e = endt.add({seconds: -59}).format(internal_format)
     }
     else{
-      var _e = moment(startt, internal_format).add(config[key].time).format(internal_format)
-      var _s = moment(startt, internal_format).add({seconds: 59}).format(internal_format)
+      var _e = startt.add(config[key].time).format(internal_format)
+      var _s = endt.add({seconds: 59}).format(internal_format)
     }
     var data = await this.ReadData(mr_adress, _s, _e, [config[key].id])
     //res[key] = numeral(data).format(config[key].format)
