@@ -60,7 +60,8 @@ module.exports = {
     var resLength = activityFiles.length
     if(resLength === 1){
       activityfilePath = activityFiles[0]
-      var mr = discipline + path.parse(filepath).name
+      var discipline = Activity.DGPS.discipline
+      var mr = discipline + path.parse(activityfilePath).name
     }
     else{
       return res.serverError('Problem while searching the folder')
