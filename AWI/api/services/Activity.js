@@ -6,14 +6,14 @@
 module.exports = {
   "MCI": {
     "longName": "Weight and Balance",
-    "AutoValCSVDirectory": "assets/test_files/csv/",
-    "PVOLCSVDirectory": "assets/test_files/pvol/",
+    "AutoValCSVDirectory": "assets/test_files/mci/csv/",
+    //"PVOLCSVDirectory": "assets/test_files/pvol/",
     "discipline": "/perf/"
   },
   "DGPS": {
     "longName": "Trajectography",
-    "AutoValCSVDirectory": "assets/test_files/csv/",
-    "PVOLCSVDirectory": "assets/test_files/pvol/",
+    "AutoValCSVDirectory": "assets/test_files/dgps/csv/",
+    "PVOLCSVDirectory": "assets/test_files/dgps/pvol/",
     "discipline": "/perf/"
   }
 }
