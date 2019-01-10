@@ -29,7 +29,7 @@ $(document).ready(function() {
 
         })
     })
-})
+
 
 var createPlot =  function(data){
     var ctx = document.getElementById("canvas").getContext("2d")
@@ -54,3 +54,6 @@ var createPlot =  function(data){
     })
     // Show Modal
 }
+
+
+})
