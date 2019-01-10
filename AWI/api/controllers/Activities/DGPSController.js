@@ -152,7 +152,7 @@ module.exports = {
 
   search: async function (req, res) {
     var param = req.param('PARAMETER')
-    var type = req.param('MAX')
+    var type = req.param('TYPE')
 
 
     var fs = require('fs');
@@ -180,14 +180,13 @@ module.exports = {
           complete: function (results) {
 
             for (var i = 0; i < results.data.length; i++) {
-              if (results.data[i]["PARAMETER"] == param) {
+              if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
                 var flightInfo = {};
                 flightInfo["YEAR"] = results.data[i]["YEAR"]
                 flightInfo["AIRCRAFT"] = results.data[i]["AIRCRAFT"]
                 flightInfo["TEST"] = results.data[i]["TEST"]
                 flightInfo["CRITICITY"] = ''
                 flights.push(flightInfo)
-
                 break
               }
             }
