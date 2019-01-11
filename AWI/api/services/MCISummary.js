@@ -1,8 +1,8 @@
 var MCISummary = function () {
+  this.Initilisation = {}
   for (let k of Object.keys(MCIConfig)) {
-    this[k] = ""
+    this.Initilisation[k] = ""
   }
-  this.Initilisation = []
   this.start_gmt = ""
   this.end_gmt = ""
 }

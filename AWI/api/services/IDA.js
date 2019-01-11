@@ -4,8 +4,9 @@ const request = require("request").defaults({
   forever: true
 })
 const moment = require("moment")
-const numeral = require("numeral")
 const Proto = require("./Proto")
+const M = 1000000
+const DAY = 24 * 60 * 60
 
 /* Class Definition */
 var IDADataManager = function () {
@@ -173,9 +174,18 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
   var list = res.listParamSamplesPerGmtDate
   if(!list.length){
     // No Valid Data
-    return undefined
+    console.log("No valid Data!")
+    return {time: [], value: []}
   }
-  return res
+  else{
+    var times = list.map(d=>moment.unix((d.objGmt.longGmtDate/M)%DAY).utc().format("HH:mm:ss.SSS"))
+    var values = list.map(d=>sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType))
+    return {time: times, value: values}
+  }
+
+}
+IDADataManager.prototype.ReadParametersOnTime = async function(mr_adress, time, params){
+  
 }
 IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   mr_id = this.getMRID(mr_adress)

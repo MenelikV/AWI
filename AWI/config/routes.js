@@ -42,9 +42,8 @@ module.exports.routes = {
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 
-  'GET /Activites/DGPS/flightOverview/:id/plot': 'PlotController.plot',
+  'GET /Activities/flightOverview/plot': 'PlotController.plot',
 
-  'GET /Activities/MCI/flightOverview/:id/plot': 'PlotController.plot',
 
 
 

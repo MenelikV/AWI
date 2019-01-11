@@ -111,7 +111,7 @@
                                                     </td>
                                                     <% } %>
                                                     <td style='white-space: nowrap'>
-                                                        <button type="button" class="btn btn-sm" style="margin-right: 16px; background-color: transparent" aria-hidden="true" data-id="see_par">
+                                                        <button type="button" class="btn btn-sm"  data-mr ="<%=mr%>" style="margin-right: 16px; background-color: transparent" aria-hidden="true" data-id="see_par">
                                                             <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
                                                         </button>
                                                         <button type="button" class="btn btn-sm" style="background-color: transparent" aria-hidden="true" data-id="filter_par">
@@ -140,3 +140,5 @@
         </div>
     </div>
 </div>
+<%- include ../../plot-modal.ejs %>
+<%- include ../../spinner-modal.ejs %>

@@ -74,7 +74,7 @@ module.exports = {
       summary.start_gmt = times[0].format(internal_format)
       summary.end_gmt = times[1].format(internal_format)
       var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig)
-      Object.assign(summary, parameters_values)
+      Object.assign(summary.Initialisation, parameters_values)
       // FIXME Warning Problem with the session closing, raises a `socket hang up`error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()
@@ -90,8 +90,8 @@ module.exports = {
             /*For each period in PVOL, read the csv file and verify if the 
             error is in the given period. If it is, add it to an array.*/
             errorHeader = results.meta["fields"];
-            startpvol = times[0].format("DDD-HH:mm:ss-ms")
-            endpvol = times[1].format("DDD-HH:mm:ss-ms")
+            startpvol = times[0].format("HH:mm:ss-ms")
+            endpvol = times[1].format("HH:mm:ss-ms")
 
             results.data.forEach(function (item) {
               var startcsv = item["START"].split("-")[1];
@@ -108,7 +108,8 @@ module.exports = {
       })
       return res.view("pages/Activities/MCI/flight-overview", {
         activity: "MCI",
-        summary: summary
+        summary: summary,
+        mr:mr
       })
     } else {
       if (resLength === 0) {

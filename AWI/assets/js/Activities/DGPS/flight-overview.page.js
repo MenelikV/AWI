@@ -5,24 +5,28 @@ $(document).ready(function() {
     $('button[data-id="see_par"]').each(function(){
         $(this).on('click', function(evt){
             var row = $(this).parents('tr')[0]
+            var table = $(this).parents('table')[0]
             // TODO Create labels from row via ajx call
-            // Show Modal Here
-            var data = []
+            // Show Modal (Clear context before showing anything)
+            var ctx = document.getElementById("canvas").getContext("2d")
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+            $("#spinnerModal").modal("show")
+            var row_data = {}
             // Ignore Last Columns (Actions)
             for(var i=0; i<row.cells.length-1; i++){
-                data.push(row.cells[i].innerHTML)
+                row_data[table.rows[0].cells[i].innerText] = row.cells[i].innerText
             }
-            alert(data)
-            return
-            var url = `${window.url}/plot`
+            row_data["MR"] = ($(this).data("mr"))
             $.ajax({
-                url: url,
+                //datatype: "json",
+                url: "/Activities/flightOverview/plot",
                 data:{
-                    row: row
+                    row: row_data
                 },
                 type: "GET",
-                success: createPlot(data),
+                success: createPlot,
                 error: function(){
+                    $("#spinnerModal").modal("hide")
                     alert("Fetching Data Failed")
                 }
             })
@@ -31,26 +35,11 @@ $(document).ready(function() {
     })
 })
 
-var createPlot =  function(data){
+var createPlot =  function(data, status){
+    $("#spinnerModal").modal("hide")
     var ctx = document.getElementById("canvas").getContext("2d")
-    window.chart = new Chart(ctx, {
-        type: "line",
-        data: data,
-        options: {
-            responsive: true,
-            title: { 
-                display: true,
-                text: title
-            },
-            tooltips: {
-                mode: "index",
-                intersect: true,
-            },
-            annotations: {
-                events: ["click"],
-                annotations: []
-            }
-        }
-    })
-    // Show Modal
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    window.chart = new Chart(ctx, data)
+    $("#plotModal").modal("show")
+    $("#plotModal").modal("handleUpdate")
 }
