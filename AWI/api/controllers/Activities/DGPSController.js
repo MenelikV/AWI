@@ -195,8 +195,6 @@ module.exports = {
         });
       });
 
-      console.log(flights)
-
       if (!flights.length) {
         return res.send("notfound")
       }
