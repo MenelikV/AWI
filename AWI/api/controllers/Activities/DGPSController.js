@@ -8,7 +8,7 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    const folderpath = Activity.DGPS.AutoValCSVDirectory;
+    var folderpath = Activity.DGPS.AutoValCSVDirectory;
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -58,12 +58,11 @@ module.exports = {
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
-    if(resLength === 1){
+    if (resLength === 1) {
       activityfilePath = activityFiles[0]
       var discipline = Activity.DGPS.discipline
       var mr = discipline + path.parse(activityfilePath).name
-    }
-    else{
+    } else {
       return res.serverError('Problem while searching the folder')
     }
     var fs = require('fs');
@@ -149,5 +148,67 @@ module.exports = {
         })
       })
     })
+  },
+
+  search: async function (req, res) {
+    var param = req.param('PARAMETER')
+    var type = req.param('TYPE')
+
+
+    var fs = require('fs');
+    var folderpath = Activity.DGPS.AutoValCSVDirectory;
+    fs.readdir(folderpath, function (err, files) {
+      //handling error
+      if (err) {
+        return console.log('Unable to scan directory: ' + err);
+      }
+      var Papa = require('papaparse');
+      var path = require('path');
+      var flights = [];
+      var aircraftHeaders = [];
+
+      //listing all files
+      files.forEach(function (file) {
+        var filePath = path.join(folderpath, file)
+        var content = fs.readFileSync(filePath, "utf8");
+        //parsing file content
+        Papa.parse(content, {
+          worker: true,
+          header: true,
+          delimiter: ";",
+          skipEmptyLines: true,
+          complete: function (results) {
+
+            for (var i = 0; i < results.data.length; i++) {
+              if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
+                var flightInfo = {};
+                flightInfo["YEAR"] = results.data[i]["YEAR"]
+                flightInfo["AIRCRAFT"] = results.data[i]["AIRCRAFT"]
+                flightInfo["TEST"] = results.data[i]["TEST"]
+                flightInfo["CRITICITY"] = ''
+                flights.push(flightInfo)
+                break
+              }
+            }
+
+          }
+        });
+      });
+
+      if (!flights.length) {
+        return res.send("notfound")
+      }
+
+      aircraftHeaders = Object.keys(flights[0])
+      return res.view("pages/Activities/DGPS/flights", {
+        info: flights,
+        headers: aircraftHeaders,
+        activity: 'DGPS'
+      })
+
+
+    });
+
   }
+
 }

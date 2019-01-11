@@ -28,11 +28,13 @@ module.exports.routes = {
     }
   },
 
+  'POST /Activities/DGPS/search': 'activities/DGPSController.search',
+
   'GET /Activities/DGPS/flights': { 
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
     action: 'getInfo' },
-
+ 
     'GET /Activities/MCI/flights': { 
       view: 'pages/Activities/MCI/flights',
       controller: 'Activities/MCIController',

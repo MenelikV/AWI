@@ -33,7 +33,7 @@ $(document).ready(function() {
 
         })
     })
-})
+
 
 var createPlot =  function(data, status){
     $("#spinnerModal").modal("hide")
@@ -43,3 +43,4 @@ var createPlot =  function(data, status){
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
 }
+})
