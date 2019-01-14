@@ -7,6 +7,7 @@ $(document).ready(function () {
     var aircraft = currentRow.find("td").eq(1).text().replace(/\s/g, '');
     var msn = currentRow.find("td").eq(2).text().replace(/\s/g, '');
     var info = aircraft + msn
+    $("#spinnerModal").modal("show")
     window.location.href = '/Activities/MCI/flightOverview/' + info;
   });
 })

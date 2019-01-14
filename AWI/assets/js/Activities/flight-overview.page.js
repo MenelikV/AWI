@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $("#spinnerModal").modal("hide")
     $("table[id^='subtable_']").DataTable({
         paging: false,
     })

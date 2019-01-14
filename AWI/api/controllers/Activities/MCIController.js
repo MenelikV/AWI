@@ -140,6 +140,67 @@ module.exports = {
         return res.serverError("Several Activities Found")
       }
     }
+  },
+
+  search: async function(req, res){
+    var param = req.param('PARAMETER')
+    var type = req.param('TYPE')
+
+
+    var fs = require('fs');
+    var folderpath = Activity.MCI.AutoValCSVDirectory;
+    fs.readdir(folderpath, function (err, files) {
+      //handling error
+      if (err) {
+        return console.log('Unable to scan directory: ' + err);
+      }
+      var Papa = require('papaparse');
+      var path = require('path');
+      var flights = [];
+      var aircraftHeaders = [];
+
+      //listing all files
+      files.forEach(function (file) {
+        var filePath = path.join(folderpath, file)
+        var content = fs.readFileSync(filePath, "utf8");
+        //parsing file content
+        Papa.parse(content, {
+          worker: true,
+          header: true,
+          delimiter: ";",
+          skipEmptyLines: true,
+          complete: function (results) {
+
+            for (var i = 0; i < results.data.length; i++) {
+              if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
+                var flightInfo = {};
+                flightInfo["YEAR"] = results.data[i]["YEAR"]
+                flightInfo["AIRCRAFT"] = results.data[i]["AIRCRAFT"]
+                flightInfo["TEST"] = results.data[i]["TEST"]
+                flightInfo["CRITICITY"] = ''
+                flights.push(flightInfo)
+                break
+              }
+            }
+
+          }
+        });
+      });
+
+      if (!flights.length) {
+        return res.send("notfound")
+      }
+
+      aircraftHeaders = Object.keys(flights[0])
+      return res.view("pages/Activities/MCI/flights", {
+        info: flights,
+        headers: aircraftHeaders,
+        activity: 'MCI'
+      })
+
+
+    });
+
   }
 
 }
