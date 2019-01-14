@@ -26,10 +26,14 @@ module.exports = {
   inputs: {
     number: {
       type: "str",
-      required: true
+      required: false
     }
   },
   fn: function (inputs, exits) {
-    exits.success(numeral(inputs.number).format("6V"))
+    try{
+    exits.success(numeral(inputs.number).format("6V"))}
+    catch(error){
+      exits.sucess("")
+    }
   }
 }

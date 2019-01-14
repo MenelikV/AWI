@@ -6,6 +6,7 @@
 const path = require("path")
 const fs = require("fs")
 const Papa = require('papaparse');
+const moment = require("moment")
 
 module.exports = {
 
@@ -78,7 +79,7 @@ module.exports = {
       const internal_format = "HH:mm:ss"
       summary.start_time = times[0].format(internal_format)
       summary.end_time = times[1].format(internal_format)
-      const CSV_format = "DDD-HH:mm:ss-SSS"
+      const CSV_format = "DDD-HH:mm:ss"
       Object.assign(flightData, sails.helpers.extractInfo(_id))
       flightData.START = times[0].format(CSV_format)
       flightData.END = times[1].format(CSV_format)
@@ -88,7 +89,7 @@ module.exports = {
       summary.test = flightData.TEST
       var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig.Initialisation)
       summary.Initialisation = parameters_values
-      // FIXME Warning Problem with the session closing, raises a `socket hang up`error
+      // FIXME Warning Problem with the session closing, raises a `socket hang up` error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()
       var GMTcsv = []
@@ -103,19 +104,22 @@ module.exports = {
             error is in the given period. If it is, add it to an array.*/
             var items = [];
             errorHeader = results.meta["fields"];
-            startpvol = times[0].format("HH:mm:ss-ms")
-            endpvol = times[1].format("HH:mm:ss-ms")
+            startpvol = times[0]
+            endpvol = times[1]
 
             results.data.forEach(function (item) {
-              var startcsv = item["START"].split("-")[1];
-              var endcsv = item["END"].split("-")[1];
+              var startcsv = moment(item["START"], CSV_format);
+              var endcsv = moment(item["END"], CSV_format);
               if (startcsv > startpvol && endcsv < endpvol) {
-                // FIXME Not Valid everytime
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
                 items.push(item)
               
-              }})
+              }
+              else{
+                console.log("Something wrong happened")
+              }
+            })
               GMTcsv.push(items)
               return res.view("pages/Activities/MCI/flight-overview", {
                 activity: "MCI",
@@ -124,8 +128,8 @@ module.exports = {
                 name: 'NAME',
                 headers: ["START", "END", "PHASE"],
                 CSVerrors: GMTcsv,
-                CSVHeaders: errorHeader,
-                data: flightData
+                CSVheaders: errorHeader,
+                data: [flightData],
               })
             }})
       })

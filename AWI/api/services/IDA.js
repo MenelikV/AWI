@@ -89,7 +89,7 @@ IDADataManager.prototype.GetMRTimes = async function(mr_adress, format){
   if(this.times_register[mr_adress] !== undefined){
     // Fetch Dat From Cache
     if(format !== undefined){return this.times_register[mr_adress].map(d => d.format(format))}
-    return this.times_register[mr_adress]
+    return this.times_register[mr_adress].map(d=>d.clone())
   }
   let mr_id = await this.getMRID(mr_adress)
   let res = await this.doRequest({
@@ -102,7 +102,7 @@ IDADataManager.prototype.GetMRTimes = async function(mr_adress, format){
   var input_format = "DDD-HH:mm:ss"
   // Convert to Moment Object
   times.forEach((o, i, a) => a[i] = moment(a[i], input_format))
-  this.times_register[mr_adress] = times
+  this.times_register[mr_adress] = times.map(d => d.clone())
   // Convert back to String using moment format
   if(format !== undefined){
   times.forEach((o, i, a) => a[i] = a[i].format(ouput_format))
