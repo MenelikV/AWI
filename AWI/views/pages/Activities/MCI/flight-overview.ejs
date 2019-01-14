@@ -1,19 +1,27 @@
 <div class="jumbotron jumbostyle">
     <div class="container-fluid">
-        <!-- Title and Activity container-->
-        <div class="row">
-            <div class="col md-4"></div>
-            <div class="col md-4">
-                <h1 class="display 4 text-center" style="padding-top:2rem;"> Flight Overview </h1>
-            </div>
-            <div class="col md-4">
-            </div>
-        </div>
-        <hr style="padding-bottom:2rem;">
+
+            <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                      <a style="font-size:1.2rem" class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                        aria-controls="nav-home" aria-selected="true">Summary</a>
+                      <a style="font-size:1.2rem"class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                        aria-controls="nav-profile" aria-selected="false">Output</a>
+              
+                    </div>
+                  </nav>
+              
+              
+                  <div class="tab-content" id="nav-tabContent">
+              
+                    <!-- FIRST TAB-->
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                      <br>
+              
         <!-- End title and Activity container-->
 
         <div class="row">
-            <div class="col md-6">
+            <div class="col md-12">
                 <!-- Flight Summary container -->
                 <div class="container-fluid" style="background-color:white; overflow:auto;">
                     <h4 style="padding-top:0.5rem">
@@ -24,14 +32,24 @@
                 <!-- End Flight Summary container -->
             </div>
 
-            <div class="col md-6">
+           
+        </div>
+
+    </div>
+    <!-- END FIRST TAB-->
+
+    <!-- SECOND TAB-->
+
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <br>
+      <div class="col md-12">
                 <!-- PVOL container -->
                 <div class="container-fluid" style="background-color:white; overflow:auto;">
                     <h4 style="padding-top:0.5rem">
                         <%= (name) %>
                     </h4>
 
-                    <table id="pvol" class="table text-left width=100%">
+                    <table id="pvol"  class="table text-left" style="width:100%">
 
                         <thead>
                             <tr>
@@ -81,7 +99,7 @@
                                     <div id="<%='demo_'+j%>" class="collapse text-center">
                                         <!-- Start subtable-->
                                         <% if(CSVerrors[j].length) {  %>
-                                        <table>
+                                        <table id="<%='subtable_'+j%>">
                                             <thead>
                                                 <tr>
                                                     <% for(var i=0; i< CSVheaders.length; i++) { %>
@@ -89,17 +107,41 @@
                                                         <%= CSVheaders[i] %>
                                                     </th>
                                                     <% } %>
+                                                    <th>
+                                                            ACTIONS
+                                                          </th>
                                                 </tr>
                                             </thead>
 
                                             <tbody style="background-color:rgba(137, 202, 255, 0.075)">
                                                 <% for(var i=0; i< CSVerrors[j].length; i++) { %>
                                                 <tr>
+                                                    <form action="/Activities/DGPS/search" method="POST">
                                                     <% for(var k=0; k < CSVheaders.length; k++) { %>
                                                     <td style="border-bottom: 1px solid #ddd;">
                                                         <%= CSVerrors[j][i][CSVheaders[k]] %>
+                                                        <input type="hidden" name="<%=CSVheaders[k]%>" value="<%=CSVerrors[j][i][CSVheaders[k]]%>">
                                                     </td>
                                                     <% } %>
+                                                    
+                              <td style='white-space: nowrap'>
+                                    <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                      data-id="see_par">
+                                      <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
+                                    </button>
+    
+                                    <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                      data-id="filter_par">
+                                      <i class="fa fa-filter fa-lg" title="Filter"></i>
+                                    </button>
+    
+                                    <button type="submit" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                      data-id="search_par">
+                                      <i class="fa fa-search fa-lg" title="Search"></i>
+                                    </button>
+                                  </td>
+    
+                                </form>
                                                 </tr>
                                                 <% } %>
                                             </tbody>
@@ -114,11 +156,9 @@
                             <% } %>
                         </tbody>
                     </table>
-                    <hr>
                 </div>
                 <!-- End PVOL container -->
             </div>
-            <br>
         </div>
     </div>
 </div>
