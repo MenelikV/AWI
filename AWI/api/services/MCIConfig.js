@@ -3,7 +3,6 @@ module.exports = {
     Weight: {
       id: "88U0230--",
       format: "000000",
-      // TODO Check time with moment js
       time: {
         "minutes": -1
       },
