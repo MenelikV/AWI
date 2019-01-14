@@ -4,6 +4,9 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const path = require("path")
+const fs = require("fs")
+const Papa = require('papaparse');
+
 module.exports = {
 
   getInfo: async function (req, res) {
@@ -60,10 +63,12 @@ module.exports = {
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
+    var flightData = {}
     if (resLength === 1) {
       var activityfilePath = activityFiles[0]
       var discipline = Activity.MCI.discipline
-      var mr = discipline + path.parse(activityfilePath).name
+      var _id = path.parse(activityfilePath).name
+      var mr = discipline + _id
       console.log("Starting IDA Services")
       var summary = new MCISummary()
       var IDADataManager = new IDA()
@@ -71,17 +76,24 @@ module.exports = {
       await IDADataManager.OpenMR(mr)
       var times = await IDADataManager.GetMRTimes(mr)
       const internal_format = "HH:mm:ss"
-      summary.start_gmt = times[0].format(internal_format)
-      summary.end_gmt = times[1].format(internal_format)
-      var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig)
-      Object.assign(summary.Initialisation, parameters_values)
+      summary.start_time = times[0].format(internal_format)
+      summary.end_time = times[1].format(internal_format)
+      const CSV_format = "DDD-HH:mm:ss-SSS"
+      Object.assign(flightData, sails.helpers.extractInfo(_id))
+      flightData.START = times[0].format(CSV_format)
+      flightData.END = times[1].format(CSV_format)
+      flightData.PHASE = "FULL FLIGHT"
+      flightData.YEAR = ""
+      summary.aircraft = flightData.AIRCRAFT
+      summary.test = flightData.TEST
+      var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig.Initialisation)
+      summary.Initialisation = parameters_values
       // FIXME Warning Problem with the session closing, raises a `socket hang up`error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()
       var GMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if(err){return res.serverError(`Could not read the following file :${activityfilePath}`)}
-        var Papa = require('papaparse');
         Papa.parse(data, {
           header: true,
           delimiter: ";",
@@ -89,6 +101,7 @@ module.exports = {
           complete: function (results) {
             /*For each period in PVOL, read the csv file and verify if the 
             error is in the given period. If it is, add it to an array.*/
+            var items = [];
             errorHeader = results.meta["fields"];
             startpvol = times[0].format("HH:mm:ss-ms")
             endpvol = times[1].format("HH:mm:ss-ms")
@@ -104,12 +117,17 @@ module.exports = {
               
               }})
               GMTcsv.push(items)
+              return res.view("pages/Activities/MCI/flight-overview", {
+                activity: "MCI",
+                summary: summary,
+                mr:mr,
+                name: 'NAME',
+                headers: ["START", "END", "PHASE"],
+                CSVerrors: GMTcsv,
+                CSVHeaders: errorHeader,
+                data: flightData
+              })
             }})
-      })
-      return res.view("pages/Activities/MCI/flight-overview", {
-        activity: "MCI",
-        summary: summary,
-        mr:mr
       })
     } else {
       if (resLength === 0) {

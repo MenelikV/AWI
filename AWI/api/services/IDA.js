@@ -5,9 +5,11 @@ const request = require("request").defaults({
 })
 const moment = require("moment")
 const Proto = require("./Proto")
+const numeral = require("numeral")
+
 const M = 1000000
 const DAY = 24 * 60 * 60
-
+// FIXME create a local cache for future reloading of the page
 /* Class Definition */
 var IDADataManager = function () {
   var pwd = "dYHDhnP+2zisJrYZkH5QzKS/SQIZNhlVyc4VG4LJ/OVDTcIf7a9Vu9xGcXP13Zazseh7mOmcmC7XI8mtQ+FxJAgP082YiculC8s4LGHnpY7fqB0hqjo5ZE6ZEJsLNO4CKJYutWHr5jNPMvcxsYua/0AeBoklhougZtdxPI/rZPKhvOs7UdJVkVqtP0YZmclI3eWQzIR5ROhrGIQILFbc2hko0nMB/st/BLj0sxmkGbmHv7rkGtfV7NJ8vZq3MMgaY/PqiRrCd0a9kgqkwor58d80P4b6FiPQaP2B/wJ6g6mXWlNdfzeTCSJm8Glai4JsXq0NBockXJdGSDoWBXE1hg=="
@@ -184,9 +186,6 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
   }
 
 }
-IDADataManager.prototype.ReadParametersOnTime = async function(mr_adress, time, params){
-  
-}
 IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   mr_id = this.getMRID(mr_adress)
   var times = await this.GetMRTimes(mr_adress)
@@ -196,16 +195,24 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   res = {}
   for(let key of Object.keys(config)){
     if(config[key].time.minutes < 0){
-      var _s = startt.add(config[key].time).format(internal_format)
-      var _e = endt.add({seconds: -59}).format(internal_format)
+      var _s = endt.add(config[key].time).format(internal_format)
+      var _e = endt.add({seconds: 1}).format(internal_format)
     }
     else{
-      var _e = startt.add(config[key].time).format(internal_format)
-      var _s = endt.add({seconds: 59}).format(internal_format)
+      var _s = startt.add(config[key].time).format(internal_format)
+      var _e = startt.add({seconds: 1}).format(internal_format)
     }
     var data = await this.ReadData(mr_adress, _s, _e, [config[key].id])
-    //res[key] = numeral(data).format(config[key].format)
-    res[key] = data
+    if(data.value.length){
+      try{res[key] = numeral(data.value[0]).format(config[key].format)
+      }
+      catch(ValueError){
+        console.log("YOLO")
+      }
+    }
+    else{
+      res[key] = ""
+    }
   }
   return res
 }
