@@ -89,17 +89,25 @@ IDADataManager.prototype.CloseSession = async function () {
   this.skipped = {}
 }
 IDADataManager.prototype.OpenMR = async function (mr_adress) {
-  let mr_id = await this.doRequest({
-    msg: "OpenMR",
-    name: mr_adress
-  })
-  if (mr_id === undefined) {
-    console.log("Problem with IDA")
-    throw MRLoading("IDA Does not manage to open the MetaRessource " + mr_adress)
-  } else {
-    console.log("IDA openened the MR with sucess")
+  try{
+    let mr_id = await this.doRequest({
+      msg: "OpenMR",
+      name: mr_adress
+    }, undefined, true)
     this.mr_register[mr_adress] = mr_id.replace(/\D/g, '')
     this.skipped[mr_adress] = {}
+    return mr_id
+  }
+  catch(error){
+    // Reconnect and redo once
+    await this.OpenSessionSecured()
+    let mr_id = await this.doRequest({
+      msg: "OpenMR",
+      name: mr_adress
+    })
+    this.mr_register[mr_adress] = mr_id.replace(/\D/g, '')
+    this.skipped[mr_adress] = {}
+    return mr_id
   }
 }
 IDADataManager.prototype.GetParamsInfo = async function (mr_adress, params) {
