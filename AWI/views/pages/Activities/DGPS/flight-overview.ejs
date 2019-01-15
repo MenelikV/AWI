@@ -3,10 +3,10 @@
 
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a style="font-size:1.2rem" class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-          aria-controls="nav-home" aria-selected="true">Summary</a>
-        <a style="font-size:1.2rem"class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-          aria-controls="nav-profile" aria-selected="false">Output</a>
+        <a style="font-size:1.2rem" class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+          role="tab" aria-controls="nav-home" aria-selected="true">Summary</a>
+        <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+          role="tab" aria-controls="nav-profile" aria-selected="false">Output</a>
 
       </div>
     </nav>
@@ -106,7 +106,7 @@
                       <!-- Start subtable-->
                       <% if(CSVerrors[j].length) {  %>
                       <table id="<%='subtable_'+j%>">
-                        <thead>
+                        <thead> 
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
                             <th style="background-color:white;">
@@ -123,34 +123,28 @@
 
                           <% for(var i=0; i< CSVerrors[j].length; i++) { %>
                           <tr>
-                            <form action="/Activities/DGPS/search" method="POST">
-                              <% for(var k=0; k < CSVheaders.length; k++) { %>
-                              <td style="border-bottom: 1px solid #ddd;">
-                                <%= CSVerrors[j][i][CSVheaders[k]] %>
+                            <% for(var k=0; k < CSVheaders.length; k++) { %>
+                            <td id="<%=CSVheaders[k]%>" style="border-bottom: 1px solid #ddd;">
+                              <%= CSVerrors[j][i][CSVheaders[k]] %>
 
-                                <input type="hidden" name="<%=CSVheaders[k]%>" value="<%=CSVerrors[j][i][CSVheaders[k]]%>">
+                            </td>
+                            <% } %>
 
-                              </td>
-                              <% } %>
+                            <td style='white-space: nowrap'>
+                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                data-id="see_par">
+                                <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
+                              </button>
 
-                              <td style='white-space: nowrap'>
-                                <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
-                                  data-id="see_par">
-                                  <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
-                                </button>
+                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                data-id="filter_par">
+                                <i class="fa fa-filter fa-lg" title="Filter"></i>
+                              </button>
 
-                                <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
-                                  data-id="filter_par">
-                                  <i class="fa fa-filter fa-lg" title="Filter"></i>
-                                </button>
-
-                                <button type="submit" class="btn btn-sm" style="background-color: white" aria-hidden="true"
-                                  data-id="search_par">
-                                  <i class="fa fa-search fa-lg" title="Search"></i>
-                                </button>
-                              </td>
-
-                            </form>
+                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true" data-id="search_par"">
+                                 <i class="fa fa-search fa-lg" title="Search"></i>
+                              </button>
+                            </td>
                           </tr>
                           <% } %>
                         </tbody>
@@ -167,17 +161,12 @@
           </div>
           <!-- End PVOL container -->
         </div>
-
-
       </div>
-
-
       <!-- END SECOND TAB -->
-
-
-
     </div>
+  </div>
 </div>
-</div>
+<!-- Modal -->
+<%- include search-modal.ejs %>
 <%- include ../../plot-modal.ejs %>
 <%- include ../../spinner-modal.ejs %>
