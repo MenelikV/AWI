@@ -7,5 +7,7 @@ var MCISummary = function () {
   this.end_time = ""
   this.flight = ""
   this.test = ""
+  this.S = []
+  this.E = []
 }
 module.exports = MCISummary;

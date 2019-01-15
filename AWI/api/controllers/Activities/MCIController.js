@@ -89,6 +89,10 @@ module.exports = {
       summary.test = flightData.TEST
       var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig.Initialisation)
       summary.Initialisation = parameters_values
+      var start_values = await IDADataManager.FetchParameters(mr, MCIConfig.S, true)
+      var end_values = await IDADataManager.FetchParameters(mr, MCIConfig.E, true)
+      summary.S = start_values
+      summary.E = end_values
       // FIXME Warning Problem with the session closing, raises a `socket hang up` error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()

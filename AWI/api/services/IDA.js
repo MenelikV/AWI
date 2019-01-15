@@ -19,18 +19,42 @@ var IDADataManager = function () {
   this.pwd = pwd
   this.mr_register = {};
   this.times_register = {};
+  this.skipped = {}
 }
 IDADataManager.url = "http://ida-r970.eu.airbus.corp:8970/isx-servlet/IdaServlet"
 IDADataManager.prototype.OpenSessionSecured = async function () {
   // TODO If it fails, go through the non Secured Option
   // It that fails raise an error to the user
-  let res = await this.doRequest({
-    msg: "OpenSessionSecured",
-    user: this.user,
-    id: this.id,
-    pwd: this.pwd
+  try{
+    let res = await this.doRequest({
+      msg: "OpenSessionSecured",
+      user: this.user,
+      id: this.id,
+      pwd: this.pwd
+    }, undefined, true)
+    return res
+  }
+  catch(error){
+    await this.CloseSession()
+    try{
+      let res = await this.doRequest({
+        msg: "OpenSessionSecured",
+        user: this.user,
+        id: this.id,
+        pwd: this.pwd
+      }, undefined, true)
+      return res
+    }
+    catch(error){
+      await this.OpenSession()
+    }
+  }
+}
+IDADataManager.prototype.OpenSession = async function(){
+  await this.doRequest({
+    msg: "OpenSession",
+    user: this.id
   })
-  return res
 }
 IDADataManager.prototype.CloseMR = async function (mr_adress) {
   var mr_id = await this.getMRID(mr_adress)
@@ -40,6 +64,7 @@ IDADataManager.prototype.CloseMR = async function (mr_adress) {
   })
   delete this.mr_register[mr_adress]
   delete this.times_register[mr_adress]
+  delete this.skipped[mr_adress]
 }
 IDADataManager.prototype.getMRID = async function (mr_adress) {
   var cached_id = this.mr_register[mr_adress]
@@ -61,6 +86,7 @@ IDADataManager.prototype.CloseSession = async function () {
   })
   this.mr_register = {}
   this.times_register = {}
+  this.skipped = {}
 }
 IDADataManager.prototype.OpenMR = async function (mr_adress) {
   let mr_id = await this.doRequest({
@@ -73,7 +99,7 @@ IDADataManager.prototype.OpenMR = async function (mr_adress) {
   } else {
     console.log("IDA openened the MR with sucess")
     this.mr_register[mr_adress] = mr_id.replace(/\D/g, '')
-    console.log(mr_id)
+    this.skipped[mr_adress] = {}
   }
 }
 IDADataManager.prototype.GetParamsInfo = async function (mr_adress, params) {
@@ -186,7 +212,8 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
   }
 
 }
-IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
+IDADataManager.prototype.FetchParameters = async function(mr_adress, config, skip){
+  var skip_empty = skip || false
   mr_id = this.getMRID(mr_adress)
   var times = await this.GetMRTimes(mr_adress)
   var startt = times[0]
@@ -194,6 +221,7 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   var internal_format = "HH:mm:ss"
   res = {}
   for(let key of Object.keys(config)){
+    if(this.skipped[mr_adress][key]){continue}
     if(config[key].time.minutes < 0){
       var _s = endt.add(config[key].time).format(internal_format)
       var _e = endt.add({seconds: 1}).format(internal_format)
@@ -211,12 +239,17 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
       }
     }
     else{
-      res[key] = ""
+      if(skip_empty){
+        this.skipped[mr_adress][key] = true}
+      else{
+        res[key] = ""
+      }
     }
   }
   return res
 }
-IDADataManager.prototype.doRequest = function (form, encoding) {
+IDADataManager.prototype.doRequest = function (form, encoding, ex) {
+  var exception_rejected = ex || false
   // TODO Check Server Status Message and Raise an Error
   if (encoding === undefined) {
     var enc = "utf8"
@@ -236,6 +269,11 @@ IDADataManager.prototype.doRequest = function (form, encoding) {
       }
       console.log(res.headers)
       if (!err && res.statusCode === 200) {
+        if(exception_rejected){
+          if(res.headers.x_isx_status_code.startsWith("E")){
+            reject(res.headers.x_isx_status_message)
+          }
+        }
         resolve(res.body)
       } else {
         console.error(err)

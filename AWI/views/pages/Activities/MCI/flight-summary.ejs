@@ -37,4 +37,26 @@
           <td></td>
       </tr>
   <%}%>
+  <tr>
+    <th>
+      Start
+    </th>
+    <th>
+      End
+    </th>
+  </tr>
+  <% var keys = Object.keys(summary.S) || []%>
+  <% for(let k of keys){%>
+    <tr>
+      <td>
+        <%=k%>
+      </td>
+      <td>
+        <%=summary.S[k]%>
+      </td>
+      <td>
+        <%=summary.E[k]%>
+      </td>
+    </tr>
+    <%}%>
 </table>
