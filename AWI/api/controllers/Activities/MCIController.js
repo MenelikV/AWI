@@ -158,7 +158,7 @@ module.exports = {
       var path = require('path');
       var flights = [];
       var aircraftHeaders = [];
-
+ 
       //listing all files
       files.forEach(function (file) {
         var filePath = path.join(folderpath, file)

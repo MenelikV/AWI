@@ -151,9 +151,10 @@ module.exports = {
   },
 
   search: async function (req, res) {
-    var param = req.param('PARAMETER')
-    var type = req.param('TYPE')
-
+    var aircraft = req.param('aircraft')
+    var param = req.param('parameter')
+    var type = req.param('type')
+    var entries = req.param('entries')
 
     var fs = require('fs');
     var folderpath = Activity.DGPS.AutoValCSVDirectory;
