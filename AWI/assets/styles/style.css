@@ -21,6 +21,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+
 .nav-link {
   color: white;
   text-transform: capitalize;
@@ -119,20 +120,14 @@ h3.heading {
 }
 
 .dash {
-  position: relative;
-  flex: 1;
-}
-
-.formclass {
-  background-color: rgba(226, 242, 255, 0.61);
-  background-size: cover;
-  flex: 1;
+  flex: 1 0 auto; /* 2 */
+  padding: 0 1em;
 }
 
 .site {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
+  height: 100vh; /* 1 */
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -192,18 +187,23 @@ body {
   overflow-x: hidden;
   /*--right gutter fix--*/
 
-}
+} 
 
 
 .btn-xl {
   padding: 1.25rem 2.5rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
+h1 {
+  font-family: 'Source Sans Pro';
+}
+
+ 
+
+h4 {
+color: #0e6097;
+}
+
 h6 {
   font-family: sans-serif;
   font-weight: 700;
