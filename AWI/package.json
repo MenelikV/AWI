@@ -8,15 +8,21 @@
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
+    "ajv": "^6.0.0",
+    "deep-extend": ">=0.5.1",
     "file-system": "^2.2.2",
+    "glob-fs": "^0.1.7",
     "grunt": "1.0.1",
+    "moment": "^2.23.0",
+    "numeral": "^2.0.6",
     "papaparse": "^4.6.2",
     "path": "^0.12.7",
+    "protobufjs": "^6.8.8",
+    "request": "^2.88.0",
     "sails": "^1.1.0",
     "sails-hook-grunt": "^3.1.0",
     "sails-hook-orm": "^2.1.1",
-    "sails-hook-sockets": "^1.5.5",
-    "deep-extend": ">=0.5.1"
+    "sails-hook-sockets": "^1.5.5"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3"

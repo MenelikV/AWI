@@ -1,0 +1,52 @@
+<table class="table text-center width=100%">
+  <tr>
+    <td>
+      <%="Flight : "+summary.flight%>
+    </td>
+    <td></td>
+    <td>
+      <%="Start GMT : "+summary.start_time%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%="Test : "+summary.test%>
+    </td>
+    <td></td>
+    <td>
+      <%="End GMT : "+summary.end_time%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Used Station(s):
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% for(vari=0; i<summary.used_stations.length;i++){%>
+  <tr>
+    <td>
+      <%=summary.used_stations[i]%>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <%}%>
+  <tr>
+    <td>
+      Used Profile(s):
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% for(var i=0;i<summary.used_profiles.length;i++){%>
+  <tr>
+    <td>
+      <%=summary.used_profiles[i]%>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  <%}%>
+</table>

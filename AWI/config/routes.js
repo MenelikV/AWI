@@ -28,17 +28,26 @@ module.exports.routes = {
     }
   },
 
+  'POST /Activities/DGPS/search': 'activities/DGPSController.search',
+
+  'POST /Activities/MCI/search': 'activities/MCIController.search',
+
   'GET /Activities/DGPS/flights': { 
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
     action: 'getInfo' },
-
+ 
     'GET /Activities/MCI/flights': { 
       view: 'pages/Activities/MCI/flights',
       controller: 'Activities/MCIController',
       action: 'getInfo'},
 
-  'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview'
+  'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
+
+  'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
+
+  'GET /Activities/flightOverview/plot': 'PlotController.plot',
+
 
 
 

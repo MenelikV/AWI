@@ -1,0 +1,62 @@
+<table class="table text-center width=100%">
+  <th>
+    Flight Overview
+  </th>
+  <tr>
+    <td>
+      <%="Aircraft : "+summary.aircraft%>
+    </td>
+    <td></td>
+    <td>
+      <%="Start GMT : "+summary.start_time%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%="Test : "+summary.test%>
+    </td>
+    <td></td>
+    <td>
+      <%="End GMT : "+summary.end_time%>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Initilisation
+    </th>
+  </tr>
+  <% var keys = Object.keys(summary.Initilisation) %>
+  <%for(let k of keys){%>
+      <tr>
+          <td>
+            <%=k%>
+          </td>
+          <td>
+              <%=summary.Initialisation[k]%>
+          </td>
+          <td></td>
+      </tr>
+  <%}%>
+  <tr>
+    <th>
+      Start
+    </th>
+    <th>
+      End
+    </th>
+  </tr>
+  <% var keys = Object.keys(summary.S) || []%>
+  <% for(let k of keys){%>
+    <tr>
+      <td>
+        <%=k%>
+      </td>
+      <td>
+        <%=summary.S[k]%>
+      </td>
+      <td>
+        <%=summary.E[k]%>
+      </td>
+    </tr>
+    <%}%>
+</table>
