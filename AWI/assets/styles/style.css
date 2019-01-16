@@ -1,7 +1,6 @@
-
 .navbar {
   text-transform: uppercase;
-  background-color:#1d618f;
+  background-color: #1d618f;
 }
 
 .navbar-brand img {
@@ -17,10 +16,11 @@
   border-radius: 80%;
   display: inline-block;
 }
- 
+
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
+
 
 .nav-link {
   color: white;
@@ -68,10 +68,10 @@ h3.heading {
 }
 
 .padding {
- padding: 2rem  0;
+  padding: 2rem 0;
 }
 
-.no-padding .col-md-6 { 
+.no-padding .col-md-6 {
   padding: 0;
 }
 
@@ -89,6 +89,7 @@ h3.heading {
   background: #E9ECEF;
   z-index: -1;
 }
+
 .home-wrap {
   clip: rect(0, auto, auto, 0);
   position: absolute;
@@ -99,7 +100,7 @@ h3.heading {
 }
 
 .jumbostyle {
-  background:rgba(192, 232, 255, 0.151);
+  background: rgba(192, 232, 255, 0.151);
   color: #2e3338;
 }
 
@@ -114,55 +115,53 @@ h3.heading {
   background-size: cover;
   background-position: center center;
   -webkit-transform: translateZ(0);
-          transform: translateZ(0);
+  transform: translateZ(0);
   will-change: transform;
 }
 
-.dash{
-  position:relative;
-  flex: 1;  
-}
- 
-.formclass {
-  background-color: rgba(226, 242, 255, 0.61);
-  background-size: cover;
-  flex: 1;  
+.dash {
+  flex: 1 0 auto; /* 2 */
+  padding: 0 1em;
 }
 
 .site {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
-} 
+  height: 100vh; /* 1 */
+}
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(107, 213, 255, 0.075);
 }
 
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
   background-color: #839fc941;
 }
 
 .myfooter {
   color: white;
-  background:rgba(131, 150, 161, 0.336);
+  background: rgba(131, 150, 161, 0.336);
   font-size: .9rem;
 
-  overflow-x: hidden; /*--right gutter fix--*/
+  overflow-x: hidden;
+  /*--right gutter fix--*/
 
-} 
+}
 
 .footer-logo img {
   width: auto;
   height: auto;
   padding: 0%;
-  
+
 }
 
-html, body {
+html,
+body {
   font-family: sans-serif;
   color: #0a1e33;
-  overflow-x: hidden; /*--right gutter fix--*/
+  overflow-x: hidden;
+  /*--right gutter fix--*/
 
   height: 100%;
   margin: 0;
@@ -174,7 +173,8 @@ html, body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow-x: hidden; /*--right gutter fix--*/
+  overflow-x: hidden;
+  /*--right gutter fix--*/
 
 }
 
@@ -184,24 +184,41 @@ html, body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow-x: hidden; /*--right gutter fix--*/
+  overflow-x: hidden;
+  /*--right gutter fix--*/
 
-}
+} 
 
 
 .btn-xl {
   padding: 1.25rem 2.5rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
   font-family: 'Source Sans Pro';
+}
+
+ 
+
+h4 {
+color: #0e6097;
+}
+
+h6 {
+  font-family: sans-serif;
   font-weight: 700;
 }
+
+
+input[type=text] {
+  padding-top:1rem;
+  padding-bottom:0.5rem;
+  background-color: transparent;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: rgb(26, 110, 165);
+}
+
 
 .text-faded {
   color: rgba(255, 255, 255, 0.7);
@@ -216,26 +233,29 @@ h6 {
   height: auto;
   padding-top: 18rem;
   padding-bottom: 5rem;
- 
+
 }
 
 .masthead h1 {
   font-size: 4rem;
   margin: 0;
   padding: 0;
-} 
+}
 
 @media (min-width: 992px) {
   .masthead {
     height: 90vh;
   }
+
   .masthead h1 {
     font-size: 5.5rem;
   }
 }
 
 
-a:hover, a:focus, a:active {
+a:hover,
+a:focus,
+a:active {
   color: #6bc1dd;
 }
 
@@ -245,7 +265,9 @@ a:hover, a:focus, a:active {
   color: #fff !important;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
   background-color: #155d74 !important;
   border-color: #155d74 !important;
 }
@@ -281,9 +303,9 @@ a:hover, a:focus, a:active {
 
 .start {
   height: 3rem;
-  border:none; 
-  background-color: white; 
-  cursor : pointer;
+  border: none;
+  background-color: white;
+  cursor: pointer;
 }
 
 /* ===== Select Box ===== */
@@ -301,7 +323,7 @@ a:hover, a:focus, a:active {
   position: absolute;
   content: '\f063';
   cursor: pointer;
-  display:block;
+  display: block;
   font-family: 'FontAwesome';
   font-size: 2em;
   left: 45rem;
@@ -496,6 +518,7 @@ canvas {
   width: 64px;
   height: 64px;
 }
+
 .lds-ring div {
   box-sizing: border-box;
   display: block;
@@ -508,19 +531,24 @@ canvas {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #1d618f transparent transparent transparent;
 }
+
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
 }
+
 .lds-ring div:nth-child(2) {
   animation-delay: -0.3s;
 }
+
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

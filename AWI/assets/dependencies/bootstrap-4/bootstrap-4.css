@@ -4,7 +4,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-:root {
+ :root {
   --blue: #007bff;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -5408,6 +5408,7 @@ button.close {
   display: none;
   overflow: hidden;
   outline: 0;
+  border:none;
 }
 
 .modal-open .modal {
@@ -5420,6 +5421,7 @@ button.close {
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
+  border:none;
 }
 
 .modal.fade .modal-dialog {
@@ -5443,6 +5445,7 @@ button.close {
   -ms-flex-align: center;
   align-items: center;
   min-height: calc(100% - (0.5rem * 2));
+  border:none;
 }
 
 .modal-content {
@@ -5458,7 +5461,7 @@ button.close {
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border:none !important;
   border-radius: 1rem !important;
   outline: 0;
 }
