@@ -2,34 +2,39 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <form action="/Activities/DGPS/search" method="POST">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Search Criteria</h5>
-      </div>
-      <div class="modal-body" style="background-color:white;">
-        <div class="row text-left">
-          <div class="col md-3">
-            <p>Aircraft</p>
-            <input type="text" name="aircraft" id="modal_aircraft" readonly value="">
-          </div>
-          <div class="col md-3">
-            <p>Parameter</p>
-            <input type="text" name="parameter" id="modal_param" readonly value="">
-          </div>
-          <div class="col md-3">
-            <p>Type</p>
-            <input type="text" name="type" id="modal_type" readonly value="">
-          </div>
-          <div class="col md-3">
-            <p>Entries</p>
-            <input type="number" min=1 name="entries" value="1" oninput="validity.valid||(value='');" id="modal_entries">
+        <div class="modal-header" style="background-color:#eef7fc">
+          <h5 class="modal-title text-center" style="margin: 0 auto;" id="exampleModalCenterTitle"> Search Criteria <i style="color:rgb(148, 196, 224);" class="fa fa-search fa-sm" title="Search"></i></h5>
+        </div>
+        <div class="modal-body " style="background-color:white; margin: 0 auto;">
+          <div class="container"> 
+            <div class="row">
+              <div class="col md-4 "> 
+                
+                <p> AIRCRAFT: <br> <input type="text" name="aircraft" id="modal_aircraft" readonly value=""></p>
+              </div>
+ 
+              <div class="col md-4 ">
+                <p>PARAMETER: <br> <input type="text" name="parameter" id="modal_param" readonly value=""></p>
+              </div>
+
+              <div class="col md-4 ">
+                <p>TYPE: <br> <input type="text" name="type" id="modal_type" readonly value=""></p>
+              </div>
+            </div>
+            <br>
+            <div class="row text-center">
+              <div class="col md-12">
+                  <h6>Specify the amount of entries to display</h6>
+                  <input class="text-center" style="width:55px;" min=1 type="number" value="1" name="entries" id="modal_entries">
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
-        <button type="" id="save" class="btn btn-primary">Search &raquo;</button>
-      </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
+          <button type="" id="save" class="btn btn-primary">Search &raquo;</button>
+        </div>
     </div>
-  </form>
+    </form>
   </div>
 </div>
