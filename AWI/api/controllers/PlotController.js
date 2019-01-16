@@ -24,92 +24,10 @@ module.exports = {
         var values = [min, max]
         var times = [start_a, endt_a]
         var text = `${par}, from ${startt} to ${endt}`
-        var dataset = {
-            labels: data_res.time,
-            datasets: [
-                {
-                    type: "line",
-                    label: `${par}`,
-                    borderColor: 'rgba(0,0,256,0.1)',
-                    backgroudColor: 'rgba(0,0,256,0.1)',
-                    borderWidth: 1,
-                    fill: false,
-                    data: data_res.value,
-                    pointRadius: 2,
-                    pointHoverRadius: 5
-                }
-            ]
-        }
         var data_to_send = {
-            type: "line",
-            data: dataset,
-            options: {
-                annotation: {
-                    events: ["click"],
-                            annotations: Annotations.generate(type, values, times)
-                  },
-                responsive: true,
-                title: { 
-                    display: true,
-                    text: text
-                },
-                tooltips: {
-                    mode: "index",
-                    intersect: true,
-                },
-                scales: {
-                    xAxes: [{
-                        display: true,
-                        /*type: "time",
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Time"
-                        },*/
-                    }],
-                    yAxes: [{
-                        display: true,
-                        //labelString: 'Value'
-                    }]
-                },
-                // Container for pan options
-                pan: {
-                    // Boolean to enable panning
-                    enabled: true,
-
-                    // Panning directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'xy',
-                    speed: 10,
-                    rangeMin: {
-                        // Format of min pan range depends on scale type
-                        x: null,
-                        y: null
-                    },
-                    rangeMax: {
-                        // Format of max pan range depends on scale type
-                        x: null,
-                        y: null
-                    },
-                    // Function called once panning is completed
-                    // Useful for dynamic data loading
-                    onPan: function() { console.log('I was panned!!!'); }
-                },
-                
-                // Container for zoom options
-                zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-
-                    // Enable drag-to-zoom behavior
-                    drag: false,
-
-                    // Zooming directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow zooming in the y direction
-                    mode: 'xy',
-                    // Useful for dynamic data loading
-                    onZoom: function() { console.log('I was zoomed!!!'); }
-                }
-            },
+            labels: data_res.time,
+            values: data_res.value,
+            title: text
         }
         res.status(200)
         res.send(data_to_send)
