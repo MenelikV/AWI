@@ -172,7 +172,7 @@ module.exports = {
         file.includes(aircraft) ? docs.push(file) : "";
       });
       docs.sort().reverse()
-      for (let l = 0; l <= entries; l++) {
+      for (let l = 0; l < entries; l++) {
         if (docs[l]) {
           var filePath = path.join(folderpath, docs[l])
           var content = fs.readFileSync(filePath, "utf8");
@@ -183,6 +183,7 @@ module.exports = {
             delimiter: ";",
             skipEmptyLines: true,
             complete: function (results) {
+              
               for (let i = 0; i < results.data.length; i++) {
                 if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
                   var flightInfo = {};
