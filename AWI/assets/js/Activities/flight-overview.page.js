@@ -112,7 +112,6 @@ $(document).ready(function () {
   $('button[data-id="search_par"]').each(function () {
     $(this).on('click', function (evt) {
       var row = $(this).parents('tr')[0]
-
       for (var i = 0; i < row.cells.length - 1; i++) {
         row.cells[i].id == "AIRCRAFT" ? $("#modal_aircraft").val(row.cells[i].innerText) : "";
         row.cells[i].id == "PARAMETER" ? $("#modal_param").val(row.cells[i].innerText) : "";
@@ -126,5 +125,12 @@ $(document).ready(function () {
     $('#modal_entries').focus();
   })
 
+  $('#type_check').on('click', function () {
+    $("#modal_type").prop('disabled', function (_, val) { return ! val; });
+  })
+
+  $('#save').on('click', function () {
+    $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
+  })
 
 })

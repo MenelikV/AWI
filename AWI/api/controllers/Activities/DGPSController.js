@@ -185,14 +185,24 @@ module.exports = {
             delimiter: ";",
             skipEmptyLines: true,
             complete: function (results) {
-              
+
               for (let i = 0; i < results.data.length; i++) {
-                if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
-                  cont += 1;
-                  index = i;
+                if (type) {
+                  if (results.data[i]["TYPE"] == type && results.data[i]["PARAMETER"] == param) {
+                    cont += 1;
+                    index = i;
+                  }
+                  else continue
+                }
+                else {
+                if (results.data[i]["PARAMETER"] == param) {
+                    cont += 1;
+                    index = i;
+                  }
+                else continue
                 }
               }
-              if (cont>0) {
+              if (cont > 0) {
                 var flightInfo = {};
                 flightInfo["YEAR"] = results.data[index]["YEAR"]
                 flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
