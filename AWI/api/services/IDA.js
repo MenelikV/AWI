@@ -1,6 +1,8 @@
 /* Imports */
-const request = require("request").defaults({
-  jar: true,
+const request_module = require("request")
+var cookie = request_module.jar()
+request = request_module.defaults({
+  jar: cookie,
   forever: true
 })
 const moment = require("moment")
@@ -35,6 +37,13 @@ IDADataManager.prototype.OpenSessionSecured = async function () {
     return res
   }
   catch(error){
+    if(error === "User not authenticated. session no longer valid"){
+      var cookie = request_module.jar()
+      request = request_module.defaults({
+        forever:true,
+        jar: cookie
+      })
+    }
     await this.CloseSession()
     try{
       let res = await this.doRequest({

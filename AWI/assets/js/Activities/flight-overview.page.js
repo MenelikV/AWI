@@ -31,15 +31,80 @@ $(document).ready(function () {
           alert("Fetching Data Failed")
         }
       })
-
     })
   })
 
   var createPlot = function (data, status) {
+    var test_dict = {
+      type: 'line',
+      data: {
+        labels: data.labels,
+        datasets: [{
+          label: '# of Votes',
+          data: data.values,
+          fill: false,
+          backgroundColor: "rgb(255,0,0,0.5)",
+          borderColor: "rgb(255,0,0,0.5)",
+          borderWidth: 0.5,
+        }]
+      },
+      options: {
+        annotation: {
+          events: ["click"],
+          annotations: [{
+            drawTime: "afterDatasetsDraw",
+            id: "hline",
+            type: "line",
+            mode: "vertical",
+            scaleID: "x-axis-0",
+            value: data.start,
+            borderColor: "black",
+            borderWidth: 2,
+            onClick: function (e) {
+              // The annotation is is bound to the `this` variable
+              console.log("Annotation", e.type, this);
+            }
+          }],
+        },
+        title: {
+          display: true,
+          text: data.title
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+        // Container for pan options
+        pan: {
+          // Boolean to enable panning
+          enabled: true,
+
+          // Panning directions. Remove the appropriate direction to disable 
+          // Eg. 'y' would only allow panning in the y direction
+          mode: 'x'
+        },
+
+        // Container for zoom options
+        zoom: {
+          // Boolean to enable zooming
+          enabled: true,
+          drag: false,
+          sensitivity: 0.0000000000000000000001,
+
+          // Zooming directions. Remove the appropriate direction to disable 
+          // Eg. 'y' would only allow zooming in the y direction
+          mode: 'x',
+        }
+      }
+    }
     $("#spinnerModal").modal("hide")
+    $("#canvas").remove()
+    $("#canvasContainer").append('<canvas id="canvas"></canvas>')
     var ctx = document.getElementById("canvas").getContext("2d")
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    window.chart = new Chart(ctx, data)
+    new Chart(ctx, test_dict)
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
