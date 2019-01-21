@@ -1,0 +1,82 @@
+<table class="table text-center width=100%">
+    <tr>
+      <td>
+        <%="Aircraft : "+summary.aircraft%>
+      </td>
+      <td></td>
+      <td>
+        <%="Start GMT : "+summary.start_time%>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%="Test : "+summary.test%>
+      </td>
+      <td></td>
+      <td>
+        <%="End GMT : "+summary.end_time%>
+      </td>
+    </tr>
+    <tr>
+        <td>
+            <%= "MR: "+summary.mr
+        </td>
+    </tr>
+    <tr>
+      <td>
+        LOM:
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <td>
+       <%="LOM PAM: "+summary.lom_pam%>
+    </td>
+    <td>
+        <%="Gen Base: "+summary.gen_base%>
+    </td>
+    <tr>
+      <td>
+        <%="LOM EV: "+summary.lom_ev%>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+        <th>
+            Computation Options
+        </th>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <%="IOPA :"+summary.iopa%>
+        </td>
+        <td>
+            <%="COPE_PP :"+summary.code_pp%>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <%="IOPJ :"+summary.iopj%>
+        </td>
+       <td>
+           <%="CODE_PS: "+summary.code_ps%>
+       </td>
+    </tr>
+    <tr>
+            <td>
+                    <%="IOPT: "+summary.iopt%>
+                </td>
+            <td>
+                <%="CODE_AOA: "+summary.code_aoa%>
+            </td>
+    </tr>
+    <tr>
+        <td>
+            <%="IOPTBETA: "+summary.iopbeta%>
+        </td>
+        <td>
+            <%="CODE_BETA : "+summary.code_beta%>
+        </td>
+    </tr>
+  </table>
