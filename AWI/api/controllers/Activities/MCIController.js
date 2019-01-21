@@ -153,7 +153,7 @@ module.exports = {
     var entries = req.param('entries')
     var docs = [];
     var fs = require('fs');
-    var folderpath = Activity.DGPS.AutoValCSVDirectory;
+    var folderpath = Activity.MCI.AutoValCSVDirectory;
     fs.readdir(folderpath, function (err, files) {
       if (err) {
         return console.log('Unable to scan directory: ' + err);
@@ -168,8 +168,10 @@ module.exports = {
         file.includes(aircraft) ? docs.push(file) : "";
       });
       docs.sort().reverse()
-      for (let l = 0; l <= entries; l++) {
+      for (let l = 0; l < entries; l++) {
         if (docs[l]) {
+          var cont = 0;
+          var index = 0;
           var filePath = path.join(folderpath, docs[l])
           var content = fs.readFileSync(filePath, "utf8");
           //parsing file content
@@ -181,14 +183,18 @@ module.exports = {
             complete: function (results) {
               for (let i = 0; i < results.data.length; i++) {
                 if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
-                  var flightInfo = {};
-                  flightInfo["YEAR"] = results.data[i]["YEAR"]
-                  flightInfo["AIRCRAFT"] = results.data[i]["AIRCRAFT"]
-                  flightInfo["TEST"] = results.data[i]["TEST"]
-                  flightInfo["CRITICITY"] = ''
-                  flights.push(flightInfo)
-                  break
+                  cont += 1;
+                  index = i;
                 }
+              }
+              if (cont>0) {
+                var flightInfo = {};
+                flightInfo["YEAR"] = results.data[index]["YEAR"]
+                flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
+                flightInfo["TEST"] = results.data[index]["TEST"]
+                flightInfo["ERRORS"] = cont
+                flightInfo["CRITICITY"] = ''
+                flights.push(flightInfo)
               }
             }
           });
@@ -198,10 +204,10 @@ module.exports = {
         return res.send("nothingfound")
       }
       aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/DGPS/flights", {
+      return res.view("pages/Activities/MCI/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'DGPS'
+        activity: 'MCI'
       })
     });
   }

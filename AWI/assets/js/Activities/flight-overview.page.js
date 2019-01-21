@@ -31,7 +31,6 @@ $(document).ready(function () {
           alert("Fetching Data Failed")
         }
       })
-
     })
   })
 
@@ -44,7 +43,7 @@ $(document).ready(function () {
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
-  
+
   $('button[data-id="search_par"]').each(function () {
     $(this).on('click', function (evt) {
       var row = $(this).parents('tr')[0]
