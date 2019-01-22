@@ -120,14 +120,14 @@ h3.heading {
 }
 
 .dash {
-  flex: 1 0 auto; /* 2 */
-  padding: 0 1em;
+  position: relative;
+  flex: 1;
 }
 
 .site {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* 1 */
+  min-height: 100vh;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
