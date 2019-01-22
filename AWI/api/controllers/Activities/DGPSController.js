@@ -210,7 +210,7 @@ module.exports = {
       })
     }
     if (!flights.length) {
-      return res.send("nothingfound")
+      return res.serverError("nothingfound")
     }
     aircraftHeaders = Object.keys(flights[0])
     return res.view("pages/Activities/DGPS/flights", {
