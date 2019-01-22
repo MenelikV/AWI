@@ -98,7 +98,9 @@ module.exports = {
       //await IDADataManager.CloseSession()
       var GMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
-        if(err){return res.serverError(`Could not read the following file :${activityfilePath}`)}
+        if (err) {
+          return res.serverError(`Could not read the following file :${activityfilePath}`)
+        }
         Papa.parse(data, {
           header: true,
           delimiter: ";",
@@ -118,24 +120,24 @@ module.exports = {
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
                 items.push(item)
-              
-              }
-              else{
+
+              } else {
                 console.log("Something wrong happened")
               }
             })
-              GMTcsv.push(items)
-              return res.view("pages/Activities/MCI/flight-overview", {
-                activity: "MCI",
-                summary: summary,
-                mr:mr,
-                name: 'NAME',
-                headers: ["START", "END", "PHASE"],
-                CSVerrors: GMTcsv,
-                CSVheaders: errorHeader,
-                data: [flightData],
-              })
-            }})
+            GMTcsv.push(items)
+            return res.view("pages/Activities/MCI/flight-overview", {
+              activity: "MCI",
+              summary: summary,
+              mr: mr,
+              name: 'NAME',
+              headers: ["START", "END", "PHASE"],
+              CSVerrors: GMTcsv,
+              CSVheaders: errorHeader,
+              data: [flightData],
+            })
+          }
+        })
       })
     } else {
       if (resLength === 0) {
@@ -148,68 +150,73 @@ module.exports = {
 
   search: async function (req, res) {
     var aircraft = req.param('aircraft')
+    var test = req.param('test')
     var param = req.param('parameter')
     var type = req.param('type')
     var entries = req.param('entries')
-    var docs = [];
+    var testnum = test.replace(/[^0-9]/g, '')
+    var search = "";
+    var aircraftHeaders = [];
+    var flights = [];
+    var files;
     var fs = require('fs');
-    var folderpath = Activity.MCI.AutoValCSVDirectory;
-    fs.readdir(folderpath, function (err, files) {
-      if (err) {
-        return console.log('Unable to scan directory: ' + err);
-      }
-      var Papa = require('papaparse');
-      var path = require('path');
-      var flights = [];
-      var aircraftHeaders = [];
+    var glob = require("glob-fs")()
+    for (let x = 0; x < entries; x++) {
+      testnum -= 1;
+      search = Activity.MCI.AutoValCSVDirectory + "\\" + aircraft + '*' + testnum + '*.csv';
+      files = glob.readdirSync(search)
+    }
 
-      //listing all files
+    if (files.length) {
       files.forEach(function (file) {
-        file.includes(aircraft) ? docs.push(file) : "";
-      });
-      docs.sort().reverse()
-      for (let l = 0; l < entries; l++) {
-        if (docs[l]) {
-          var cont = 0;
-          var index = 0;
-          var filePath = path.join(folderpath, docs[l])
-          var content = fs.readFileSync(filePath, "utf8");
-          //parsing file content
-          Papa.parse(content, {
-            worker: true,
-            header: true,
-            delimiter: ";",
-            skipEmptyLines: true,
-            complete: function (results) {
-              for (let i = 0; i < results.data.length; i++) {
-                if (results.data[i]["PARAMETER"] == param && results.data[i]["TYPE"] == type) {
+        var folderpath = file;
+        var Papa = require('papaparse');
+        var cont = 0;
+        var index = 0;
+        var content = fs.readFileSync(folderpath, "utf8");
+        //parsing file content
+        Papa.parse(content, {
+          worker: true,
+          header: true,
+          delimiter: ";",
+          skipEmptyLines: true,
+          complete: function (results) {
+            for (var i = 0; i < results.data.length; i++) {
+              if (type) {
+                if (results.data[i]["TYPE"] == type && results.data[i]["PARAMETER"] == param) {
                   cont += 1;
                   index = i;
-                }
-              }
-              if (cont>0) {
-                var flightInfo = {};
-                flightInfo["YEAR"] = results.data[index]["YEAR"]
-                flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
-                flightInfo["TEST"] = results.data[index]["TEST"]
-                flightInfo["ERRORS"] = cont
-                flightInfo["CRITICITY"] = ''
-                flights.push(flightInfo)
+                } else continue
+              } else {
+                if (results.data[i]["PARAMETER"] == param) {
+                  cont += 1;
+                  index = i;
+                } else continue
               }
             }
-          });
-        }
-      }
-      if (!flights.length) {
-        return res.send("nothingfound")
-      }
-      aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/MCI/flights", {
-        info: flights,
-        headers: aircraftHeaders,
-        activity: 'MCI'
+            if (cont > 0) {
+              var flightInfo = {};
+              flightInfo["YEAR"] = results.data[index]["YEAR"]
+              flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
+              flightInfo["TEST"] = results.data[index]["TEST"]
+              flightInfo["ERRORS"] = cont
+              flightInfo["CRITICITY"] = ''
+              flights.push(flightInfo)
+            }
+          }
+        });
       })
-    });
-  }
 
+    }
+
+    if (!flights.length) {
+      return res.send("nothingfound")
+    }
+    aircraftHeaders = Object.keys(flights[0])
+    return res.view("pages/Activities/MCI/flights", {
+      info: flights,
+      headers: aircraftHeaders,
+      activity: 'MCI'
+    })
+  }
 }

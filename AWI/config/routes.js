@@ -11,14 +11,14 @@
 module.exports.routes = {
 
   /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` your home page.            *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
-  
+   *                                                                          *
+   * Make the view located at `views/homepage.ejs` your home page.            *
+   *                                                                          *
+   * (Alternatively, remove this and add an `index.html` file in your         *
+   * `assets` directory)                                                      *
+   *                                                                          *
+   ***************************************************************************/
+
   'GET /': {
 
     view: 'pages/home',
@@ -32,35 +32,43 @@ module.exports.routes = {
 
   'POST /Activities/MCI/search': 'activities/MCIController.search',
 
-  'GET /Activities/DGPS/flights': { 
+  'GET /Activities/DGPS/flights': {
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
-    action: 'getInfo' },
- 
-    'GET /Activities/MCI/flights': { 
-      view: 'pages/Activities/MCI/flights',
-      controller: 'Activities/MCIController',
-      action: 'getInfo'},
+    action: 'getInfo'
+  },
+
+  'GET /Activities/MCI/flights': {
+    view: 'pages/Activities/MCI/flights',
+    controller: 'Activities/MCIController',
+    action: 'getInfo'
+  },
+
+  'GET /Activities/Anemo/flights': {
+    view: 'pages/Activities/Anemo/flights',
+    controller: 'Activities/AnemoController',
+    action: 'getInfo'
+  },
 
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 
+  'GET /Activities/Anemo/flightOverview/:id': 'Activities/AnemoController.getFlightOverview',
+
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 
 
-
-
   /***************************************************************************
-  *                                                                          *
-  * More custom routes here...                                               *
-  * (See https://sailsjs.com/config/routes for examples.)                    *
-  *                                                                          *
-  * If a request to a URL doesn't match any of the routes in this file, it   *
-  * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
-  * not match any of those, it is matched against static assets.             *
-  *                                                                          *
-  ***************************************************************************/
+   *                                                                          *
+   * More custom routes here...                                               *
+   * (See https://sailsjs.com/config/routes for examples.)                    *
+   *                                                                          *
+   * If a request to a URL doesn't match any of the routes in this file, it   *
+   * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
+   * not match any of those, it is matched against static assets.             *
+   *                                                                          *
+   ***************************************************************************/
 
 
 };

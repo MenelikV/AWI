@@ -9,4 +9,4 @@ $(document).ready(function () {
     var info = aircraft + msn
     window.location.href = '/Activities/Anemo/flightOverview/' + info;
   });
-});
+}); 

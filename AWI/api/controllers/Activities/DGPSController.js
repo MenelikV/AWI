@@ -152,78 +152,71 @@ module.exports = {
 
   search: async function (req, res) {
     var aircraft = req.param('aircraft')
+    var test = req.param('test')
     var param = req.param('parameter')
     var type = req.param('type')
     var entries = req.param('entries')
-    var docs = [];
+    var testnum = test.replace(/[^0-9]/g, '')
+    var search = "";
+    var aircraftHeaders = [];
+    var flights = [];
+    var files;
     var fs = require('fs');
-    var folderpath = Activity.DGPS.AutoValCSVDirectory;
-    fs.readdir(folderpath, function (err, files) {
-      if (err) {
-        return console.log('Unable to scan directory: ' + err);
-      }
-      var Papa = require('papaparse');
-      var path = require('path');
-      var flights = [];
-      var aircraftHeaders = [];
+    var glob = require("glob-fs")()
+    for (let x = 0; x < entries; x++) {
+      testnum -= 1;
+      search = Activity.DGPS.AutoValCSVDirectory + "\\" + aircraft + '*' + testnum + '*.csv';
+      files = glob.readdirSync(search)
+    }
 
-      //listing all files
+    if (files.length) {
       files.forEach(function (file) {
-        file.includes(aircraft) ? docs.push(file) : "";
-      });
-      docs.sort().reverse()
-      for (let l = 0; l < entries; l++) {
-        if (docs[l]) {
-          var cont = 0;
-          var index = 0;
-          var filePath = path.join(folderpath, docs[l])
-          var content = fs.readFileSync(filePath, "utf8");
-          //parsing file content
-          Papa.parse(content, {
-            worker: true,
-            header: true,
-            delimiter: ";",
-            skipEmptyLines: true,
-            complete: function (results) {
-
-              for (let i = 0; i < results.data.length; i++) {
-                if (type) {
-                  if (results.data[i]["TYPE"] == type && results.data[i]["PARAMETER"] == param) {
-                    cont += 1;
-                    index = i;
-                  }
-                  else continue
-                }
-                else {
+        var folderpath = file;
+        var Papa = require('papaparse');
+        var cont = 0;
+        var index = 0;
+        var content = fs.readFileSync(folderpath, "utf8");
+        //parsing file content
+        Papa.parse(content, {
+          worker: true,
+          header: true,
+          delimiter: ";",
+          skipEmptyLines: true,
+          complete: function (results) {
+            for (var i = 0; i < results.data.length; i++) {
+              if (type) {
+                if (results.data[i]["TYPE"] == type && results.data[i]["PARAMETER"] == param) {
+                  cont += 1;
+                  index = i;
+                } else continue
+              } else {
                 if (results.data[i]["PARAMETER"] == param) {
-                    cont += 1;
-                    index = i;
-                  }
-                else continue
-                }
-              }
-              if (cont > 0) {
-                var flightInfo = {};
-                flightInfo["YEAR"] = results.data[index]["YEAR"]
-                flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
-                flightInfo["TEST"] = results.data[index]["TEST"]
-                flightInfo["ERRORS"] = cont
-                flightInfo["CRITICITY"] = ''
-                flights.push(flightInfo)
+                  cont += 1;
+                  index = i;
+                } else continue
               }
             }
-          });
-        }
-      }
-      if (!flights.length) {
-        return res.send("nothingfound")
-      }
-      aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/DGPS/flights", {
-        info: flights,
-        headers: aircraftHeaders,
-        activity: 'DGPS'
+            if (cont > 0) {
+              var flightInfo = {};
+              flightInfo["YEAR"] = results.data[index]["YEAR"]
+              flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
+              flightInfo["TEST"] = results.data[index]["TEST"]
+              flightInfo["ERRORS"] = cont
+              flightInfo["CRITICITY"] = ''
+              flights.push(flightInfo)
+            }
+          }
+        });
       })
-    });
+    }
+    if (!flights.length) {
+      return res.send("nothingfound")
+    }
+    aircraftHeaders = Object.keys(flights[0])
+    return res.view("pages/Activities/DGPS/flights", {
+      info: flights,
+      headers: aircraftHeaders,
+      activity: 'DGPS'
+    })
   }
 }

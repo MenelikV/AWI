@@ -8,8 +8,8 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    var folderpath = Activity.DGPS.AutoValCSVDirectory;
-
+    var folderpath = Activity.Anemo.AutoValCSVDirectory;
+ 
     fs.readdir(folderpath, function (err, files) {
       //handling error
       if (err) {
@@ -41,10 +41,10 @@ module.exports = {
         });
       });
       aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/DGPS/flights", {
+      return res.view("pages/Activities/Anemo/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'DGPS'
+        activity: 'Anemo'
       })
     });
   },
@@ -52,15 +52,17 @@ module.exports = {
   getFlightOverview: async function (req, res) {
 
     var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
-    var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
-    var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
+    var PVOLfilePath = Activity.Anemo.PVOLCSVDirectory + PVOLfileName;
+    var AutovalCSVDirectory = Activity.Anemo.AutoValCSVDirectory
     var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
+
+    
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
     if (resLength === 1) {
       activityfilePath = activityFiles[0]
-      var discipline = Activity.DGPS.discipline
+      var discipline = Activity.Anemo.discipline
       var mr = discipline + path.parse(activityfilePath).name
     } else {
       return res.serverError('Problem while searching the folder')
@@ -82,7 +84,7 @@ module.exports = {
       //If there is no error, its an emtpy array
       var GMTcsv = [];
       var errorHeader;
-      var summary = new DGPSSummary()
+      var summary = new AnemoSummary()
 
       Papa.parse(content, {
         header: true,
@@ -134,13 +136,13 @@ module.exports = {
               })
               GMTcsv.push(items)
             })
-            return res.view("pages/Activities/DGPS/flight-overview", {
+            return res.view("pages/Activities/Anemo/flight-overview", {
               headers: flightHeader,
               data: flightData,
               name: PVOLfileName,
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,
-              activity: 'DGPS',
+              activity: 'Anemo',
               summary: summary,
               mr: mr
             })
@@ -157,7 +159,7 @@ module.exports = {
     var entries = req.param('entries')
     var docs = [];
     var fs = require('fs');
-    var folderpath = Activity.DGPS.AutoValCSVDirectory;
+    var folderpath = Activity.Anemo.AutoValCSVDirectory;
     fs.readdir(folderpath, function (err, files) {
       if (err) {
         return console.log('Unable to scan directory: ' + err);
@@ -208,10 +210,10 @@ module.exports = {
         return res.send("nothingfound")
       }
       aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/DGPS/flights", {
+      return res.view("pages/Activities/Anemo/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'DGPS'
+        activity: 'Anemo'
       })
     });
   }
