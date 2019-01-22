@@ -205,7 +205,8 @@ IDADataManager.prototype.validate = function (res) {
     }
   }
 }
-IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, params) {
+IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, params, plot) {
+  var plot_prep = plot || false
   // TODO Cache it ?
   let data = []
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
@@ -217,17 +218,34 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
   // TODO Protobuf Decoding of the data
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
   var list = res.listParamSamplesPerGmtDate
-  if(!list.length){
-    // No Valid Data
-    console.log("No valid Data!")
-    return {time: [], value: []}
+  if(!plot_prep){
+    if(!list.length){
+      // No Valid Data
+      console.log("No valid Data!")
+      return {time: [], value: []}
+    }
+    else{
+      var times = list.map(d=>moment.unix((d.objGmt.longGmtDate/M)%DAY).utc().format("HH:mm:ss.SSS"))
+      var values = list.map(d=>sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType))
+      return {time: times, value: values}
+    }
   }
   else{
-    var times = list.map(d=>moment.unix((d.objGmt.longGmtDate/M)%DAY).utc().format("HH:mm:ss.SSS"))
-    var values = list.map(d=>sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType))
-    return {time: times, value: values}
+    if(!list.length){
+      // No Valid Data
+      console.log("No valid Data!")
+      return [{x: null, y: null}]
+    }
+    else{
+      //var times = list.map(d=>moment.unix((d.objGmt.longGmtDate/M)%DAY).utc().format("HH:mm:ss.SSS"))
+      var res = list.map(function(d){return{
+        x: moment.unix((d.listParamSamples.listParamSample[0].objGmt.longGmtDate/M)%DAY).add({hours:-1}),
+        y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType)
+      }
+      })
+      return res
   }
-
+}
 }
 IDADataManager.prototype.FetchParameters = async function(mr_adress, config, skip){
   var skip_empty = skip || false

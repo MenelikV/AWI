@@ -1,7 +1,5 @@
 module.exports = {
     _TIME : {
-      drawTime: "afterDatasetsDraw",
-      id: "vline",
       type: "line",
       mode: "vertical",
       scaleID: "x-axis-0",
@@ -11,8 +9,6 @@ module.exports = {
     },
     OUT_OF_BOUNDS : [
         {
-            drawTime: "afterDatasetsDraw",
-            id: "hline",
             type: "line",
             mode: "horizontal",
             scaleID: "y-axis-0",
@@ -21,8 +17,6 @@ module.exports = {
             borderWidth: 0.5,
           },
           {
-            drawTime: "afterDatasetsDraw",
-            id: "hline",
             type: "line",
             mode: "horizontal",
             scaleID: "y-axis-0",
@@ -33,8 +27,6 @@ module.exports = {
     ],
     CONSTANT_VALUE: [
         {
-            drawTime: "afterDatasetsDraw",
-            id: "hline",
             type: "line",
             mode: "horizontal",
             scaleID: "y-axis-0",
@@ -62,9 +54,9 @@ module.exports = {
         }
         if(times !== undefined){
           if(times.length == 2){
-            var start = this._TIME
+            var start = JSON.parse(JSON.stringify(this._TIME))
             start.value = times[0]
-            var end = this._TIME
+            var end = JSON.parse(JSON.stringify(this._TIME))
             end.value = times[1]
             options.push(start)
             options.push(end)

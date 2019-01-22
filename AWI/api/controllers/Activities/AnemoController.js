@@ -4,15 +4,11 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const path = require("path")
-const fs = require("fs")
-const Papa = require('papaparse');
-const moment = require("moment")
-
 module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    const folderpath = Activity.MCI.AutoValCSVDirectory;
+    var folderpath = Activity.DGPS.AutoValCSVDirectory;
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -44,61 +40,76 @@ module.exports = {
           }
         });
       });
-      if (flights.length) {
-        aircraftHeaders = Object.keys(flights[0])
-      } else {
-        return res.serverError("No Flights Found")
-      }
-      return res.view("pages/Activities/MCI/flights", {
+      aircraftHeaders = Object.keys(flights[0])
+      return res.view("pages/Activities/DGPS/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'MCI'
+        activity: 'DGPS'
       })
     });
   },
 
   getFlightOverview: async function (req, res) {
 
-    var AutovalCSVDirectory = Activity.MCI.AutoValCSVDirectory;
+    var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
+    var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
+    var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
     var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
-    var flightData = {}
     if (resLength === 1) {
-      var activityfilePath = activityFiles[0]
-      var discipline = Activity.MCI.discipline
-      var _id = path.parse(activityfilePath).name
-      var mr = discipline + _id
-      console.log("Starting IDA Services")
-      var summary = new MCISummary()
-      var IDADataManager = new IDA()
-      await IDADataManager.OpenSessionSecured()
-      await IDADataManager.OpenMR(mr)
-      var times = await IDADataManager.GetMRTimes(mr)
-      const internal_format = "HH:mm:ss"
-      summary.start_time = times[0].format(internal_format)
-      summary.end_time = times[1].format(internal_format)
-      const CSV_format = "DDD-HH:mm:ss"
-      Object.assign(flightData, sails.helpers.extractInfo(_id))
-      flightData.START = times[0].format(CSV_format)
-      flightData.END = times[1].format(CSV_format)
-      flightData.PHASE = "FULL FLIGHT"
-      flightData.YEAR = ""
-      summary.aircraft = flightData.AIRCRAFT
-      summary.test = flightData.TEST
-      var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig.Initialisation)
-      summary.Initialisation = parameters_values
-      var start_values = await IDADataManager.FetchParameters(mr, MCIConfig.S, true)
-      var end_values = await IDADataManager.FetchParameters(mr, MCIConfig.E, true)
-      summary.S = start_values
-      summary.E = end_values
-      // FIXME Warning Problem with the session closing, raises a `socket hang up` error
-      //await IDADataManager.CloseMR(mr)
-      //await IDADataManager.CloseSession()
-      var GMTcsv = []
+      activityfilePath = activityFiles[0]
+      var discipline = Activity.DGPS.discipline
+      var mr = discipline + path.parse(activityfilePath).name
+    } else {
+      return res.serverError('Problem while searching the folder')
+    }
+    var fs = require('fs');
+
+    fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
+      if (err) {
+        console.log('Could not read the file ', err)
+        return res.serverError(err)
+      }
+
+      var Papa = require('papaparse');
+      var flightHeader;
+      var flightData
+      var content = data;
+      var GMTpvol = [];
+      //Array with array of objects (errors) for each period in PVOL
+      //If there is no error, its an emtpy array
+      var GMTcsv = [];
+      var errorHeader;
+      var summary = new DGPSSummary()
+
+      Papa.parse(content, {
+        header: true,
+        delimiter: ";",
+        skipEmptyLines: true,
+        complete: function (results) {
+          flightHeader = results.meta["fields"]
+          flightData = results.data
+
+          results.data.forEach(function (item) {
+            var GMTpvolinfo = {};
+            GMTpvolinfo["START"] = item["START"].split("-")[1];
+            GMTpvolinfo["END"] = item["END"].split("-")[1];
+            GMTpvolinfo["PHASE"] = item["PHASE"]
+
+            GMTpvol.push(GMTpvolinfo);
+          })
+        }
+      })
+
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
-        if(err){return res.serverError(`Could not read the following file :${activityfilePath}`)}
+        if (err) {
+          console.log('could not retrieve activity data')
+          console.log(err)
+        }
+        var Papa = require('papaparse');
+
         Papa.parse(data, {
           header: true,
           delimiter: ";",
@@ -106,44 +117,37 @@ module.exports = {
           complete: function (results) {
             /*For each period in PVOL, read the csv file and verify if the 
             error is in the given period. If it is, add it to an array.*/
-            var items = [];
             errorHeader = results.meta["fields"];
-            startpvol = times[0]
-            endpvol = times[1]
+            GMTpvol.forEach(function (period) {
+              var items = [];
+              var startpvol = period["START"]
+              var endpvol = period["END"]
 
-            results.data.forEach(function (item) {
-              var startcsv = moment(item["START"], CSV_format);
-              var endcsv = moment(item["END"], CSV_format);
-              if (startcsv > startpvol && endcsv < endpvol) {
-                item.MAX = sails.helpers.numberFormat(item.MAX)
-                item.MIN = sails.helpers.numberFormat(item.MIN)
-                items.push(item)
-              
-              }
-              else{
-                console.log("Something wrong happened")
-              }
-            })
-              GMTcsv.push(items)
-              return res.view("pages/Activities/MCI/flight-overview", {
-                activity: "MCI",
-                summary: summary,
-                mr:mr,
-                name: 'NAME',
-                headers: ["START", "END", "PHASE"],
-                CSVerrors: GMTcsv,
-                CSVheaders: errorHeader,
-                data: [flightData],
+              results.data.forEach(function (item) {
+                var startcsv = item["START"].split("-")[1];
+                var endcsv = item["END"].split("-")[1];
+                if (startcsv > startpvol && endcsv < endpvol) {
+                  item.MAX = sails.helpers.numberFormat(item.MAX)
+                  item.MIN = sails.helpers.numberFormat(item.MIN)
+                  items.push(item)
+                }
               })
-            }})
+              GMTcsv.push(items)
+            })
+            return res.view("pages/Activities/DGPS/flight-overview", {
+              headers: flightHeader,
+              data: flightData,
+              name: PVOLfileName,
+              CSVerrors: GMTcsv,
+              CSVheaders: errorHeader,
+              activity: 'DGPS',
+              summary: summary,
+              mr: mr
+            })
+          }
+        })
       })
-    } else {
-      if (resLength === 0) {
-        return res.serverError("Actinity not found")
-      } else {
-        return res.serverError("Several Activities Found")
-      }
-    }
+    })
   },
 
   search: async function (req, res) {
@@ -153,7 +157,7 @@ module.exports = {
     var entries = req.param('entries')
     var docs = [];
     var fs = require('fs');
-    var folderpath = Activity.MCI.AutoValCSVDirectory;
+    var folderpath = Activity.DGPS.AutoValCSVDirectory;
     fs.readdir(folderpath, function (err, files) {
       if (err) {
         return console.log('Unable to scan directory: ' + err);
@@ -204,12 +208,11 @@ module.exports = {
         return res.send("nothingfound")
       }
       aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/MCI/flights", {
+      return res.view("pages/Activities/DGPS/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'MCI'
+        activity: 'DGPS'
       })
     });
   }
-
 }

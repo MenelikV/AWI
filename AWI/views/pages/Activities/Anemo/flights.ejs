@@ -1,0 +1,44 @@
+<div class="jumbotron jumbostyle">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col md-4"></div>
+                <div class="col md-4">
+                    <h1 class="display 4 text-center" style="padding-top:2rem;">
+                      <strong><%=activity%> Flights</strong> </h1>
+                </div>
+                <div class="col md-4">
+                </div>
+            </div>
+            <hr style="padding-bottom:2rem;">
+        </div>
+        <div class="row">
+            <div class="col md-6">
+                <!-- Flight Overview container -->
+                <div class="container-fluid" style="background-color:rgb(255, 255, 255); overflow:auto; padding:10px;">
+                    
+                    <table id="aircrafts-mci" class="table table-striped text-left table-hover" >
+                        <thead>
+                            <% for(var i=0; i < headers.length; i++) {%>
+                            <th>
+                                <%= headers[i] %>
+                            </th>
+                            <% } %>
+                        </thead>
+    
+                        <tbody >
+                            <% for(var i=0; i < info.length; i++) {%>
+                            <tr style="cursor : pointer;">
+                                <% for(var j=0; j < headers.length; j++) {%>
+                                <td >
+                                    <%= info[i][headers[j]] %>
+                                </td>
+                                <% } %>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include ../../spinner-modal.ejs %>
