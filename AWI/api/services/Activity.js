@@ -15,5 +15,10 @@ module.exports = {
     "AutoValCSVDirectory": "assets/test_files/dgps/csv/",
     "PVOLCSVDirectory": "assets/test_files/dgps/pvol/",
     "discipline": "/perf/"
+  },
+  "ANEMO": {
+    "longName": "Anemometry",
+    "AutoValCSVDirectory": "assets/test_files/anemo/csv",
+    "discipline": "/perf/"
   }
 }

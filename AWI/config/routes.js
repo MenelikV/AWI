@@ -32,6 +32,8 @@ module.exports.routes = {
 
   'POST /Activities/MCI/search': 'activities/MCIController.search',
 
+  'POST /Activities/ANEMO/search': "activities/ANEMOController.search",
+
   'GET /Activities/DGPS/flights': { 
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
@@ -41,10 +43,17 @@ module.exports.routes = {
       view: 'pages/Activities/MCI/flights',
       controller: 'Activities/MCIController',
       action: 'getInfo'},
+    
+    'GET /Activities/ANEMO/flights': { 
+      view: 'pages/Activities/ANEMO/flights',
+      controller: 'Activities/ANEMOController',
+      action: 'getInfo'},  
 
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
+
+  'GET /Activities/ANEMO/flightOverview/:id': 'Activities/ANEMOController.getFlightOverview',
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 
