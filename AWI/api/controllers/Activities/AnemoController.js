@@ -7,6 +7,7 @@ const path = require("path")
 const moment = require("moment")
 const fs = require("fs")
 const Papa = require("papaparse")
+const IDADataManager = new IDA()
 module.exports = {
 
   getInfo: async function (req, res) {
@@ -66,7 +67,6 @@ module.exports = {
       var mr = discipline + _id
       console.log("Starting IDA Services")
       var summary = new ANEMOSummary()
-      var IDADataManager = new IDA()
       await IDADataManager.OpenSessionSecured()
       await IDADataManager.OpenMR(mr)
       var times = await IDADataManager.GetMRTimes(mr)
@@ -80,13 +80,11 @@ module.exports = {
       Object.assign(flightData, sails.helpers.extractInfo(_id))
       flightData.START = times[0].format(CSV_format)
       flightData.END = times[1].format(CSV_format)
-      var delta = times[1].unix() - times[0].unix()
-      var fetcht = moment.unix(times[0].unix()+delta/2).format("DDD-HH:mm:ss")
       flightData.PHASE = "FULL FLIGHT"
       flightData.YEAR = ""
       summary.aircraft = flightData.AIRCRAFT
       summary.test = flightData.TEST
-      var parameters_values = await IDADataManager.FetchTextParameters(mr, fetcht, ANEMOConfig.DATA)
+      var parameters_values = await IDADataManager.FetchParameters(mr, ANEMOConfig.CODE)
       // FIXME Warning Problem with the session closing, raises a `socket hang up` error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()

@@ -9,6 +9,7 @@ var ANEMOSummary = function () {
     this.lom_ev = ""
     this.iopa = ""
     this.code_pp = ""
+    this.code_ps = ""
     this.code_ev = ""
     this.iopj = ""
     this.iopbeta = ""

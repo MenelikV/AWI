@@ -16,7 +16,7 @@ module.exports = {
     var endt = new moment(data.END, internal_format).add({seconds: 30}).format(IDA_format)
     await IDADataManager.OpenSessionSecured()
     await IDADataManager.OpenMR(mr)
-    var data_res = await IDADataManager.ReadData(mr, startt, endt, [par], true)
+    var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, [par])
     // FIXME: Is this a normal behavior ?
     //await IDADataManager.CloseMR(mr)
     //await IDADataManager.CloseSession()

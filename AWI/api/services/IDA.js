@@ -8,9 +8,13 @@ request = request_module.defaults({
 const moment = require("moment")
 const Proto = require("./Proto")
 const numeral = require("numeral")
-
 const M = 1000000
 const DAY = 24 * 60 * 60
+// Inspired from https://stackoverflow.com/questions/5072136/javascript-filter-for-objects
+Object.filter = (obj, predicate) => 
+    Object.keys(obj)
+          .filter( key => predicate(obj[key]) )
+          .reduce( (res, key) => (res[key] = obj[key], res), {} );
 // FIXME create a local cache for future reloading of the page
 /* Class Definition */
 var IDADataManager = function () {
@@ -205,8 +209,7 @@ IDADataManager.prototype.validate = function (res) {
     }
   }
 }
-IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, params, plot) {
-  var plot_prep = plot || false
+IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params) {
   // TODO Cache it ?
   let data = []
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
@@ -218,79 +221,75 @@ IDADataManager.prototype.ReadData = async function (mr_adress, startt, endt, par
   // TODO Protobuf Decoding of the data
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
   var list = res.listParamSamplesPerGmtDate
-  if(!plot_prep){
-    if(!list.length){
-      // No Valid Data
-      console.log("No valid Data!")
-      return {time: [], value: []}
-    }
-    else{
-      var times = list.map(d=>moment.unix((d.objGmt.longGmtDate/M)%DAY).utc().format("HH:mm:ss.SSS"))
-      var values = list.map(d=>sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType))
-      return {time: times, value: values}
-    }
+  if(!list.length){
+    // No Valid Data
+    console.log("No valid Data!")
+    return [{x: null, y: null}]
   }
   else{
-    if(!list.length){
-      // No Valid Data
-      console.log("No valid Data!")
-      return [{x: null, y: null}]
+    // FIXME: Plotting is  with only ONE parameters
+    var res = list.map(function(d){return{
+      x: moment.unix((d.listParamSamples.listParamSample[0].objGmt.longGmtDate/M)%DAY).add({hours:-1}),
+      y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType)
     }
-    else{
-      //var times = list.map(d=>moment.unix((d.objGmt.longGmtDate/M)%DAY).utc().format("HH:mm:ss.SSS"))
-      var res = list.map(function(d){return{
-        x: moment.unix((d.listParamSamples.listParamSample[0].objGmt.longGmtDate/M)%DAY).add({hours:-1}),
-        y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType)
-      }
-      })
-      return res
+    })
+    return res
+}
+}
+IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params){
+  var data = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
+  var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
+  var list = res.listParamSamplesPerGmtDate
+  var final_res = {}
+  if(!list.length){
+    console.log("No valid Data!")
+    return {}
+  }
+  else{
+    var root = list[0].listParamSamples
+    for(let [index, par] of params.entries()){
+      final_res[par] = root.listParamSample[index].objValue.dblValueType
+    }
+    return final_res
   }
 }
-}
-IDADataManager.prototype.FetchParameters = async function(mr_adress, config, skip){
-  var skip_empty = skip || false
-  mr_id = this.getMRID(mr_adress)
+IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
   var times = await this.GetMRTimes(mr_adress)
   var startt = times[0]
   var endt = times[1]
   var internal_format = "HH:mm:ss"
-  res = {}
+  // TODO Add a flilter for strings ?
+  const conf_minus = Object.filter(config, d => d.time.minutes === -1)
+  const conf_plus = Object.filter(config, d => d.time.minutes === 1)
+  var _s = endt.clone().add({minutes: -1}).format(internal_format)
+  var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
+  var id_minus = Object.keys(conf_minus)
+  if(id_minus.length){
+    var res_minus = await this.ReadSummaryData(mr_adress, _s, _e, id_minus)
+  }
+  else{
+    var res_minus = {}
+  }
+  var _s = startt.clone().add({minutes: 1}).format(internal_format)
+  var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
+  var id_plus = Object.keys(conf_plus)
+  if(id_plus.length){
+    var res_plus =  await this.ReadSummaryData(mr_adress, _s, _e, id_plus)
+  }
+  else{
+    var res_plus = {}
+  }
+  var res = {...res_plus, ...res_minus}
+  var config_res = {}
   for(let key of Object.keys(config)){
-    if(this.skipped[mr_adress][key]){continue}
-    if(config[key].time.minutes < 0){
-      var _s = endt.add(config[key].time).format(internal_format)
-      var _e = endt.add({seconds: 1}).format(internal_format)
+    if(config[key].res_id !== undefined){
+      config_res[config[key].res_id] = res[key]
     }
     else{
-      var _s = startt.add(config[key].time).format(internal_format)
-      var _e = startt.add({seconds: 1}).format(internal_format)
-    }
-    var data = await this.ReadData(mr_adress, _s, _e, [config[key].id])
-    if(data.value.length){
-      try{res[key] = numeral(data.value[0]).format(config[key].format)
-      }
-      catch(ValueError){
-        console.log("YOLO")
-      }
-    }
-    else{
-      if(skip_empty){
-        this.skipped[mr_adress][key] = true}
-      else{
-        res[key] = ""
-      }
+      config_res[key] = res[key]
     }
   }
-  return res
-}
-IDADataManager.prototype.FetchTextParameters = async function(mr, fetcht, config){
-  var endt = moment.unix(moment(fetcht, "DDD-HH:mm:ss").unix()+60).format("DDD-HH:mm:ss")
-  var res = []
-  var data = await this.ReadData(mr, fetcht, endt, Object.keys(config))
-  if(data.value.length){
-    _.zipObject(Object.keys(config), data.value[0])
-  }
-  return res
+  return config_res
 }
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
