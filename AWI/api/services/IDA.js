@@ -289,6 +289,12 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
       config_res[key] = res[key]
     }
   }
+  // Take care of Formatting
+  for(let key of Object.keys(config)){
+    if(config[key].format !== undefined && config_res[key] !== undefined){
+      config_res[key] = numeral(config_res[key]).format(config[key].format)
+    }
+  }
   return config_res
 }
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
