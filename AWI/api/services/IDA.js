@@ -243,7 +243,10 @@ IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, en
   var final_res = {}
   if(!list.length){
     console.log("No valid Data!")
-    return {}
+    for(let key of params){
+      final_res[key] = ""
+    }
+    return final_res
   }
   else{
     var root = list[0].listParamSamples
