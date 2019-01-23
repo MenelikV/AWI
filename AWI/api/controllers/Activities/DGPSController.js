@@ -24,6 +24,7 @@ module.exports = {
       files.forEach(function (file) {
         var filePath = path.join(folderpath, file)
         var content = fs.readFileSync(filePath, "utf8");
+        var name = path.parse(file).name
         //parsing file content
         Papa.parse(content, {
           worker: true,
@@ -35,6 +36,7 @@ module.exports = {
             flightInfo["YEAR"] = results.data[0]["YEAR"]
             flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
             flightInfo["TEST"] = results.data[0]["TEST"]
+            flightInfo["MR"] = name
             flightInfo["CRITICITY"] = ''
             flights.push(flightInfo)
           }
@@ -50,8 +52,14 @@ module.exports = {
   },
 
   getFlightOverview: async function (req, res) {
-
-    var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
+    var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
+    if(TEST.length != 1){
+      return res.serverError("Internal problem while finding the PVOL File name")
+    }
+    else{
+      var info = TEST[0]
+    }
+    var PVOLfileName = 'Output_PVOL-' + info + '.csv';
     var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
     var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
     var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
