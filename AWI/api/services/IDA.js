@@ -283,6 +283,15 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config, ski
   }
   return res
 }
+IDADataManager.prototype.FetchTextParameters = async function(mr, fetcht, config){
+  var endt = moment.unix(moment(fetcht, "DDD-HH:mm:ss").unix()+60).format("DDD-HH:mm:ss")
+  var res = []
+  var data = await this.ReadData(mr, fetcht, endt, Object.keys(config))
+  if(data.value.length){
+    _.zipObject(Object.keys(config), data.value[0])
+  }
+  return res
+}
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
   // TODO Check Server Status Message and Raise an Error

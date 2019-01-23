@@ -4,12 +4,14 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const path = require("path")
+const moment = require("moment")
+const fs = require("fs")
+const Papa = require("papaparse")
 module.exports = {
 
   getInfo: async function (req, res) {
-    var fs = require('fs');
-    var folderpath = Activity.Anemo.AutoValCSVDirectory;
- 
+    var folderpath = Activity.ANEMO.AutoValCSVDirectory;
+
     fs.readdir(folderpath, function (err, files) {
       //handling error
       if (err) {
@@ -41,77 +43,58 @@ module.exports = {
         });
       });
       aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/Anemo/flights", {
+      return res.view("pages/Activities/ANEMO/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'Anemo'
+        activity: 'ANEMO'
       })
     });
   },
 
   getFlightOverview: async function (req, res) {
 
-    var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
-    var PVOLfilePath = Activity.Anemo.PVOLCSVDirectory + PVOLfileName;
-    var AutovalCSVDirectory = Activity.Anemo.AutoValCSVDirectory
+    var AutovalCSVDirectory = Activity.ANEMO.AutoValCSVDirectory;
     var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
 
     
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
+    var flightData = {}
     if (resLength === 1) {
-      activityfilePath = activityFiles[0]
-      var discipline = Activity.Anemo.discipline
-      var mr = discipline + path.parse(activityfilePath).name
-    } else {
-      return res.serverError('Problem while searching the folder')
-    }
-    var fs = require('fs');
-
-    fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
-      if (err) {
-        console.log('Could not read the file ', err)
-        return res.serverError(err)
-      }
-
-      var Papa = require('papaparse');
-      var flightHeader;
-      var flightData
-      var content = data;
-      var GMTpvol = [];
-      //Array with array of objects (errors) for each period in PVOL
-      //If there is no error, its an emtpy array
-      var GMTcsv = [];
-      var errorHeader;
-      var summary = new AnemoSummary()
-
-      Papa.parse(content, {
-        header: true,
-        delimiter: ";",
-        skipEmptyLines: true,
-        complete: function (results) {
-          flightHeader = results.meta["fields"]
-          flightData = results.data
-
-          results.data.forEach(function (item) {
-            var GMTpvolinfo = {};
-            GMTpvolinfo["START"] = item["START"].split("-")[1];
-            GMTpvolinfo["END"] = item["END"].split("-")[1];
-            GMTpvolinfo["PHASE"] = item["PHASE"]
-
-            GMTpvol.push(GMTpvolinfo);
-          })
-        }
-      })
-
+      var activityfilePath = activityFiles[0]
+      var discipline = Activity.ANEMO.discipline
+      var _id = path.parse(activityfilePath).name
+      var mr = discipline + _id
+      console.log("Starting IDA Services")
+      var summary = new ANEMOSummary()
+      var IDADataManager = new IDA()
+      await IDADataManager.OpenSessionSecured()
+      await IDADataManager.OpenMR(mr)
+      var times = await IDADataManager.GetMRTimes(mr)
+      const internal_format = "HH:mm:ss"
+      summary.start_time = times[0].format(internal_format)
+      summary.end_time = times[1].format(internal_format)
+      summary.mr = mr
+      // TO BE Confirmed by Audrey
+      summary.test = _id
+      const CSV_format = "DDD-HH:mm:ss"
+      Object.assign(flightData, sails.helpers.extractInfo(_id))
+      flightData.START = times[0].format(CSV_format)
+      flightData.END = times[1].format(CSV_format)
+      var delta = times[1].unix() - times[0].unix()
+      var fetcht = moment.unix(times[0].unix()+delta/2).format("DDD-HH:mm:ss")
+      flightData.PHASE = "FULL FLIGHT"
+      flightData.YEAR = ""
+      summary.aircraft = flightData.AIRCRAFT
+      summary.test = flightData.TEST
+      var parameters_values = await IDADataManager.FetchTextParameters(mr, fetcht, ANEMOConfig.DATA)
+      // FIXME Warning Problem with the session closing, raises a `socket hang up` error
+      //await IDADataManager.CloseMR(mr)
+      //await IDADataManager.CloseSession()
+      var GMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
-        if (err) {
-          console.log('could not retrieve activity data')
-          console.log(err)
-        }
-        var Papa = require('papaparse');
-
+        if(err){return res.serverError(`Could not read the following file :${activityfilePath}`)}
         Papa.parse(data, {
           header: true,
           delimiter: ";",
@@ -119,38 +102,45 @@ module.exports = {
           complete: function (results) {
             /*For each period in PVOL, read the csv file and verify if the 
             error is in the given period. If it is, add it to an array.*/
+            var items = [];
             errorHeader = results.meta["fields"];
-            GMTpvol.forEach(function (period) {
-              var items = [];
-              var startpvol = period["START"]
-              var endpvol = period["END"]
+            startpvol = times[0]
+            endpvol = times[1]
 
-              results.data.forEach(function (item) {
-                var startcsv = item["START"].split("-")[1];
-                var endcsv = item["END"].split("-")[1];
-                if (startcsv > startpvol && endcsv < endpvol) {
-                  item.MAX = sails.helpers.numberFormat(item.MAX)
-                  item.MIN = sails.helpers.numberFormat(item.MIN)
-                  items.push(item)
-                }
-              })
+            results.data.forEach(function (item) {
+              var startcsv = moment(item["START"], CSV_format);
+              var endcsv = moment(item["END"], CSV_format);
+              if (startcsv > startpvol && endcsv < endpvol) {
+                item.MAX = sails.helpers.numberFormat(item.MAX)
+                item.MIN = sails.helpers.numberFormat(item.MIN)
+                items.push(item)
+              
+              }
+              else{
+                console.log("Something wrong happened")
+              }
+            })
               GMTcsv.push(items)
-            })
-            return res.view("pages/Activities/Anemo/flight-overview", {
-              headers: flightHeader,
-              data: flightData,
-              name: PVOLfileName,
-              CSVerrors: GMTcsv,
-              CSVheaders: errorHeader,
-              activity: 'Anemo',
-              summary: summary,
-              mr: mr
-            })
-          }
-        })
+              return res.view("pages/Activities/ANEMO/flight-overview", {
+                activity: "ANEMO",
+                summary: summary,
+                mr:mr,
+                name: 'NAME',
+                headers: ["START", "END", "PHASE"],
+                CSVerrors: GMTcsv,
+                CSVheaders: errorHeader,
+                data: [flightData],
+              })
+            }})
       })
-    })
-  },
+    } else {
+      if (resLength === 0) {
+        return res.serverError("Activity not found")
+      } else {
+        return res.serverError("Several Activities Found")
+      }
+    }
+},
 
   search: async function (req, res) {
     var aircraft = req.param('aircraft')
@@ -158,8 +148,7 @@ module.exports = {
     var type = req.param('type')
     var entries = req.param('entries')
     var docs = [];
-    var fs = require('fs');
-    var folderpath = Activity.Anemo.AutoValCSVDirectory;
+    var folderpath = Activity.ANEMO.AutoValCSVDirectory;
     fs.readdir(folderpath, function (err, files) {
       if (err) {
         return console.log('Unable to scan directory: ' + err);
@@ -210,10 +199,10 @@ module.exports = {
         return res.send("nothingfound")
       }
       aircraftHeaders = Object.keys(flights[0])
-      return res.view("pages/Activities/Anemo/flights", {
+      return res.view("pages/Activities/ANEMO/flights", {
         info: flights,
         headers: aircraftHeaders,
-        activity: 'Anemo'
+        activity: 'ANEMO'
       })
     });
   }

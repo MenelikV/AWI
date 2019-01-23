@@ -16,11 +16,9 @@ module.exports = {
     "PVOLCSVDirectory": "assets/test_files/dgps/pvol/",
     "discipline": "/perf/"
   },
-  "Anemo": {
-    //fix thid
-    "longName": "Anemo",
-    "AutoValCSVDirectory": "assets/test_files/anemo/csv/",
-    "PVOLCSVDirectory": "assets/test_files/dgps/pvol/",
+  "ANEMO": {
+    "longName": "Anemometry",
+    "AutoValCSVDirectory": "assets/test_files/anemo/csv",
     "discipline": "/perf/"
   }
 }
