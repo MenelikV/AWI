@@ -7,7 +7,7 @@ const path = require("path")
 const fs = require("fs")
 const Papa = require('papaparse');
 const moment = require("moment")
-
+const IDADataManager = new IDA();
 module.exports = {
 
   getInfo: async function (req, res) {
@@ -74,7 +74,6 @@ module.exports = {
       var mr = discipline + _id
       console.log("Starting IDA Services")
       var summary = new MCISummary()
-      var IDADataManager = new IDA()
       await IDADataManager.OpenSessionSecured()
       await IDADataManager.OpenMR(mr)
       var times = await IDADataManager.GetMRTimes(mr)

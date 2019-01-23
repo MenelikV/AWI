@@ -28,6 +28,7 @@ module.exports = {
         var filePath = path.join(folderpath, file)
         var content = fs.readFileSync(filePath, "utf8");
         var name = path.parse(file).name
+        var name = path.parse(file).name
         //parsing file content
         Papa.parse(content, {
           worker: true,
@@ -38,6 +39,7 @@ module.exports = {
             var flightInfo = {};
             flightInfo["YEAR"] = results.data[0]["YEAR"]
             flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
+            flightInfo["MR"] = name
             flightInfo["TEST"] = results.data[0]["TEST"]
             flightInfo["MR"] = name
             flightInfo["CRITICITY"] = ''

@@ -1,5 +1,21 @@
 $(document).ready(function () {
+  var toggleHandler = function(){
+    if($("#phaseSwitch").hasClass("active")){
+      // PVOL
+      $("#full").hide()
+      $("#pvol").show()
+    }
+    else{
+      // Full flight
+      $("#pvol").hide()
+      $("#full").show()
+    }
+  }
+  //toggleHandler()
   $("table[id^='subtable_']").DataTable({
+    paging: false,
+  })
+  $("table[id^='full_subtable_']").DataTable({
     paging: false,
   })
   $('button[data-id="see_par"]').each(function () {
@@ -59,6 +75,6 @@ $(document).ready(function () {
   $('#exampleModalCenter').on('shown.bs.modal', function () {
     $('#modal_entries').focus();
   })
-
+  $("#phaseSwitch").click(toggleHandler)
 
 })

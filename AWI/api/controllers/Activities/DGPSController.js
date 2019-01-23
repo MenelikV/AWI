@@ -4,6 +4,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const path = require("path")
+const IDADataManager = new IDA()
+
 module.exports = {
 
   getInfo: async function (req, res) {
@@ -74,7 +76,25 @@ module.exports = {
       return res.serverError('Problem while searching the folder')
     }
     var fs = require('fs');
-
+    try{
+      await IDADataManager.OpenSessionSecured()
+      await IDADataManager.OpenMR(mr)
+      var times = await IDADataManager.GetMRTimes(mr)
+      var internal_format = "HH:mm:ss-ms"
+      var startvol = times[0].format(internal_format)
+      var endvol = times[1].format(internal_format)}
+      catch(error){
+        var startvol = undefined
+        var endvol = undefined
+      }
+      var _id = path.parse(activityfilePath).name
+      const CSV_format = "DDD-HH:mm:ss"
+      var FullFlightData = {};
+      Object.assign(FullFlightData, sails.helpers.extractInfo(_id))
+      FullFlightData.START = times[0].format(CSV_format)
+      FullFlightData.END = times[1].format(CSV_format)
+      FullFlightData.PHASE = "FULL FLIGHT"
+      FullFlightData.YEAR = ""
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
       if (err) {
         console.log('Could not read the file ', err)
@@ -89,9 +109,9 @@ module.exports = {
       //Array with array of objects (errors) for each period in PVOL
       //If there is no error, its an emtpy array
       var GMTcsv = [];
+      var FullGMTcsv = []
       var errorHeader;
       var summary = new DGPSSummary()
-
       Papa.parse(content, {
         header: true,
         delimiter: ";",
@@ -126,6 +146,19 @@ module.exports = {
             /*For each period in PVOL, read the csv file and verify if the 
             error is in the given period. If it is, add it to an array.*/
             errorHeader = results.meta["fields"];
+            // Full Flight Analyse
+            var Fullitems = []
+            results.data.forEach(function (item) {
+              var startcsv = item["START"].split("-")[1];
+              var endcsv = item["END"].split("-")[1];
+              if(startvol !== undefined && endvol !== undefined){
+                if(startcsv > startvol && endcsv < endvol){
+                  item.MAX = sails.helpers.numberFormat(item.MAX)
+                  item.MIN = sails.helpers.numberFormat(item.MIN)
+                  Fullitems.push(item)
+                }
+              }
+            })
             GMTpvol.forEach(function (period) {
               var items = [];
               var startpvol = period["START"]
@@ -141,12 +174,13 @@ module.exports = {
                 }
               })
               GMTcsv.push(items)
+              FullGMTcsv.push(Fullitems)
             })
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
-              data: flightData,
+              data: {phases: flightData, full: [FullFlightData]},
               name: PVOLfileName,
-              CSVerrors: GMTcsv,
+              CSVerrors: {phases: GMTcsv, full: FullGMTcsv},
               CSVheaders: errorHeader,
               activity: 'DGPS',
               summary: summary,
