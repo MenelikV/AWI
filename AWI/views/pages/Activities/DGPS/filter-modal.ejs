@@ -1,0 +1,45 @@
+<div class="modal fade" id="filterModalCenter" tabindex="-1" role="dialog" aria-labelledby="filterModalCenterTitle">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <form action="/createFilter/DGPS" method="POST">
+        <div class="modal-header" style="background-color:#eef7fc">
+          <h4 class="modal-title text-center" style="margin: 0 auto;" id="filterModalCenterTitle"> Filter Criteria <i
+              style="color:rgb(148, 196, 224);" class="fa fa-filter fa-sm" title="filter"></i></h4>
+        </div>
+        <div class="modal-body " style="background-color:white; margin: 0 auto;">
+          <div class="container">
+            <div class="row">
+              <div class="col md-4 ">
+
+                <p> AIRCRAFT <br> <input type="text" name="aircraft" id="filter_aircraft" value="" readonly></p>
+              </div>
+
+              <div class="col md-4 ">
+                <p>TEST
+                  <br> <input type="text" name="test" id="filter_test" value="" readonly></p>
+              </div>
+
+              <div class="col md-4 ">
+                <p>TYPE
+                  <br> <input type="text" name="type" id="filter_type" value="" readonly></p>
+              </div>
+            </div>
+            <br>
+
+            <div class="row text-center">
+              <div class="col md-12">
+                <h7> <i>A filter will be applied on the specified type of the tests posterior to this one. <br> An
+                    error will be raised when it does <strong>not</strong> appear.</i> </h7>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
+          <button type="" id="save" class="btn btn-primary">filter &raquo;</button>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>

@@ -30,24 +30,31 @@ module.exports.routes = {
 
   'POST /Activities/DGPS/search': 'activities/DGPSController.search',
 
+  'POST /createFilter/:id': 'FilterController.createFilter',
+
   'POST /Activities/MCI/search': 'activities/MCIController.search',
 
   'POST /Activities/ANEMO/search': "activities/ANEMOController.search",
 
-  'GET /Activities/DGPS/flights': { 
+  'GET /Activities/DGPS/flights': {
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
-    action: 'getInfo' },
- 
-    'GET /Activities/MCI/flights': { 
-      view: 'pages/Activities/MCI/flights',
-      controller: 'Activities/MCIController',
-      action: 'getInfo'},
-    
-    'GET /Activities/ANEMO/flights': { 
-      view: 'pages/Activities/ANEMO/flights',
-      controller: 'Activities/ANEMOController',
-      action: 'getInfo'},  
+    action: 'getInfo'
+  },
+
+  'GET /Activities/:id/filterSettings': 'FilterController.getFilters',  
+
+  'GET /Activities/MCI/flights': {
+    view: 'pages/Activities/MCI/flights',
+    controller: 'Activities/MCIController',
+    action: 'getInfo'
+  },
+
+  'GET /Activities/ANEMO/flights': {
+    view: 'pages/Activities/ANEMO/flights',
+    controller: 'Activities/ANEMOController',
+    action: 'getInfo'
+  },
 
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
 
@@ -56,7 +63,6 @@ module.exports.routes = {
   'GET /Activities/ANEMO/flightOverview/:id': 'Activities/ANEMOController.getFlightOverview',
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
-
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 

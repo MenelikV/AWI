@@ -1,8 +1,9 @@
 /**
- * FileController
+ * DGPSController
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
+
 const path = require("path")
 module.exports = {
 
@@ -50,11 +51,15 @@ module.exports = {
   },
 
   getFlightOverview: async function (req, res) {
-
-    var PVOLfileName = 'Output_PVOL-' + req.param('id') + '.csv';
+    var applyFilter = false;
+    var filterType;
+    var name = req.param('id').replace('_', '');
+    var aircraft = req.param('id').split('_')[0];
+    var test = req.param('id').split('_')[1];
+    var PVOLfileName = 'Output_PVOL-' + name + '.csv';
     var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
     var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
-    var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
+    var search = AutovalCSVDirectory + "\\" + name + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
@@ -66,10 +71,20 @@ module.exports = {
       return res.serverError('Problem while searching the folder')
     }
     var fs = require('fs');
+    //Save filters
+    var filters = await Filter.find({
+      activity: 'DGPS'
+    });
+    filters.forEach(function (DGPSfilter) {
+      if (DGPSfilter["aircraft"] === aircraft && DGPSfilter["test"] < test) {
+        applyFilter = true
+        filterType = DGPSfilter["type"]
+      }
+    })
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
       if (err) {
-        console.log('Could not read the file ', err)
+        console.log('Could not read the file ')
         return res.serverError(err)
       }
 
@@ -124,16 +139,19 @@ module.exports = {
               var endpvol = period["END"]
 
               results.data.forEach(function (item) {
-                var startcsv = item["START"].split("-")[1];
-                var endcsv = item["END"].split("-")[1];
-                if (startcsv > startpvol && endcsv < endpvol) {
-                  item.MAX = sails.helpers.numberFormat(item.MAX)
-                  item.MIN = sails.helpers.numberFormat(item.MIN)
-                  items.push(item)
+                if (!applyFilter || item["TYPE"] !== filterType) {
+                  var startcsv = item["START"].split("-")[1];
+                  var endcsv = item["END"].split("-")[1];
+                  if (startcsv > startpvol && endcsv < endpvol) {
+                    item.MAX = sails.helpers.numberFormat(item.MAX)
+                    item.MIN = sails.helpers.numberFormat(item.MIN)
+                    items.push(item)
+                  }
                 }
               })
               GMTcsv.push(items)
             })
+
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
               data: flightData,
@@ -218,5 +236,7 @@ module.exports = {
       headers: aircraftHeaders,
       activity: 'DGPS'
     })
-  }
+  },
+
+
 }

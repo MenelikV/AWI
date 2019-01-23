@@ -53,11 +53,11 @@ $(document).ready(function () {
         row.cells[i].id == "PARAMETER" ? $("#modal_param").val(row.cells[i].innerText) : "";
         row.cells[i].id == "TYPE" ? $("#modal_type").val(row.cells[i].innerText) : "";
       }
-      $('#exampleModalCenter').modal('show');
+      $('#searchModalCenter').modal('show');
     })
   })
 
-  $('#exampleModalCenter').on('shown.bs.modal', function () {
+  $('#searchModalCenter').on('shown.bs.modal', function () {
     $('#modal_entries').focus();
   })
 
@@ -67,6 +67,19 @@ $(document).ready(function () {
 
   $('#save').on('click', function () {
     $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
+  })
+
+
+  $('button[data-id="filter_par"]').each(function () {
+    $(this).on('click', function (evt) {      
+      var row = $(this).parents('tr')[0]
+      for (var i = 0; i < row.cells.length - 1; i++) {
+        row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
+        row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
+        row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
+      }
+      $('#filterModalCenter').modal('show');
+    })
   })
 
 })
