@@ -32,8 +32,7 @@ module.exports = {
           headers: headers,
           info: data
         })
-      }
-      else return res.send("no filters")
+      } else return res.serverError("no filters")
     });
   },
 
@@ -44,12 +43,29 @@ module.exports = {
     var aircraft = req.param('aircraft')
     var test = req.param('test')
     var type = req.param('type')
-    await Filter.create({
-      activity: activity,
+
+    var duplicateFilter = await Filter.find({
       aircraft: aircraft,
       test: test,
       type: type
-    });
-    return res.redirect('/Activities/' + activity + '/flights')
+    })
+    if (!duplicateFilter.length) {
+      await Filter.create({
+        activity: activity,
+        aircraft: aircraft,
+        test: test,
+        type: type
+      });
+      return res.redirect('/Activities/' + activity + '/flights')
+    } else return res.serverError("Duplicate filter!")
+  },
+
+  deleteFilter: async function (req, res) {
+    var id = req.param['id'];
+    await Filter.destroy({
+      id: id
+    })
+    res.status(200)
+    return res.send()
   }
 }

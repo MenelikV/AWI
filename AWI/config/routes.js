@@ -36,13 +36,15 @@ module.exports.routes = {
 
   'POST /Activities/ANEMO/search': "activities/ANEMOController.search",
 
+  'POST /Filter/delete/:id': 'FilterController.deleteFilter', 
+
   'GET /Activities/DGPS/flights': {
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
     action: 'getInfo'
   },
 
-  'GET /Activities/:id/filterSettings': 'FilterController.getFilters',  
+  'GET /Activities/:id/filterSettings': 'FilterController.getFilters', 
 
   'GET /Activities/MCI/flights': {
     view: 'pages/Activities/MCI/flights',
