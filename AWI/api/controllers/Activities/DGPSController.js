@@ -52,6 +52,7 @@ module.exports = {
 
   getFlightOverview: async function (req, res) {
     var applyFilter = false;
+    var raiseError = true;
     var filterType;
     var name = req.param('id').replace('_', '');
     var aircraft = req.param('id').split('_')[0];
@@ -84,8 +85,7 @@ module.exports = {
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
       if (err) {
-        console.log('Could not read the file ')
-        return res.serverError(err)
+        return res.serverError('Could not read the file')
       }
 
       var Papa = require('papaparse');
@@ -106,13 +106,11 @@ module.exports = {
         complete: function (results) {
           flightHeader = results.meta["fields"]
           flightData = results.data
-
           results.data.forEach(function (item) {
             var GMTpvolinfo = {};
             GMTpvolinfo["START"] = item["START"].split("-")[1];
             GMTpvolinfo["END"] = item["END"].split("-")[1];
             GMTpvolinfo["PHASE"] = item["PHASE"]
-
             GMTpvol.push(GMTpvolinfo);
           })
         }
@@ -120,11 +118,9 @@ module.exports = {
 
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if (err) {
-          console.log('could not retrieve activity data')
-          console.log(err)
+          res.serverError('could not retrieve activity data')
         }
         var Papa = require('papaparse');
-
         Papa.parse(data, {
           header: true,
           delimiter: ";",
@@ -137,9 +133,9 @@ module.exports = {
               var items = [];
               var startpvol = period["START"]
               var endpvol = period["END"]
-
-              results.data.forEach(function (item) {
+              results.data.forEach(function (item) {   
                 if (!applyFilter || item["TYPE"] !== filterType) {
+                  item["TYPE"] == filterType ? raiseError = false : "";
                   var startcsv = item["START"].split("-")[1];
                   var endcsv = item["END"].split("-")[1];
                   if (startcsv > startpvol && endcsv < endpvol) {
@@ -147,11 +143,11 @@ module.exports = {
                     item.MIN = sails.helpers.numberFormat(item.MIN)
                     items.push(item)
                   }
-                }
+                } else { raiseError = false }
               })
               GMTcsv.push(items)
-            })
-
+            })            
+            !applyFilter && raiseError ? raiseError = false : " ";
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
               data: flightData,
@@ -160,7 +156,9 @@ module.exports = {
               CSVheaders: errorHeader,
               activity: 'DGPS',
               summary: summary,
-              mr: mr
+              mr: mr,
+              raiseError: raiseError,
+              filterType: filterType 
             })
           }
         })
