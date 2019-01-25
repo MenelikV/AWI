@@ -48,12 +48,18 @@
               <%= (name) %>
             </h4>
 
-            <% if(raiseError) { %>
-            
-            <h5> <strong style="color:rgb(228, 174, 26)">Filter trigger:</strong> This aircraft test presented no occurrences for
-              the error type <strong>
-                <%=filterType%></strong> </h5>
-            <br>
+            <% if(filterType.length) { %>
+
+            <h5 style="padding-bottom:2rem;"> <strong style="color:rgb(228, 174, 26)">Filter(s) trigger:</strong> This aircraft test presented no occurrences for the error type(s): <br>
+
+            <% for(var i=0; i< filterType.length; i++) { %>
+              
+            <% if (filterType[i]["raiseError"] == true) {%>
+              <input class="filterInput" type="text" name="" id="" readonly value="<%=filterType[i]["type"]%>">
+            <% } %>
+
+            <% } %>
+          </h5>
             <% } %>
 
             <table id="pvol" class="table text-left" style="width:100%">
@@ -139,18 +145,16 @@
                             <% } %>
 
                             <td style='white-space: nowrap'>
-                              <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" 
-                                aria-hidden="true" data-id="see_par">
+                              <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" aria-hidden="true"
+                                data-id="see_par">
                                 <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
                               </button>
 
-                              <button type="button" class=" btn-light btn-sm" aria-hidden="true"
-                                data-id="filter_par">
+                              <button type="button" class=" btn-light btn-sm" aria-hidden="true" data-id="filter_par">
                                 <i class="fa fa-eyedropper fa-lg" title="Filter"></i>
                               </button>
- 
-                              <button type="button" class=" btn-light btn-sm" aria-hidden="true"
-                                data-id="search_par">
+
+                              <button type="button" class=" btn-light btn-sm" aria-hidden="true" data-id="search_par">
                                 <i class="fa fa-search fa-lg" title="Search"></i>
                               </button>
                             </td>

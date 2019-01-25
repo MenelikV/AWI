@@ -210,7 +210,7 @@ h6 {
 }
 
 
-input[type=text] {
+.modalInput {
   padding-top:1rem;
   padding-bottom:0.5rem;
   background-color: transparent;
@@ -219,6 +219,13 @@ input[type=text] {
   border-color: rgb(26, 110, 165);
 }
 
+.filterInput {
+  font-size: 1.1rem;
+  padding-top:1rem;
+  padding-bottom:0.2rem;
+  background-color: transparent;
+  border-width: 0px 0px 1px 0px;
+}
 
 .text-faded {
   color: rgba(255, 255, 255, 0.7);

@@ -52,8 +52,8 @@ module.exports = {
 
   getFlightOverview: async function (req, res) {
     var applyFilter = false;
-    var raiseError = true;
-    var filterType;
+    //var raiseError = true;
+    var filterType = [];
     var name = req.param('id').replace('_', '');
     var aircraft = req.param('id').split('_')[0];
     var test = req.param('id').split('_')[1];
@@ -79,7 +79,10 @@ module.exports = {
     filters.forEach(function (DGPSfilter) {
       if (DGPSfilter["aircraft"] === aircraft && DGPSfilter["test"] < test) {
         applyFilter = true
-        filterType = DGPSfilter["type"]
+        var filterInfo = {};
+        filterInfo["type"] = DGPSfilter["type"];
+        filterInfo["raiseError"] = true;
+        filterType.push(filterInfo)
       }
     })
 
@@ -133,21 +136,27 @@ module.exports = {
               var items = [];
               var startpvol = period["START"]
               var endpvol = period["END"]
-              results.data.forEach(function (item) {   
-                if (!applyFilter || item["TYPE"] !== filterType) {
-                  item["TYPE"] == filterType ? raiseError = false : "";
-                  var startcsv = item["START"].split("-")[1];
-                  var endcsv = item["END"].split("-")[1];
-                  if (startcsv > startpvol && endcsv < endpvol) {
-                    item.MAX = sails.helpers.numberFormat(item.MAX)
-                    item.MIN = sails.helpers.numberFormat(item.MIN)
-                    items.push(item)
-                  }
-                } else { raiseError = false }
+
+              results.data.forEach(function (item) {
+                var startcsv = item["START"].split("-")[1];
+                var endcsv = item["END"].split("-")[1];
+                if (startcsv > startpvol && endcsv < endpvol) {
+                  item.MAX = sails.helpers.numberFormat(item.MAX)
+                  item.MIN = sails.helpers.numberFormat(item.MIN)
+                  items.push(item)
+                }
+                if (filterType.length) {
+                  filterType.forEach(function (filter) {
+                    if (item["TYPE"] === filter["type"]) {
+                      items.pop();
+                      filter["raiseError"] = false;
+                    }
+                  })
+                }
               })
               GMTcsv.push(items)
-            })            
-            !applyFilter && raiseError ? raiseError = false : " ";
+            })
+
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
               data: flightData,
@@ -157,8 +166,7 @@ module.exports = {
               activity: 'DGPS',
               summary: summary,
               mr: mr,
-              raiseError: raiseError,
-              filterType: filterType 
+              filterType: filterType
             })
           }
         })
