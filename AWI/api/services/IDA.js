@@ -224,7 +224,10 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
   if(!list.length){
     // No Valid Data
     console.log("No valid Data!")
-    return [{x: null, y: null}]
+    for(let key of params){
+      final_res[key] = {x: null, y: null}
+    }
+    return final_res
   }
   else{
     // FIXME: Plotting is  with only ONE parameters
@@ -264,10 +267,12 @@ IDADataManager.prototype.FetchParameters = async function(mr_adress, config, msn
   // TODO Add a flilter for strings ?
   if(msn !== undefined){
   var code = MSNConfig.Mapping[msn]
-  console.error(`Unknow MSN ${msn}`)
   if(code !== undefined){
     config = Object.filter(config, d=>d.allowedMSN === undefined || d.allowedMSN.indexOf(code) !== -1)
-  }}
+  }
+else{
+  console.error(`Unknow MSN ${msn}`)
+}}
   const conf_minus = Object.filter(config, d => d.time.minutes === -1)
   const conf_plus = Object.filter(config, d => d.time.minutes === 1)
   var _s = endt.clone().add({minutes: -1}).format(internal_format)
