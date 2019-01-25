@@ -72,6 +72,7 @@ module.exports = {
       var discipline = Activity.MCI.discipline
       var _id = path.parse(activityfilePath).name
       var mr = discipline + _id
+      var msn = _id.match(/[A-Z]\d{4,}/)[0]
       console.log("Starting IDA Services")
       var summary = new MCISummary()
       await IDADataManager.OpenSessionSecured()
@@ -90,8 +91,8 @@ module.exports = {
       summary.test = flightData.TEST
       var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig.Initialisation)
       summary.Initialisation = parameters_values
-      var start_values = await IDADataManager.FetchParameters(mr, MCIConfig.S)
-      var end_values = await IDADataManager.FetchParameters(mr, MCIConfig.E)
+      var start_values = await IDADataManager.FetchParameters(mr, MCIConfig.S, msn)
+      var end_values = await IDADataManager.FetchParameters(mr, MCIConfig.E, msn)
       summary.S = start_values
       summary.E = end_values
       // FIXME Warning Problem with the session closing, raises a `socket hang up` error

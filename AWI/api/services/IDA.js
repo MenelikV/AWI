@@ -256,12 +256,18 @@ IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, en
     return final_res
   }
 }
-IDADataManager.prototype.FetchParameters = async function(mr_adress, config){
+IDADataManager.prototype.FetchParameters = async function(mr_adress, config, msn){
   var times = await this.GetMRTimes(mr_adress)
   var startt = times[0]
   var endt = times[1]
   var internal_format = "HH:mm:ss"
   // TODO Add a flilter for strings ?
+  if(msn !== undefined){
+  var code = MSNConfig.Mapping[msn]
+  console.error(`Unknow MSN ${msn}`)
+  if(code !== undefined){
+    config = Object.filter(config, d=>d.allowedMSN === undefined || d.allowedMSN.indexOf(code) !== -1)
+  }}
   const conf_minus = Object.filter(config, d => d.time.minutes === -1)
   const conf_plus = Object.filter(config, d => d.time.minutes === 1)
   var _s = endt.clone().add({minutes: -1}).format(internal_format)
