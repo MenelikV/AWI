@@ -195,19 +195,7 @@ IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
   }, null)
 }
 IDADataManager.prototype.validate = function (res) {
-  if (res === undefined) {
-    return false
-  } else {
-    if (typeof (res) === "object") {
-      if (res.length > 0) {
-        return true
-      } else {
-        return false
-      }
-    } else {
-      return false
-    }
-  }
+  return _.get(res, 'length', 0)
 }
 IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params) {
   // TODO Cache it ?
@@ -221,6 +209,7 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
   // TODO Protobuf Decoding of the data
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
   var list = res.listParamSamplesPerGmtDate
+  var final_res = {}
   if(!list.length){
     // No Valid Data
     console.log("No valid Data!")
@@ -230,13 +219,14 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     return final_res
   }
   else{
-    // FIXME: Plotting is  with only ONE parameters
-    var res = list.map(function(d){return{
-      x: moment.unix((d.listParamSamples.listParamSample[0].objGmt.longGmtDate/M)%DAY).add({hours:-1}),
-      y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[0].objValue.dblValueType)
-    }
-    })
-    return res
+    for(let [index, par] of params.entries()){
+      final_res[par] = list.map(function(d){return{
+        x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).add({hours:-1}),
+        y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
+      }
+      })
+    } 
+    return final_res
 }
 }
 IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params){
@@ -313,13 +303,7 @@ else{
 }
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
-  // TODO Check Server Status Message and Raise an Error
-  if (encoding === undefined) {
-    var enc = "utf8"
-  } else {
-    var enc = encoding
-  }
-  //console.log(form)
+  var enc = encoding || "utf8"
   return new Promise(function (resolve, reject) {
     request.post({
       url: IDADataManager.url,

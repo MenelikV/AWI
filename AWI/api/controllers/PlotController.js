@@ -7,7 +7,7 @@ module.exports = {
     var data = req.query.row
     var max = data.MAX
     var min = data.MIN
-    var par = data.PARAMETER
+    var par = data.PARAMETER.split("/")
     var mr = data.MR
     var type = data.TYPE.replace(/ /g, '_')
     var start = new moment(data.START, internal_format).add({hours: 1})
@@ -16,23 +16,34 @@ module.exports = {
     var endt = new moment(data.END, internal_format).add({seconds: 30}).format(IDA_format)
     await IDADataManager.OpenSessionSecured()
     await IDADataManager.OpenMR(mr)
-    var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, [par])
+    var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
     // FIXME: Is this a normal behavior ?
     //await IDADataManager.CloseMR(mr)
     //await IDADataManager.CloseSession()
     var annotations = Annotations.generate(type, [min, max], [start, end])
-    var text = `${par}, from ${startt} to ${endt}`
+    var text = `${data.PARAMETER}, from ${startt} to ${endt}`
+    var dynamicColors = function() {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
+    }
+    var datasets = []
+    for(let p of par){
+      var color = dynamicColors()
+      datasets.push({
+          label: p,
+          data: data_res.p,
+          fill: false,
+          backgroundColor: color,
+          borderColor: color,
+          borderWidth: 0.5,
+        })
+    }
     var config = {
         type: 'line',
         data: {
-          datasets: [{
-            label: par,
-            data: data_res,
-            fill: false,
-            backgroundColor: "rgb(255,0,0,0.5)",
-            borderColor: "rgb(255,0,0,0.5)",
-            borderWidth: 0.5,
-          }]
+          datasets: datasets
         },
         options: {
           annotation: {
