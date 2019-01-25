@@ -59,13 +59,13 @@ module.exports = {
       return res.redirect('/Activities/' + activity + '/flights')
     } else return res.serverError("Duplicate filter!")
   },
-
+ 
   deleteFilter: async function (req, res) {
-    var id = req.param['id'];
+    var id = req.param("id");
     await Filter.destroy({
       id: id
     })
     res.status(200)
     return res.send()
-  }
+}
 }
