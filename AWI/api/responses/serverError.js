@@ -23,6 +23,6 @@ module.exports = function serverError(data, options){
   }
 
   this.res.status(500);
-  return this.res.view("500", {activity: ''})
+  return this.res.view("500", {activity: '', layout: 'layouts/home-layout'})
 }
 

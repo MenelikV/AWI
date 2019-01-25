@@ -1,45 +1,48 @@
 <div class="modal fade" id="filterModalCenter" tabindex="-1" role="dialog" aria-labelledby="filterModalCenterTitle">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
-      <form action="/createFilter/DGPS" method="POST">
-        <div class="modal-header" style="background-color:#eef7fc">
-          <h4 class="modal-title text-center" style="margin: 0 auto;" id="filterModalCenterTitle"> Filter Criteria <i
-              style="color:rgb(148, 196, 224);" class="fa fa-eyedropper fa-sm" title="filter"></i></h4>
-        </div>
-        <div class="modal-body " style="background-color:white; margin: 0 auto;">
-          <div class="container">
-            <div class="row">
-              <div class="col md-4 ">
+      <div class="modal-header" style="background-color:#eef7fc">
+        <h4 class="modal-title text-center" style="margin: 0 auto;" id="filterModalCenterTitle"> Filter Criteria <i
+            style="color:rgb(148, 196, 224);" class="fa fa-eyedropper fa-sm" title="filter"></i></h4>
+      </div>
+      <div class="modal-body " style="background-color:white; margin: 0 auto;">
+        <div class="container">
+          <div class="row">
+            <div class="col md-4 ">
 
-                <p> AIRCRAFT <br> <input class="modalInput" type="text" name="aircraft" id="filter_aircraft" value="" readonly></p>
-              </div>
-
-              <div class="col md-4 ">
-                <p>TEST
-                  <br> <input class="modalInput" type="text" name="test" id="filter_test" value="" readonly></p>
-              </div>
-
-              <div class="col md-4 ">
-                <p>TYPE
-                  <br> <input class="modalInput" type="text" name="type" id="filter_type" value="" readonly></p>
-              </div>
-            </div>
-            <br>
-
-            <div class="row text-center">
-              <div class="col md-12">
-                <h7> <i>A filter will be applied on the specified error type of the tests posterior to this one. <br> An
-                    error will be raised when it does <strong>not</strong> appear.</i> </h7>
-              </div>
+              <p> AIRCRAFT <br> <input class="modalInput" type="text" name="aircraft" id="filter_aircraft" value=""
+                  readonly></p>
             </div>
 
+            <div class="col md-4 ">
+              <p>TEST
+                <br> <input class="modalInput" type="text" name="test" id="filter_test" value="" readonly></p>
+            </div>
+
+            <div class="col md-4 ">
+              <p>TYPE
+                <br> <input class="modalInput" type="text" name="type" id="filter_type" value="" readonly></p>
+            </div>
+            <input type="hidden" id="filter_activity" value="<%=activity%>">
           </div>
+          <br>
+
+          <div class="row text-center">
+            <div class="col md-12">
+              <h7> <i>A filter will be applied on the specified error type of the tests posterior to this one. <br> An
+                  error will be raised when it does <strong>not</strong> appear.</i> </h7>
+            </div>
+          </div>
+
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
-          <button type="" id="save" class="btn btn-primary">filter &raquo;</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
+        <button type="button" id="filter" class="btn btn-primary">filter &raquo;</button>
+        <button disabled type="" id="filter_load" class="btn btn-primary" style="display:none"><i id="spin" style="color:rgb(252, 252, 252);"
+            class="fa fa-circle-o-notch fa-lg fa-spin"></i></button>
+        <button type="submit" id="filter_ok" class="btn btn-success" data-dismiss="modal" style="display:none">Filter Added   <i class="fa fa-check fa-lg"></i> </button>
+      </div>
     </div>
-    </form>
   </div>
 </div>

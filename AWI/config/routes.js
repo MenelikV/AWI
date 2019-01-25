@@ -32,11 +32,11 @@ module.exports.routes = {
 
   'POST /createFilter/:id': 'FilterController.createFilter',
 
+  'POST /deleteFilter/:id': 'FilterController.deleteFilter', 
+
   'POST /Activities/MCI/search': 'activities/MCIController.search',
 
   'POST /Activities/ANEMO/search': "activities/ANEMOController.search",
-
-  'POST /Filter/delete/:id': 'FilterController.deleteFilter', 
 
   'GET /Activities/DGPS/flights': {
     view: 'pages/Activities/DGPS/flights',

@@ -36,8 +36,6 @@ module.exports = {
     });
   },
 
-
-  //Preferably do an AJAX post
   createFilter: async function (req, res) {
     var activity = req.param('id')
     var aircraft = req.param('aircraft')
@@ -47,7 +45,8 @@ module.exports = {
     var duplicateFilter = await Filter.find({
       aircraft: aircraft,
       test: test,
-      type: type
+      type: type,
+      activity: activity
     })
     if (!duplicateFilter.length) {
       await Filter.create({
@@ -56,10 +55,12 @@ module.exports = {
         test: test,
         type: type
       });
-      return res.redirect('/Activities/' + activity + '/flights')
+      res.status(200)
+      return res.send()
     } else return res.serverError("Duplicate filter!")
   },
- 
+
+
   deleteFilter: async function (req, res) {
     var id = req.param("id");
     await Filter.destroy({
@@ -67,5 +68,5 @@ module.exports = {
     })
     res.status(200)
     return res.send()
-}
+  }
 }
