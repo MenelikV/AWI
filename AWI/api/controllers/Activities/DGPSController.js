@@ -4,6 +4,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 const path = require("path")
+const moment = require("moment")
 const IDADataManager = new IDA()
 
 module.exports = {
@@ -55,6 +56,8 @@ module.exports = {
 
   getFlightOverview: async function (req, res) {
     var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
+    var internal_format = "HH:mm:ss-ms"
+    var times = []
     if(TEST.length != 1){
       return res.serverError("Internal problem while finding the PVOL File name")
     }
@@ -64,7 +67,8 @@ module.exports = {
     var PVOLfileName = 'Output_PVOL-' + info + '.csv';
     var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
     var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
-    var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
+    var InfoCSVDirectory = Activity.DGPS.SummaryINFODirectory;
+    var search = AutovalCSVDirectory + req.param("id") + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
@@ -76,13 +80,32 @@ module.exports = {
       return res.serverError('Problem while searching the folder')
     }
     var fs = require('fs');
+    var glob = require("glob-fs")()
+    var info_search = InfoCSVDirectory + req.param("id") + "*.csv"
+    var infoFiles = glob.readdirSync(info_search)
+    var startvol,
+    endvol;
+    if(infoFiles.length === 1){
+      var summary = sails.helpers.dgpsParser(infoFiles[0])
+      var summary_internal_format = "DDD-HH:mm:ss"
+      times = [moment(_.get(summary, 'GMT_Deb', undefined), summary_internal_format),
+      moment(_.get(summary, 'GMT_Fin', undefined), summary_internal_format)]
+      startvol = times[0].format(internal_format)
+      endvol = times[1].format(internal_format)
+    }
+    else{
+      console.debug(`No info found for ${info}`)
+      startvol = undefined
+      endvol = undefined
+    }
     try{
+      if(startvol === undefined || endvol === undefined){
       await IDADataManager.OpenSessionSecured()
       await IDADataManager.OpenMR(mr)
       var times = await IDADataManager.GetMRTimes(mr)
-      var internal_format = "HH:mm:ss-ms"
       var startvol = times[0].format(internal_format)
-      var endvol = times[1].format(internal_format)}
+      var endvol = times[1].format(internal_format)
+    }}
       catch(error){
         var startvol = undefined
         var endvol = undefined
@@ -91,8 +114,10 @@ module.exports = {
       const CSV_format = "DDD-HH:mm:ss"
       var FullFlightData = {};
       Object.assign(FullFlightData, sails.helpers.extractInfo(_id))
-      FullFlightData.START = times[0].format(CSV_format)
-      FullFlightData.END = times[1].format(CSV_format)
+      if(times.length == 2){
+        FullFlightData.START = times[0].format(CSV_format)
+        FullFlightData.END = times[1].format(CSV_format)
+      }
       FullFlightData.PHASE = "FULL FLIGHT"
       FullFlightData.YEAR = ""
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {

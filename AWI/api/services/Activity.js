@@ -14,6 +14,7 @@ module.exports = {
     "longName": "Trajectography",
     "AutoValCSVDirectory": "assets/test_files/dgps/csv/",
     "PVOLCSVDirectory": "assets/test_files/dgps/pvol/",
+    "SummaryINFODirectory": "assets/test_files/dgps/info/",
     "discipline": "/perf/"
   },
   "ANEMO": {
