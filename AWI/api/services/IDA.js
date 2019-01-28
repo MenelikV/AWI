@@ -303,7 +303,8 @@ else{
 }
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
-  var enc = encoding || "utf8"
+  // Encoding should be `null` for request which require a binary response
+  var enc = encoding === undefined ? "utf8": test
   return new Promise(function (resolve, reject) {
     request.post({
       url: IDADataManager.url,
