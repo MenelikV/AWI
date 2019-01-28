@@ -45,8 +45,6 @@ module.exports.routes = {
   },
 
   'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
-
-  'GET /Activities/:id/activitySettings': 'Activities/DGPSController.getSettings', 
  
   'GET /Activities/MCI/flights': {
     view: 'pages/Activities/MCI/flights',
@@ -61,6 +59,13 @@ module.exports.routes = {
   },
 
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
+
+  'GET /Activities/DGPS/activitySettings': 'Activities/DGPSController.getSettings', 
+
+  'POST /Activities/DGPS/changeDirectory': 'Activities/DGPSController.changeDirectory',
+
+ 
+
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 

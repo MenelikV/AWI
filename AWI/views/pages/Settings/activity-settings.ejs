@@ -9,13 +9,13 @@
 
       <div class="row mb-3">
         <div class="col-sm-6">
-          <h4>File paths</h4>
+          <h4>Folder directories</h4>
         </div>
       </div>
       <br>
-      <div class="row"> 
+      <div class="row">
         <div class="col-3">
-          <h5>CSV Files</h5> 
+          <h5>CSV Files</h5>
         </div>
         <div class="col">
           <div class="input-group input-group-sm">
@@ -24,14 +24,13 @@
                 <i style="color:rgb(20, 83, 134);"> <strong>Directory</strong> </i>
               </span>
             </div>
-            <textarea id="pvol_dir" class="form-control" aria-label="With textarea"><%=csv%></textarea>
+            <textarea id="csv_dir" class="form-control" aria-label="With textarea"><%=csv%></textarea>
           </div>
         </div>
 
         <div class="col">
           <span class="float-sm-right">
-            <button type="button" id="change_site" class="btn btn-sm btn-primary account-settings-button">Apply
-              &raquo;</button>
+            <button type="button" id="change_csv" name="<%=activity%>" class="btn btn-sm btn-primary">Apply</button>
           </span>
         </div>
       </div>
@@ -56,8 +55,7 @@
 
         <div class="col">
           <span class="float-sm-right">
-            <button type="button" id="change_site" class="btn btn-sm btn-primary account-settings-button">Apply
-              &raquo;</button>
+            <button type="button" id="change_pvol" name="<%=activity%>" class="btn btn-sm btn-primary account-settings-button">Apply</button>
           </span>
         </div>
       </div>
