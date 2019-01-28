@@ -50,6 +50,17 @@ module.exports = {
     });
   },
 
+  getSettings: async function(req,res){
+    var csv = Activity.DGPS.AutoValCSVDirectory;
+    var pvol = Activity.DGPS.PVOLCSVDirectory;
+    
+    return res.view('pages/Settings/activity-settings', {
+      activity: 'DGPS' ,
+      csv: csv,
+      pvol:pvol
+    })
+  },
+
   getFlightOverview: async function (req, res) {
     var applyFilter = false;
     //var raiseError = true;

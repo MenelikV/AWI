@@ -1,0 +1,70 @@
+<div id="500" v-cloak>
+  <div class="container" style="padding-top:6rem">
+    <div class="jumbotron" style="background:rgba(255, 255, 255, 0.733);">
+
+
+      <h1>
+        <%=activity%> Settings</h1>
+      <hr />
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <h4>File paths</h4>
+        </div>
+      </div>
+      <br>
+      <div class="row"> 
+        <div class="col-3">
+          <h5>CSV Files</h5> 
+        </div>
+        <div class="col">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color:rgb(184, 222, 243);">
+                <i style="color:rgb(20, 83, 134);"> <strong>Directory</strong> </i>
+              </span>
+            </div>
+            <textarea id="pvol_dir" class="form-control" aria-label="With textarea"><%=csv%></textarea>
+          </div>
+        </div>
+
+        <div class="col">
+          <span class="float-sm-right">
+            <button type="button" id="change_site" class="btn btn-sm btn-primary account-settings-button">Apply
+              &raquo;</button>
+          </span>
+        </div>
+      </div>
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-3">
+          <h5>PVOL Files</h5>
+        </div>
+        <div class="col">
+
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color:rgb(184, 222, 243);">
+                <i style="color:rgb(20, 83, 134);"> <strong>Directory</strong> </i>
+              </span>
+            </div>
+            <textarea id="pvol_dir" class="form-control" aria-label="With textarea"><%=pvol%></textarea>
+          </div>
+        </div>
+
+        <div class="col">
+          <span class="float-sm-right">
+            <button type="button" id="change_site" class="btn btn-sm btn-primary account-settings-button">Apply
+              &raquo;</button>
+          </span>
+        </div>
+      </div>
+      <br>
+
+      <hr />
+
+    </div>
+  </div>
+</div>

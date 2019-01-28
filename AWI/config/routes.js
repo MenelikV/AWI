@@ -44,8 +44,10 @@ module.exports.routes = {
     action: 'getInfo'
   },
 
-  'GET /Activities/:id/filterSettings': 'FilterController.getFilters', 
+  'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
 
+  'GET /Activities/:id/activitySettings': 'Activities/DGPSController.getSettings', 
+ 
   'GET /Activities/MCI/flights': {
     view: 'pages/Activities/MCI/flights',
     controller: 'Activities/MCIController',

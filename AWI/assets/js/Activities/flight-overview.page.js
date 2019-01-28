@@ -97,12 +97,16 @@ $(document).ready(function () {
       success: function success() {
         document.getElementById("filter_load").style.display = "none";
         document.getElementById("filter_ok").style.display = "block";
+      }, error: function error (){
+        document.getElementById("filter_load").style.display = "none";
+        document.getElementById("filter_error").style.display = "block";
       }
     })
   })
   $('#filterModalCenter').on('hidden.bs.modal', function () {
     document.getElementById("filter_ok").style.display = "none";
     document.getElementById("filter_load").style.display = "none";
+    document.getElementById("filter_error").style.display = "none";
     document.getElementById("filter").style.display = "block";
   })
 
