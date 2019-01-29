@@ -22,7 +22,7 @@
 
         <div class="row">
           <div class="col md-12">
-            <!-- Flight Summary container --> 
+            <!-- Flight Summary container -->
             <div class="container-fluid" style="background-color:white; overflow:auto;">
               <h4 style="padding-top:0.5rem;">
                 Flight Summary
@@ -55,8 +55,20 @@
               </div>
             </h4>
 
-            <table id="pvol" class="table text-left" style="width:100%">
+            <% if(filterType.length) { %>
+            <p>
+              <% for(var i=0; i< filterType.length; i++) { %>
+              <% if (filterType[i]["raiseError"] == true) {%>
+              <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i> </strong> error
+              type <strong style="text-decoration: underline;">
+                <%=filterType[i]["type"]%></strong>
+              not found <br>
+              <% } %>
+              <% } %>
+            </p>
+            <% } %>
 
+            <table id="pvol" class="table text-left" style="width:100%">
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
@@ -113,7 +125,7 @@
                       <!-- Start subtable-->
                       <% if(CSVerrors.phases[j].length) {  %>
                       <table id="<%='subtable_'+j%>">
-                        <thead> 
+                        <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
                             <th style="background-color:white;">
@@ -138,18 +150,17 @@
                             <% } %>
 
                             <td style='white-space: nowrap'>
-                              <button type="button" class="btn btn-sm"  data-mr ="<%=mr%>" style="background-color: white" aria-hidden="true"
+                              <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" aria-hidden="true"
                                 data-id="see_par">
                                 <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
                               </button>
 
-                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
-                                data-id="filter_par">
-                                <i class="fa fa-filter fa-lg" title="Filter"></i>
+                              <button type="button" class=" btn-light btn-sm" aria-hidden="true" data-id="filter_par">
+                                <i class="fa fa-eyedropper fa-lg" title="Filter"></i>
                               </button>
 
-                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true" data-id="search_par"">
-                                 <i class="fa fa-search fa-lg" title="Search"></i>
+                              <button type="button" class=" btn-light btn-sm" aria-hidden="true" data-id="search_par">
+                                <i class="fa fa-search fa-lg" title="Search"></i>
                               </button>
                             </td>
                           </tr>
@@ -285,5 +296,6 @@
 </div>
 <!-- Modal -->
 <%- include search-modal.ejs %>
+<%- include filter-modal.ejs %>
 <%- include ../../plot-modal.ejs %>
 <%- include ../../spinner-modal.ejs %>

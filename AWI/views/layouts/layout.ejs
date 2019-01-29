@@ -36,7 +36,7 @@
         <a href="<%='/Activities/'+activity+'/flights'%>" class="nav-link">
           <%=activity%></a>
 
-        <div class="collapse navbar-collapse" id="menu">
+        <div class="collapse navbar-collapse" id="menu" style="padding-right:4rem">
           <ul class="navbar-nav ml-auto">
 
 
@@ -50,9 +50,15 @@
               </div>
             </div>
 
-            <li class="nav-item" style="padding-right:2rem;">
-              <a href="#" class="nav-link">Settings</a>
-            </li>
+            <div class="nav-item dropdown"> 
+              <a class="nav-link dropdown toggle ml-2 ml-md-0 mr-2 mr-md-0" id="header-account-menu-link" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" href="">Settings</a>
+              <div class="dropdown-menu account-menu" aria-labelledby="header-account-menu-link">
+                <a class="dropdown-item nav-drop" href="<%='/Activities/'+activity+'/filterSettings'%>">Filter Settings</a>
+                <a class="dropdown-item nav-drop" href="<%='/Activities/'+activity+'/activitySettings'%>">Activity Settings</a>
+              </div>
+            </div>
+            
           </ul>
         </div>
       </div>
@@ -61,7 +67,6 @@
   <!-- End navbar section-->
 
   <!-- Start background-->
-
   <!--  Start body content -->
   <div class="site">
     <div class="dash">
@@ -98,12 +103,12 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"> </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
-    <script src="https://npmcdn.com/chart.js@latest/dist/Chart.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
-    <script src="https://npmcdn.com/Chart.Zoom.js@latest/Chart.Zoom.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"> </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
+  <script src="https://npmcdn.com/chart.js@latest/dist/Chart.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+  <script src="https://npmcdn.com/Chart.Zoom.js@latest/Chart.Zoom.min.js"></script>
 
   <!--SCRIPTS-->
   <script src="/dependencies/sails.io.js"></script>
@@ -112,6 +117,8 @@
   <script src="/js/Activities/DGPS/flights.page.js"></script>
   <script src="/js/Activities/flight-overview.page.js"></script>
   <script src="/js/Activities/MCI/flights.page.js"></script>
+  <script src="/js/Activities/Settings/activity-settings.page.js"></script>
+  <script src="/js/Activities/Settings/filter-settings.page.js"></script>
   <script src="/js/Dependencies/Dropdown.js"></script>
   <script src="/js/home.page.js"></script>
   <script src="/js/spinner.page.js"></script>

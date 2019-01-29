@@ -21,9 +21,8 @@ module.exports = function serverError(data, options){
   }  else {
     sails.log.error('Sending empty 500 ("Server Error") response');
   }
-  options = options || {}
-  var activity = options.activity || "DGPS"
+
   this.res.status(500);
-  return this.res.view("500", {me: this.req.me, activity: activity, error: data})
+  return this.res.view("500", {activity: '', layout: 'layouts/home-layout'})
 }
 

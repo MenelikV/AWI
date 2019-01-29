@@ -62,19 +62,73 @@ $(document).ready(function () {
   $('button[data-id="search_par"]').each(function () {
     $(this).on('click', function (evt) {
       var row = $(this).parents('tr')[0]
-
       for (var i = 0; i < row.cells.length - 1; i++) {
         row.cells[i].id == "AIRCRAFT" ? $("#modal_aircraft").val(row.cells[i].innerText) : "";
+        row.cells[i].id == "TEST" ? $("#modal_test").val(row.cells[i].innerText) : "";
         row.cells[i].id == "PARAMETER" ? $("#modal_param").val(row.cells[i].innerText) : "";
         row.cells[i].id == "TYPE" ? $("#modal_type").val(row.cells[i].innerText) : "";
       }
-      $('#exampleModalCenter').modal('show');
+      $('#searchModalCenter').modal('show');
     })
   })
 
-  $('#exampleModalCenter').on('shown.bs.modal', function () {
+  $('#searchModalCenter').on('shown.bs.modal', function () {
     $('#modal_entries').focus();
   })
   $("#phaseSwitch").click(toggleHandler)
+  $('#type_check').on('click', function () {
+    $("#modal_type").prop('disabled', function (_, val) {
+      return !val;
+    });
+  })
+  $('#save').on('click', function () {
+    $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
+  })
+  $('button[data-id="filter_par"]').each(function () {
+    $(this).on('click', function (evt) {
+      var row = $(this).parents('tr')[0]
+      for (var i = 0; i < row.cells.length - 1; i++) {
+        row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
+        row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
+        row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
+      }
+      $('#filterModalCenter').modal('show');
+    })
+  })
+  $('#filter').on('click', function () {
+    var callbackStyles = {
+      display: 'block',
+      cursor: 'default'
+    }
+    $("#filter").css("display","none")
+    $("#filter_load").css(callbackStyles)
+    var url = '/createFilter/' + $("#filter_activity").val()
+    var data = {
+      aircraft: $("#filter_aircraft").val(),
+      test: $("#filter_test").val(),
+      type: $("#filter_type").val(),
+    }
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: data,
+      success: function success() {
+        $("#filter_load").css("display","none")
+        $("#filter").css(callbackStyles).prop('disabled',true)
+        $("#filter").removeClass('btn-primary').addClass('btn-success').html("Filter added!")
+ 
+      },
+      error: function error() {
+        $("#filter_load").css("display","none")
+        $("#filter").css(callbackStyles).attr('disabled', true)
+        $("#filter").removeClass('btn-primary').addClass('btn-danger').html("Filter Already Exists")
+      }
+    })
+  })
+  $('#filterModalCenter').on('hidden.bs.modal', function () {
+    $("#filter_load").css("display","none")
+    $("#filter").css({'display':'block', 'cursor':'pointer'}).prop('disabled',false)
+    $("#filter").removeClass('btn-danger').removeClass('btn-success').addClass('btn-primary').html("Add Filter")
+  })
 
 })
