@@ -49,21 +49,19 @@
             </h4>
 
             <% if(filterType.length) { %>
-
-            <h5 style="padding-bottom:2rem;"> <strong style="color:rgb(255, 200, 50)">Filter(s) trigger:</strong> This aircraft test presented no occurrences for the error type(s): <br>
-
-            <% for(var i=0; i< filterType.length; i++) { %>
-              
-            <% if (filterType[i]["raiseError"] == true) {%>
-              <input class="filterInput" type="text" name="" id="" readonly value="<%=filterType[i]["type"]%>">
-            <% } %>
-
-            <% } %>
-          </h5>
+            <p>
+              <% for(var i=0; i< filterType.length; i++) { %>
+              <% if (filterType[i]["raiseError"] == true) {%>
+              <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i> </strong> error
+              type <strong style="text-decoration: underline;">
+                <%=filterType[i]["type"]%></strong>
+              not found <br>
+              <% } %>
+              <% } %>
+            </p>
             <% } %>
 
             <table id="pvol" class="table text-left" style="width:100%">
-
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
