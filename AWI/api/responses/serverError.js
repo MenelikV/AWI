@@ -24,6 +24,6 @@ module.exports = function serverError(data, options){
   options = options || {}
   var activity = options.activity || "DGPS"
   this.res.status(500);
-  return this.res.view("500", {me: this.req.me, activity: activity})
+  return this.res.view("500", {me: this.req.me, activity: activity, error: data})
 }
 
