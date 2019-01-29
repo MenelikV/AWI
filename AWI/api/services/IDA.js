@@ -229,7 +229,8 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     return final_res
 }
 }
-IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params){
+IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type){
+  var type = type || []
   var data = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
   var list = res.listParamSamplesPerGmtDate
@@ -243,10 +244,32 @@ IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, en
   }
   else{
     var root = list[0].listParamSamples
-    for(let [index, par] of params.entries()){
-      final_res[par] = root.listParamSample[index].objValue.dblValueType
+    if(!type.length){
+      for(let [index, par] of params.entries()){
+        final_res[par] = root.listParamSample[index].objValue.dblValueType
+      }
+      return final_res
     }
-    return final_res
+    else{
+      for(let [index, par] of params.entries()){
+        switch(type[index]){
+          case "string":
+            var key = "bufValueType"
+            var post = d => d.toString("utf8")
+            break;
+          case "float":
+            var key = "dblValueType"
+            var post = d => d
+            break;
+          default:
+            var key = "dblValueType"
+            var post = d => d
+            break;
+        }
+        final_res[par] = post(root.listParamSample[index].objValue[key])
+      }
+      return final_res
+    }
   }
 }
 IDADataManager.prototype.FetchParameters = async function(mr_adress, config, msn){
@@ -267,18 +290,30 @@ else{
   const conf_plus = Object.filter(config, d => d.time.minutes === 1)
   var _s = endt.clone().add({minutes: -1}).format(internal_format)
   var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
-  var id_minus = Object.keys(conf_minus)
+  var id_minus = []
+  var type_minus = []
+  for(let k of Object.keys(conf_minus)){
+    id_minus.push(conf_minus[k].id)
+    type_minus.push(conf_minus[k].type)
+  }
+  type_minus = _.isEqual(type_minus, Array(type_minus.length)) ? []: type_minus
   if(id_minus.length){
-    var res_minus = await this.ReadSummaryData(mr_adress, _s, _e, id_minus)
+    var res_minus = await this.ReadSummaryData(mr_adress, _s, _e, id_minus, type_minus)
   }
   else{
     var res_minus = {}
   }
   var _s = startt.clone().add({minutes: 1}).format(internal_format)
   var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
-  var id_plus = Object.keys(conf_plus)
+  var id_plus = []
+  var type_plus = []
+  for(let k of Object.keys(conf_plus)){
+    id_plus.push(conf_plus[k].id)
+    type_plus.push(conf_plus[k].type)
+  }
+  type_plus = _.isEqual(type_plus, Array(type_plus.length)) ? []: type_plus
   if(id_plus.length){
-    var res_plus =  await this.ReadSummaryData(mr_adress, _s, _e, id_plus)
+    var res_plus =  await this.ReadSummaryData(mr_adress, _s, _e, id_plus, type_plus)
   }
   else{
     var res_plus = {}
@@ -286,8 +321,8 @@ else{
   var res = {...res_plus, ...res_minus}
   var config_res = {}
   for(let key of Object.keys(config)){
-    if(config[key].res_id !== undefined){
-      config_res[config[key].res_id] = res[key]
+    if(config[key].id !== undefined){
+      config_res[key] = res[config[key].id]
     }
     else{
       config_res[key] = res[key]
@@ -304,7 +339,7 @@ else{
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
   // Encoding should be `null` for request which require a binary response
-  var enc = encoding === undefined ? "utf8": test
+  var enc = encoding === undefined ? "utf8": encoding
   return new Promise(function (resolve, reject) {
     request.post({
       url: IDADataManager.url,

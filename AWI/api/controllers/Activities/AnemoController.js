@@ -88,7 +88,9 @@ module.exports = {
       summary.aircraft = flightData.AIRCRAFT
       summary.test = flightData.TEST
       var parameters_values = await IDADataManager.FetchParameters(mr, ANEMOConfig.CODE)
+      var gen_values = await IDADataManager.FetchParameters(mr, ANEMOConfig.LOM)
       Object.assign(summary, parameters_values)
+      Object.assign(summary, gen_values)
       // FIXME Warning Problem with the session closing, raises a `socket hang up` error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()
