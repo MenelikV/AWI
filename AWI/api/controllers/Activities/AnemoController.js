@@ -39,7 +39,6 @@ module.exports = {
             var flightInfo = {};
             flightInfo["YEAR"] = results.data[0]["YEAR"]
             flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
-            flightInfo["MR"] = name
             flightInfo["TEST"] = results.data[0]["TEST"]
             flightInfo["MR"] = name
             flightInfo["CRITICITY"] = ''
