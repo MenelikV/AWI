@@ -4,7 +4,6 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const path = require("path")
 module.exports = {
 
   getFilters: async function (req, res) {

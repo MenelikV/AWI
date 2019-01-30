@@ -51,49 +51,6 @@ module.exports = {
     });
   },
 
-  getSettings: async function (req, res) {
-    var csv = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory');
-    var pvol = await sails.helpers.getSettings('DGPS','PVOLCSVDirectory');
-
-    return res.view('pages/Settings/activity-settings', {
-      activity: 'DGPS',
-      csv: csv,
-      pvol: pvol
-    })
-  },
-
-  changeDirectory: async function (req, res) {
- 
-    var directory = req.body["directory"]
-    var fs = require('fs')
-    //Check if directory exists
-    fs.readdir(directory, function (err, files) {
-      if (err) {
-        res.status(404)
-        return res.send()
-      }
-      files.forEach(function (file) {
-        if (file.includes(!".csv"))
-          return res.send(500)
-      })
-
-    })
-
-      switch (req.body["file"]) {
-        case 'CSV':
-          await ActivityModel.update({activityName:'DGPS'}).set({AutoValCSVDirectory:directory}) 
-          res.status(200)
-          return res.send()
-
-        case 'PVOL':
-        await ActivityModel.update({activityName:'DGPS'}).set({PVOLCSVDirectory:directory}) 
-          res.status(200)
-          return res.send()
-      }
-
-  },
-
-
   getFlightOverview: async function (req, res) {
     var filterType = [];
     var name = req.param('id').replace('_', '');

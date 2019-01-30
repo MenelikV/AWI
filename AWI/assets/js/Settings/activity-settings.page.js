@@ -1,13 +1,13 @@
 $(document).ready(function () {
   $('#change_csv').on('click', function () {
-    var file = 'CSV'
-    var csv = $("#csv_dir").val();
-    var activity = $("#change_csv").attr('name')
-    var url = '/Activities/' + activity + '/changeDirectory'
-
+    var dir = $("#csv_dir").val();
+    var activityName = $("#change_csv").attr('name')
+    var setting = $("#csv_dir").attr('name')
+    var url = '/Settings/changeSettings' 
     data = {
-      directory: csv,
-      file: file
+      activityName: activityName,
+      setting: setting,
+      directory: dir
     }
     $.ajax({
       url: url,
@@ -27,13 +27,14 @@ $(document).ready(function () {
   })
 
   $('#change_pvol').on('click', function () {
-    var file = 'PVOL'
-    var pvol = $("#pvol_dir").val();
-    var activity = $("#change_pvol").attr('name')
-    var url = '/Activities/' + activity + '/changeDirectory'
+    var dir = $("#pvol_dir").val();
+    var activityName = $("#change_pvol").attr('name')
+    var setting = $("#pvol_dir").attr('name')
+    var url = '/Settings/changeSettings'
     data = {
-      directory: pvol,
-      file: file
+      activityName: activityName,
+      setting: setting,
+      directory: dir
     }
     $.ajax({
       url: url,
