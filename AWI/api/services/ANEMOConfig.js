@@ -15,7 +15,7 @@ module.exports = {
       }
     },
     "Gen Base": {
-      "id": "GEN_BASE",
+      "id": "Fichier_Data_PAM",
       "type": "string",
       time: {
         "minutes": -1
