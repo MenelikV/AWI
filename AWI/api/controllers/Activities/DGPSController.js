@@ -9,7 +9,8 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    var folderpath = Activity.DGPS.AutoValCSVDirectory;
+    var folderpath = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory')
+
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -51,8 +52,8 @@ module.exports = {
   },
 
   getSettings: async function (req, res) {
-    var csv = Activity.DGPS.AutoValCSVDirectory;
-    var pvol = Activity.DGPS.PVOLCSVDirectory;
+    var csv = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory');
+    var pvol = await sails.helpers.getSettings('DGPS','PVOLCSVDirectory');
 
     return res.view('pages/Settings/activity-settings', {
       activity: 'DGPS',
@@ -62,6 +63,7 @@ module.exports = {
   },
 
   changeDirectory: async function (req, res) {
+ 
     var directory = req.body["directory"]
     var fs = require('fs')
     //Check if directory exists
@@ -75,18 +77,20 @@ module.exports = {
           return res.send(500)
       })
 
+    })
+
       switch (req.body["file"]) {
         case 'CSV':
-          Activity.DGPS.AutoValCSVDirectory = directory
+          await ActivityModel.update({activityName:'DGPS'}).set({AutoValCSVDirectory:directory}) 
           res.status(200)
           return res.send()
 
         case 'PVOL':
-          Activity.DGPS.PVOLCSVDirectory = directory
+        await ActivityModel.update({activityName:'DGPS'}).set({PVOLCSVDirectory:directory}) 
           res.status(200)
           return res.send()
       }
-    })
+
   },
 
 
@@ -96,19 +100,19 @@ module.exports = {
     var aircraft = req.param('id').split('_')[0];
     var test = req.param('id').split('_')[1];
     var PVOLfileName = 'Output_PVOL-' + name + '.csv';
-    var PVOLfilePath = Activity.DGPS.PVOLCSVDirectory + PVOLfileName;
-    var AutovalCSVDirectory = Activity.DGPS.AutoValCSVDirectory
+    var PVOLfilePath = await sails.helpers.getSettings('DGPS','PVOLCSVDirectory') + PVOLfileName;
+    var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory')
     var search = AutovalCSVDirectory + "\\" + name + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
     if (resLength === 1) {
-      activityfilePath = activityFiles[0]
-      var discipline = Activity.DGPS.discipline
+      activityfilePath = activityFiles[0] 
+      var discipline = await sails.helpers.getSettings('DGPS','discipline')
       var mr = discipline + path.parse(activityfilePath).name
     } else {
       return res.serverError('Problem while searching the folder')
-    }
+    } 
     var fs = require('fs');
     //Save filters
     var filters = await Filter.find({
@@ -116,7 +120,6 @@ module.exports = {
     });
     filters.forEach(function (DGPSfilter) {
       if (DGPSfilter["aircraft"] === aircraft && DGPSfilter["test"] < test) {
-        applyFilter = true
         var filterInfo = {};
         filterInfo["type"] = DGPSfilter["type"];
         filterInfo["raiseError"] = true;
@@ -168,7 +171,7 @@ module.exports = {
           skipEmptyLines: true,
           complete: function (results) {
             /*For each period in PVOL, read the csv file and verify if the 
-            error is in the given period. If it is, add it to an array.*/
+            error is in the given period. If it is, add it to an array.*/ 
             errorHeader = results.meta["fields"];
             GMTpvol.forEach(function (period) {
               var items = [];
@@ -227,7 +230,7 @@ module.exports = {
     var glob = require("glob-fs")()
     for (let x = 0; x < entries; x++) {
       testnum -= 1;
-      search = Activity.DGPS.AutoValCSVDirectory + "\\" + aircraft + '*' + testnum + '*.csv';
+      search = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory') + "\\" + aircraft + '*' + testnum + '*.csv';
       files = glob.readdirSync(search)
     }
 
