@@ -60,12 +60,9 @@ module.exports.routes = {
 
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
 
-  'GET /Activities/DGPS/activitySettings': 'Activities/DGPSController.getSettings', 
+  'GET /Settings/:id': 'SettingsController.getSettings', 
 
-  'POST /Activities/DGPS/changeDirectory': 'Activities/DGPSController.changeDirectory',
-
- 
-
+  'POST /Settings/changeSettings': 'SettingsController.changeSettings',
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 
