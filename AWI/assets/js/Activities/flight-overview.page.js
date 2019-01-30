@@ -1,11 +1,10 @@
 $(document).ready(function () {
-  var toggleHandler = function(){
-    if($("#phaseSwitch").hasClass("active")){
+  var toggleHandler = function () {
+    if ($("#phaseSwitch").hasClass("active")) {
       // PVOL
       $("#full").hide()
       $("#pvol").show()
-    }
-    else{
+    } else {
       // Full flight
       $("#pvol").hide()
       $("#full").show()
@@ -48,8 +47,74 @@ $(document).ready(function () {
       })
     })
   })
+  var patch = function(list){
+    return list.map(function(d){
+      return {
+        x: new Date(d.x),
+        y: d.y
+      }
+    })
+  }
+  var createPlot = function (data, status) {
+    var dynamicColors = function() {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
+    }
+    var datasets = []
+    for(let p of data.par){
+      var color = dynamicColors()
+      datasets.push({
+          label: p,
+          data: patch(data.data_res[p]),
+          fill: false,
+          backgroundColor: color,
+          borderColor: color,
+          borderWidth: 1,
+        })
+    }
+    var config = {
+      type: 'line',
+      data: {
+        datasets: datasets
+      },
+      options: {
+        annotation: {
+          events: ["click"],
+          annotations: data.annotations
+        },
+        title: {
+          display: true,
+          text: data.text
+        },
+        scales: {
+          xAxes: [{
+            type: "time",
+          }]
+        },
+        // Container for pan options
+        pan: {
+          // Boolean to enable panning
+          enabled: true,
 
-  var createPlot = function (config, status) {
+          // Panning directions. Remove the appropriate direction to disable 
+          // Eg. 'y' would only allow panning in the y direction
+          mode: 'xy'
+        },
+
+        // Container for zoom options
+        zoom: {
+          // Boolean to enable zooming
+          enabled: true,
+          drag: false,
+
+          // Zooming directions. Remove the appropriate direction to disable 
+          // Eg. 'y' would only allow zooming in the y direction
+          mode: 'xy',
+        }
+      }
+    }
     $("#spinnerModal").modal("hide")
     $("#canvas").remove()
     $("#canvasContainer").append('<canvas id="canvas"></canvas>')
@@ -100,7 +165,7 @@ $(document).ready(function () {
       display: 'block',
       cursor: 'default'
     }
-    $("#filter").css("display","none")
+    $("#filter").css("display", "none")
     $("#filter_load").css(callbackStyles)
     var url = '/createFilter/' + $("#filter_activity").val()
     var data = {
@@ -113,21 +178,24 @@ $(document).ready(function () {
       type: 'POST',
       data: data,
       success: function success() {
-        $("#filter_load").css("display","none")
-        $("#filter").css(callbackStyles).prop('disabled',true)
+        $("#filter_load").css("display", "none")
+        $("#filter").css(callbackStyles).prop('disabled', true)
         $("#filter").removeClass('btn-primary').addClass('btn-success').html("Filter added!")
- 
+
       },
       error: function error() {
-        $("#filter_load").css("display","none")
+        $("#filter_load").css("display", "none")
         $("#filter").css(callbackStyles).attr('disabled', true)
         $("#filter").removeClass('btn-primary').addClass('btn-danger').html("Filter Already Exists")
       }
     })
   })
   $('#filterModalCenter').on('hidden.bs.modal', function () {
-    $("#filter_load").css("display","none")
-    $("#filter").css({'display':'block', 'cursor':'pointer'}).prop('disabled',false)
+    $("#filter_load").css("display", "none")
+    $("#filter").css({
+      'display': 'block',
+      'cursor': 'pointer'
+    }).prop('disabled', false)
     $("#filter").removeClass('btn-danger').removeClass('btn-success').addClass('btn-primary').html("Add Filter")
   })
 

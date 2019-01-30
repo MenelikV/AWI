@@ -50,14 +50,14 @@ module.exports = {
                 options.value = parseFloat(value[0])
                 break;
             default:
-              var options = [{}]
+              var options = []
         }
         if(times !== undefined){
           if(times.length == 2){
             var start = JSON.parse(JSON.stringify(this._TIME))
-            start.value = times[0]
+            start.value = times[0].clone().toDate()
             var end = JSON.parse(JSON.stringify(this._TIME))
-            end.value = times[1]
+            end.value = times[1].clone().toDate()
             options.push(start)
             options.push(end)
           }
