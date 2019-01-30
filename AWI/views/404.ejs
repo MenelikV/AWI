@@ -1,49 +1,13 @@
-<% /*
+<div id="404" v-cloak>
+  <div class="container text-center" style="padding-top:6rem">
+    <div class="jumbotron" style="background:rgba(255, 255, 255, 0.733);">
+      <h2><strong>We've encountered an unexpected error</strong> </h2>
+      <hr />
 
-
-       444444444       000000000            444444444
-      4::::::::4     00:::::::::00         4::::::::4
-     4:::::::::4   00:::::::::::::00      4:::::::::4
-    4::::44::::4  0:::::::000:::::::0    4::::44::::4
-   4::::4 4::::4  0::::::0   0::::::0   4::::4 4::::4
-  4::::4  4::::4  0:::::0     0:::::0  4::::4  4::::4
- 4::::4   4::::4  0:::::0     0:::::0 4::::4   4::::4
-4::::444444::::4440:::::0 000 0:::::04::::444444::::444
-4::::::::::::::::40:::::0 000 0:::::04::::::::::::::::4
-4444444444:::::4440:::::0     0:::::04444444444:::::444
-          4::::4  0:::::0     0:::::0          4::::4
-          4::::4  0::::::0   0::::::0          4::::4
-          4::::4  0:::::::000:::::::0          4::::4
-        44::::::44 00:::::::::::::00         44::::::44
-        4::::::::4   00:::::::::00           4::::::::4
-        4444444444     000000000             4444444444
-
-
-
-  This is the default "404: Not Found" page (`res.notFound()`)
-  For more information, see:
-  • https://sailsjs.com/docs/reference/response-res/res-not-found
-  • https://sailsjs.com/docs/concepts/extending-sails/custom-responses
-
-*/ %>
-<link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
-<div class="fivehundred">
-  <div>
-    <h1>
-      Internal Server Error
-    </h1>
-    <h2 class="pt-5" style="text-align: center">
-      Something isn't right here.
-    </h2>
-    <div class="container h-100 pt-5">
-        <% if (typeof error !== 'undefined') { %>
-      <div class="row h-100 justify-content-center align-items-center pt-5">
-          <pre><code><%- error %></code></pre>
+      <div class="help"> 
+        <h5>An internal server error has occured. This may be due to a faulty request or to internal conflicts.</h5><br>
+        <a class="btn btn-lg btn-primary" href="/">Go back</a>
       </div>
-      <% } %>
-      <p style="padding-top: 2em; font-size: larger">
-          If the problem persists, please <a href='<%="mailto:"+sails.config.custom.internalEmailAddress%>'>contact the system administrator</a> and inform them of the time that the error occured, and anything you might have done that may have caused the error.
-        </p>
     </div>
   </div>
 </div>
