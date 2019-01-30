@@ -1,6 +1,6 @@
 const moment = require("moment")
 const internal_format = "DDD-HH:mm:ss-SSS"
-const IDA_format = "DDD-HH:mm:ss.SSS"
+const IDA_format = "HH:mm:ss.SSS"
 const IDADataManager = new IDA()
 module.exports = {
   plot: async function (req, res) {
@@ -33,7 +33,7 @@ module.exports = {
       var color = dynamicColors()
       datasets.push({
           label: p,
-          data: data_res.p,
+          data: data_res[p],
           fill: false,
           backgroundColor: color,
           borderColor: color,
