@@ -6,6 +6,6 @@ $(document).ready(function () {
     var currentRow = $(this).closest("tr");
     var info = currentRow.find("td").eq(3).text().replace(/\s/g, '');
     $("#spinnerModal").modal("show")
-    window.location.href = '/Activities/Anemo/flightOverview/' + info;
+    window.location.href = '/Activities/ANEMO/flightOverview/' + info;
   });
 }); 

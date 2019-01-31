@@ -28,15 +28,9 @@ module.exports.routes = {
     }
   },
 
-  'POST /Activities/DGPS/search': 'activities/DGPSController.search',
-
   'POST /createFilter/:id': 'FilterController.createFilter',
 
   'POST /deleteFilter/:id': 'FilterController.deleteFilter', 
-
-  'POST /Activities/MCI/search': 'activities/MCIController.search',
-
-  'POST /Activities/ANEMO/search': "activities/ANEMOController.search",
 
   'GET /Activities/DGPS/flights': {
     view: 'pages/Activities/DGPS/flights',
@@ -45,6 +39,8 @@ module.exports.routes = {
   },
 
   'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
+
+  'POST /Activities/:activity/search': 'SearchController.search',
  
   'GET /Activities/MCI/flights': {
     view: 'pages/Activities/MCI/flights',
