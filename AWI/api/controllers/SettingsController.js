@@ -10,7 +10,6 @@ module.exports = {
     var activityName = req.body["activityName"]
     var setting = req.body["setting"]
     var directory = req.body["directory"]
-    console.log(setting)
 
     switch (setting) {
       case 'AutoValCSVDirectory':
@@ -30,6 +29,15 @@ module.exports = {
         })
         res.status(200)
         return res.send()
+      
+      case 'discipline':
+      await ActivityModel.update({
+        activityName: activityName
+      }).set({
+        discipline: directory
+      })
+      res.status(200)
+      return res.send()
     }
   },
 

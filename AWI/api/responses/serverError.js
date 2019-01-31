@@ -1,16 +1,6 @@
 /**
  * serverError.js
  *
- * A custom response that content-negotiates the current request to either:
- *  • log out the current user and redirect them to the login page
- *  • or send back 401 (Unauthorized) with no response body.
- *
- * Example usage:
- * ```
- *     return res.serverError();
- * ```
- *
- * ```
  */
 
 module.exports = function serverError(data, options){

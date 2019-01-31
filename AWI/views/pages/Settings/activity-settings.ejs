@@ -37,12 +37,12 @@
       <br>
       <br>
 
+      <% if(activity === 'DGPS') { %>
       <div class="row">
         <div class="col-3">
           <h5>PVOL Files</h5>
         </div>
         <div class="col">
-
           <div class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text" style="background-color:rgb(184, 222, 243);">
@@ -60,7 +60,33 @@
         </div>
       </div>
       <br>
+      <br>
+      <%}%>
 
+      <div class="row">
+        <div class="col-3">
+          <h5>
+            Discipline</h5>
+        </div>
+        <div class="col">
+
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color:rgb(184, 222, 243);">
+                <i style="color:rgb(20, 83, 134);"> <strong>Directory</strong> </i>
+              </span>
+            </div>
+            <textarea id="discipline_dir" name="discipline" class="form-control" aria-label="With textarea"><%=activitySettings["discipline"]%></textarea>
+          </div>
+        </div>
+
+        <div class="col">
+          <span class="float-sm-right">
+            <button type="button" id="change_discipline" name="<%=activity%>" class="btn btn-sm btn-primary account-settings-button">Apply</button>
+          </span>
+        </div>
+      </div>
+      <br>
       <hr />
 
     </div>
