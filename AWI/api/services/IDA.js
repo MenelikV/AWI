@@ -187,6 +187,22 @@ IDADataManager.prototype.ReadParamsSamplesSampling = async function (mr_adress, 
     }, null)
   }
 }
+IDADataManager.prototype.ReadParamsSamplesTopana = async function(mr_adress, startt, endt, params, refs){
+  var mr_id = await this.getMRID(mr_adress)
+  if(mr_id === undefined){
+    return undefined
+  }
+  else{
+    return this.doRequest({
+      msg: "ReadParamsSamplesTopana",
+      key: mr_id,
+      startt: startt,
+      endt: endt,
+      list: params.join("~"),
+      datalist: refs.join("~")
+    })
+  }
+}
 IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
   let mr_id = await this.getMRID(mr_adress)
   return this.doRequest({
@@ -221,7 +237,7 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
   else{
     for(let [index, par] of params.entries()){
       final_res[par] = list.map(function(d){return{
-        x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toDate(),
+        x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
         y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
       }
       })

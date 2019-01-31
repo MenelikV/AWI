@@ -47,32 +47,40 @@ $(document).ready(function () {
       })
     })
   })
-  var patch = function(list){
-    return list.map(function(d){
+  var patch = function (list) {
+    return list.map(function (d) {
       return {
         x: new Date(d.x),
         y: d.y
       }
     })
   }
+  var patch_annotations = function (list) {
+    return list.map(function (d) {
+      if (d.mode === "vertical") {
+        d.value = new Date(d.value)
+      }
+      return d
+    })
+  }
   var createPlot = function (data, status) {
-    var dynamicColors = function() {
+    var dynamicColors = function () {
       var r = Math.floor(Math.random() * 255);
       var g = Math.floor(Math.random() * 255);
       var b = Math.floor(Math.random() * 255);
       return "rgb(" + r + "," + g + "," + b + ")";
     }
     var datasets = []
-    for(let p of data.par){
+    for (let p of data.par) {
       var color = dynamicColors()
       datasets.push({
-          label: p,
-          data: patch(data.data_res[p]),
-          fill: false,
-          backgroundColor: color,
-          borderColor: color,
-          borderWidth: 1,
-        })
+        label: p,
+        data: patch(data.data_res[p]),
+        fill: false,
+        backgroundColor: color,
+        borderColor: color,
+        borderWidth: 1,
+      })
     }
     var config = {
       type: 'line',
@@ -82,7 +90,7 @@ $(document).ready(function () {
       options: {
         annotation: {
           events: ["click"],
-          annotations: data.annotations
+          annotations: patch_annotations(data.annotations)
         },
         title: {
           display: true,
@@ -91,6 +99,9 @@ $(document).ready(function () {
         scales: {
           xAxes: [{
             type: "time",
+            time: {
+              tooltipFormat: "HH:mm:ss.SSS"
+            }
           }]
         },
         // Container for pan options
