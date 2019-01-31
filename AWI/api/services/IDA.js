@@ -200,7 +200,24 @@ IDADataManager.prototype.ReadParamsSamplesTopana = async function(mr_adress, sta
       endt: endt,
       list: params.join("~"),
       datalist: refs.join("~")
-    })
+    }, null)
+  }
+}
+IDADataManager.prototype.ReadParamsSamplesDataList = async function(mr_adress, startt, endt, params, refs){
+  var mr_id = await this.getMRID(mr_adress)
+  if(mr_id === undefined){
+    return undefined
+  }
+  else{
+    return this.doRequest({
+      msg: "ReadParamsSamplesDataList",
+      key: mr_id,
+      startt: startt,
+      endt: endt,
+      mode: this.mode,
+      list: params.join("~"),
+      datalist: refs.join("~")
+    }, null)
   }
 }
 IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
@@ -245,9 +262,22 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     return final_res
 }
 }
-IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type){
+IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type, refs){
   var type = type || []
-  var data = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
+  var refs = refs || []
+  if(refs.length){
+    // Triggered Read
+    var data = []
+    var res = await this.ReadParamsSamplesDataList(mr_adress, startt, endt, params, refs)
+    while (this.validate(res)) {
+      data.push(res)
+      var res = await this.ReadParamsSamplesNext(mr_adress)
+    }
+    data = Buffer.concat(data)
+  }
+  else{
+    var data = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
+  } 
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
   var list = res.listParamSamplesPerGmtDate
   var final_res = {}
@@ -304,6 +334,8 @@ else{
 }}
   const conf_minus = Object.filter(config, d => d.time.minutes === -1)
   const conf_plus = Object.filter(config, d => d.time.minutes === 1)
+  // This assumes the flight test lasts at least one hour
+  var later_start = startt.clone().add({hours: 1}).format(internal_format)
   var _s = endt.clone().add({minutes: -1}).format(internal_format)
   var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
   var id_minus = []
@@ -311,10 +343,17 @@ else{
   for(let k of Object.keys(conf_minus)){
     id_minus.push(conf_minus[k].id)
     type_minus.push(conf_minus[k].type)
+    var ref_minus = conf_minus[k].refs
   }
+  // Assuming the ref is the same for every fetched parameters
   type_minus = _.isEqual(type_minus, Array(type_minus.length)) ? []: type_minus
   if(id_minus.length){
-    var res_minus = await this.ReadSummaryData(mr_adress, _s, _e, id_minus, type_minus)
+    if(_.get(ref_minus, 'length', 0) > 0){
+      var res_minus = await this.ReadSummaryData(mr_adress, startt.format(internal_format), later_start, id_minus, type_minus, ref_minus)
+    }else{
+      var res_minus = await this.ReadSummaryData(mr_adress, _s, _e, id_minus, type_minus)
+    }
+    
   }
   else{
     var res_minus = {}
@@ -326,10 +365,16 @@ else{
   for(let k of Object.keys(conf_plus)){
     id_plus.push(conf_plus[k].id)
     type_plus.push(conf_plus[k].type)
+    var ref_plus = conf_plus[k].refs
   }
   type_plus = _.isEqual(type_plus, Array(type_plus.length)) ? []: type_plus
   if(id_plus.length){
-    var res_plus =  await this.ReadSummaryData(mr_adress, _s, _e, id_plus, type_plus)
+    if(_.get(res_plus, 'length', 0) > 0){
+      var res_plus = await this.ReadSummaryData(mr_adress, startt.format(internal_format), later_start, id_plus, type_plus, ref_plus)
+    }
+    else{
+      var res_plus =  await this.ReadSummaryData(mr_adress, _s, _e, id_plus, type_plus)
+    }
   }
   else{
     var res_plus = {}
