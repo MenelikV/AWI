@@ -31,7 +31,13 @@ module.exports = {
           headers: headers,
           info: data
         })
-      } else return res.serverError("no filters")
+      } else {
+        return res.view("pages/Settings/filter-settings", {
+          activity: activity,
+          headers: headers,
+          info: data
+        })
+      }
     });
   },
 
