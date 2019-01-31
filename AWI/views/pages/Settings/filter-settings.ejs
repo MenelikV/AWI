@@ -33,13 +33,11 @@
             <tbody>
               <% for(var i=0; i < info.length; i++) {%>
               <tr id="<%= info[i]['id']%>" name="<%=activity%>">
-
                 <% for(var j=0; j < headers.length; j++) {%>
                 <td>
                   <%= info[i][headers[j]] %>
                 </td>
                 <% } %>
-
                 <td class="text-center">
                   <button class=" btn-danger btn-sm " id="delete" style="cursor:pointer;">
                     <i class="fa fa-trash fa-lg" title="Delete"></i>
@@ -50,8 +48,7 @@
             </tbody>
           </table> 
         </div>
-        <%}%>
-        
+        <% } else { %>
         <div class="container" style="background-color:rgba(255, 255, 255, 0.836); overflow:auto; padding:10px;">
           <div style="padding:2rem">
             <h2><strong style="color:#1D809F">No filters found</strong> </h2>
@@ -61,7 +58,7 @@
             </div>
           </div>
         </div>
-        
+        <%}%>
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    var folderpath = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory')
+    var folderpath = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
 
 
     fs.readdir(folderpath, function (err, files) {
@@ -100,12 +100,11 @@ module.exports = {
     var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
     var internal_format = "HH:mm:ss-ms"
     var times = []
-    if(TEST.length != 1){
+    if (TEST.length != 1) {
       return res.serverError("Internal problem while finding the PVOL File name")
-    }
-    else{
+    } else {
       var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
-      if(matches.length === 2){
+      if (matches.length === 2) {
         var aircraft = matches[0]
         var test = matches[1]
       }
@@ -113,61 +112,61 @@ module.exports = {
     }
     var name = req.param('id')
     var PVOLfileName = 'Output_PVOL-' + info + '.csv';
-    var PVOLfilePath = await sails.helpers.getSettings('DGPS','PVOLCSVDirectory') + PVOLfileName;
-    var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory')
+    var PVOLfilePath = await sails.helpers.getSettings('DGPS', 'PVOLCSVDirectory') + PVOLfileName;
+    var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
     var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "InfoCSVDirectory")
     var search = AutovalCSVDirectory + name + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
     if (resLength === 1) {
-      activityfilePath = activityFiles[0] 
-      var discipline = await sails.helpers.getSettings('DGPS','discipline')
+      activityfilePath = activityFiles[0]
+      var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
       var mr = discipline + path.parse(activityfilePath).name
     } else {
       return res.serverError('Problem while searching the folder')
-    } 
+    }
     var fs = require('fs');
     var glob = require("glob-fs")()
     var info_search = InfoCSVDirectory + req.param("id") + "*.csv"
     var infoFiles = glob.readdirSync(info_search)
     var startvol,
-    endvol;
-    if(infoFiles.length === 1){
+      endvol;
+    if (infoFiles.length === 1) {
       var summary = sails.helpers.dgpsParser(infoFiles[0])
       var summary_internal_format = "DDD-HH:mm:ss"
       times = [moment(_.get(summary, 'GMT_Deb', undefined), summary_internal_format),
-      moment(_.get(summary, 'GMT_Fin', undefined), summary_internal_format)]
+        moment(_.get(summary, 'GMT_Fin', undefined), summary_internal_format)
+      ]
       startvol = times[0].format(internal_format)
       endvol = times[1].format(internal_format)
-    }
-    else{
+    } else {
       console.debug(`No info found for ${info}`)
       startvol = undefined
       endvol = undefined
     }
-    try{
-      if(startvol === undefined || endvol === undefined){
-      await IDADataManager.OpenSessionSecured()
-      await IDADataManager.OpenMR(mr)
-      var times = await IDADataManager.GetMRTimes(mr)
-      var startvol = times[0].format(internal_format)
-      var endvol = times[1].format(internal_format)
-    }}
-      catch(error){
-        var startvol = undefined
-        var endvol = undefined
+    try {
+      if (startvol === undefined || endvol === undefined) {
+        await IDADataManager.OpenSessionSecured()
+        await IDADataManager.OpenMR(mr)
+        var times = await IDADataManager.GetMRTimes(mr)
+        var startvol = times[0].format(internal_format)
+        var endvol = times[1].format(internal_format)
       }
-      var _id = path.parse(activityfilePath).name
-      const CSV_format = "DDD-HH:mm:ss"
-      var FullFlightData = {};
-      Object.assign(FullFlightData, sails.helpers.extractInfo(_id))
-      if(times.length == 2){
-        FullFlightData.START = times[0].format(CSV_format)
-        FullFlightData.END = times[1].format(CSV_format)
-      }
-      FullFlightData.PHASE = "FULL FLIGHT"
-      FullFlightData.YEAR = ""
+    } catch (error) {
+      var startvol = undefined
+      var endvol = undefined
+    }
+    var _id = path.parse(activityfilePath).name
+    const CSV_format = "DDD-HH:mm:ss"
+    var FullFlightData = {};
+    Object.assign(FullFlightData, sails.helpers.extractInfo(_id))
+    if (times.length == 2) {
+      FullFlightData.START = times[0].format(CSV_format)
+      FullFlightData.END = times[1].format(CSV_format)
+    }
+    FullFlightData.PHASE = "FULL FLIGHT"
+    FullFlightData.YEAR = ""
     //Save filters
     var filters = await Filter.find({
       activity: 'DGPS'
@@ -225,15 +224,15 @@ module.exports = {
           skipEmptyLines: true,
           complete: function (results) {
             /*For each period in PVOL, read the csv file and verify if the 
-            error is in the given period. If it is, add it to an array.*/ 
+            error is in the given period. If it is, add it to an array.*/
             errorHeader = results.meta["fields"];
             // Full Flight Analyse
             var Fullitems = []
             results.data.forEach(function (item) {
               var startcsv = item["START"].split("-")[1];
               var endcsv = item["END"].split("-")[1];
-              if(startvol !== undefined && endvol !== undefined){
-                if(startcsv > startvol && endcsv < endvol){
+              if (startvol !== undefined && endvol !== undefined) {
+                if (startcsv > startvol && endcsv < endvol) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   Fullitems.push(item)
@@ -268,9 +267,15 @@ module.exports = {
 
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
-              data: {phases: flightData, full: [FullFlightData]},
+              data: {
+                phases: flightData,
+                full: [FullFlightData]
+              },
               name: PVOLfileName,
-              CSVerrors: {phases: GMTcsv, full: FullGMTcsv},
+              CSVerrors: {
+                phases: GMTcsv,
+                full: FullGMTcsv
+              },
               CSVheaders: errorHeader,
               activity: 'DGPS',
               summary: summary,
@@ -298,7 +303,7 @@ module.exports = {
     var glob = require("glob-fs")()
     for (let x = 0; x < entries; x++) {
       testnum -= 1;
-      search = await sails.helpers.getSettings('DGPS','AutoValCSVDirectory') + "\\" + aircraft + '*' + testnum + '*.csv';
+      search = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory') + "\\" + aircraft + '*' + testnum + '*.csv';
       files = glob.readdirSync(search)
     }
 
@@ -343,7 +348,11 @@ module.exports = {
       })
     }
     if (!flights.length) {
-      return res.serverError("nothingfound")
+      return res.view("pages/Activities/DGPS/flights", {
+        info: undefined,
+        headers: undefined,
+        activity: 'DGPS'
+      })
     }
     aircraftHeaders = Object.keys(flights[0])
     return res.view("pages/Activities/DGPS/flights", {
