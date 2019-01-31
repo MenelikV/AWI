@@ -11,7 +11,7 @@ const IDADataManager = new IDA()
 module.exports = {
 
   getInfo: async function (req, res) {
-    var folderpath = Activity.ANEMO.AutoValCSVDirectory;
+    var folderpath = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory');
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -57,7 +57,7 @@ module.exports = {
 
   getFlightOverview: async function (req, res) {
 
-    var AutovalCSVDirectory = Activity.ANEMO.AutoValCSVDirectory;
+    var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
     var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
 
     
@@ -67,7 +67,7 @@ module.exports = {
     var flightData = {}
     if (resLength === 1) {
       var activityfilePath = activityFiles[0]
-      var discipline = Activity.ANEMO.discipline
+      var discipline = await sails.helpers.getSettings('ANEMO', 'discipline')
       var _id = path.parse(activityfilePath).name
       var mr = discipline + _id
       console.log("Starting IDA Services")
@@ -152,7 +152,7 @@ module.exports = {
     var type = req.param('type')
     var entries = req.param('entries')
     var docs = [];
-    var folderpath = Activity.ANEMO.AutoValCSVDirectory;
+    var folderpath = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory');
     fs.readdir(folderpath, function (err, files) {
       if (err) {
         return console.log('Unable to scan directory: ' + err);

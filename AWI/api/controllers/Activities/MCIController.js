@@ -12,7 +12,7 @@ module.exports = {
 
   getInfo: async function (req, res) {
     var fs = require('fs');
-    const folderpath = Activity.MCI.AutoValCSVDirectory;
+    const folderpath = await sails.helpers.getSettings('MCI', 'AutoValCSVDirectory');
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -61,15 +61,15 @@ module.exports = {
 
   getFlightOverview: async function (req, res) {
 
-    var AutovalCSVDirectory = Activity.MCI.AutoValCSVDirectory;
-    var search = AutovalCSVDirectory + "\\" + req.param("id") + '*.csv'
+    var AutovalCSVDirectory = await sails.helpers.getSettings('MCI', 'AutoValCSVDirectory');
+    var search = AutovalCSVDirectory + req.param("id") + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
     var resLength = activityFiles.length
     var flightData = {}
     if (resLength === 1) {
       var activityfilePath = activityFiles[0]
-      var discipline = Activity.MCI.discipline
+      var discipline = await sails.helpers.getSettings('MCI', 'discipline')
       var _id = path.parse(activityfilePath).name
       var mr = discipline + _id
       var msn = _id.match(/[A-Z]\d{4,}/)[0]
@@ -165,7 +165,7 @@ module.exports = {
     var glob = require("glob-fs")()
     for (let x = 0; x < entries; x++) {
       testnum -= 1;
-      search = Activity.MCI.AutoValCSVDirectory + "\\" + aircraft + '*' + testnum + '*.csv';
+      search = await sails.helpers.getSettings('MCI', 'AutoValCSVDirectory') + "\\" + aircraft + '*' + testnum + '*.csv';
       files = glob.readdirSync(search)
     }
 
