@@ -46,6 +46,7 @@
           <div class="container-fluid" style="background-color:white; overflow:auto;">
             <h4 style="padding-top:0.5rem;">
               <%= (name) %>
+              <% if(data.full[0].START !== undefined) {%>
               <div style="float:right">
                   <label for="">Phases</label>
                   <button id="phaseSwitch" type="button" class="btn btn-xs btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off">
@@ -53,6 +54,7 @@
                   </button>
                   <label for="">Full Flight</label>
               </div>
+              <%}%>
             </h4>
 
             <% if(filterType.length) { %>
