@@ -1,7 +1,11 @@
-<table class="table text-center width=100%">
-  <th>
-    Flight Overview
-  </th>
+<table class="table text-center table-sm" style="width:100%">
+  <tr>
+    <th style="width: 30%">
+      Flight Overview
+    </th>
+    <th style="width: 30%"></th>
+    <th style="width: 40%"></th>
+  </tr>
   <tr>
     <td>
       <%="Aircraft : "+summary.aircraft%>
@@ -21,42 +25,139 @@
     </td>
   </tr>
   <tr>
+    <th></th>
     <th>
-      Initilisation
+      Initialisation
     </th>
   </tr>
-  <% var keys = Object.keys(summary.Initilisation) %>
-  <%for(let k of keys){%>
-      <tr>
-          <td>
-            <%=k%>
-          </td>
-          <td>
-              <%=summary.Initialisation[k]%>
-          </td>
-          <td></td>
-      </tr>
-  <%}%>
+  <% var init = summary.Initialisation %>
+  <% console.log(init) %>
   <tr>
-    <th>
-      Start
-    </th>
-    <th>
-      End
-    </th>
+    <td>
+      Weight
+    </td>
+    <td>
+      <%=init.Weight%>
+    </td>
+    <td></td>
   </tr>
-  <% var keys = Object.keys(summary.S) || []%>
-  <% for(let k of keys){%>
-    <tr>
+  <tr>
+    <td>
+      CG
+    </td>
+    <td>
+      <%=init.CG%>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      ZCG
+    </td>
+    <td>
+      <%=init.ZCG%>
+    </td>
+  </tr>
+  <tr>
+
+    <td style="border: none">
+      <table class='table table-sm table-borderless'>
+    <td>
+      ZFW
+    </td>
+    <td>
+      <%=init.ZFW%>
+    </td>
+</table>
+</td>
+<td style="border: none">
+  <table class='table table-sm table-borderless'>
+<td>
+  ZFCG
+</td>
+<td>
+  <%=init.ZFCG%>
+</td>
+</table>
+</td>
+<td style="border: none">
+  <table class='table table-sm table-borderless'>
+<td>
+  MYZFW
+</td>
+<td>
+  <%=init.MYZFW%>
+</td>
+</table>
+</td>
+</tr>
+<tr>
+  <td style="border: none">
+    <table class='table table-sm table-borderless'>
       <td>
-        <%=k%>
+        ZZFW
       </td>
       <td>
-        <%=summary.S[k]%>
+        <%=init.ZZFW%>
+      </td>
+    </table>
+  </td>
+  <td style="border: none">
+    <table class='table table-sm table-borderless'>
+      <td>
+        LP
       </td>
       <td>
-        <%=summary.E[k]%>
+        <%=init.LP%>
       </td>
-    </tr>
-    <%}%>
+    </table>
+  </td>
+  <td style="border: none">
+    <table class='table table-sm table-borderless'>
+      <td>
+        ST_INIT
+      </td>
+      <td>
+        <%=init.ST_INIT%>
+      </td>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+  <td style="border: none">
+    <table class='table table-sm table-borderless'>
+      <td>
+        CREW
+      </td>
+      <td>
+        <%=init.CREW%>
+      </td>
+    </table>
+  </td>
+</tr>
+<tr>
+  <th></th>
+  <th>
+    Start (GMT Start + 1 min)
+  </th>
+  <th>
+    End (GMT End - 1 min)
+  </th>
+</tr>
+<% var keys = Object.keys(summary.S) || []%>
+<% for(let k of keys){%>
+<tr>
+  <td>
+    <%=k%>
+  </td>
+  <td>
+    <%=summary.S[k]%>
+  </td>
+  <td>
+    <%=summary.E[k]%>
+  </td>
+</tr>
+<%}%>
 </table>
