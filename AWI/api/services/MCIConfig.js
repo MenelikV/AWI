@@ -57,7 +57,7 @@ module.exports = {
       }
     },
     ST_INIT: {
-      id: "88U02302--",
+      id: "88U02460--",
       format: "0",
       time: {
         "minutes": -1
