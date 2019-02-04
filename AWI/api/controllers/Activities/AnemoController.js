@@ -16,18 +16,19 @@ module.exports = {
     fs.readdir(folderpath, function (err, files) {
       //handling error
       if (err) {
-        return console.log('Unable to scan directory: ' + err);
+        console.error('Unable to scan directory: ' + err);
+        return res.serverError('Unable to scan directory: ' + err)
       }
       var Papa = require('papaparse');
       var path = require('path');
       var flights = [];
       var aircraftHeaders = [];
-
+      var _error = []
       //listing all files
       files.forEach(function (file) {
+        try{
         var filePath = path.join(folderpath, file)
         var content = fs.readFileSync(filePath, "utf8");
-        var name = path.parse(file).name
         var name = path.parse(file).name
         //parsing file content
         Papa.parse(content, {
@@ -44,8 +45,14 @@ module.exports = {
             flightInfo["CRITICITY"] = ''
             flights.push(flightInfo)
           }
-        });
+        })}
+        catch(error){
+          _error.push(error)
+        }
       });
+      if(_error.length){
+        return res.serverError("Problem occured while reading the files")
+      }
       aircraftHeaders = Object.keys(flights[0])
       return res.view("pages/Activities/ANEMO/flights", {
         info: flights,
