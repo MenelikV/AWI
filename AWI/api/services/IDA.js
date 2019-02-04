@@ -8,6 +8,7 @@ request = request_module.defaults({
 const moment = require("moment")
 const Proto = require("./Proto")
 const numeral = require("numeral")
+const os = require("os")
 const M = 1000000
 const DAY = 24 * 60 * 60
 // Inspired from https://stackoverflow.com/questions/5072136/javascript-filter-for-objects
@@ -20,7 +21,7 @@ Object.filter = (obj, predicate) =>
 var IDADataManager = function () {
   var pwd = "dYHDhnP+2zisJrYZkH5QzKS/SQIZNhlVyc4VG4LJ/OVDTcIf7a9Vu9xGcXP13Zazseh7mOmcmC7XI8mtQ+FxJAgP082YiculC8s4LGHnpY7fqB0hqjo5ZE6ZEJsLNO4CKJYutWHr5jNPMvcxsYua/0AeBoklhougZtdxPI/rZPKhvOs7UdJVkVqtP0YZmclI3eWQzIR5ROhrGIQILFbc2hko0nMB/st/BLj0sxmkGbmHv7rkGtfV7NJ8vZq3MMgaY/PqiRrCd0a9kgqkwor58d80P4b6FiPQaP2B/wJ6g6mXWlNdfzeTCSJm8Glai4JsXq0NBockXJdGSDoWBXE1hg=="
   this.user = "SA-R970-SHIFT";
-  this.id = "ng5f370";
+  this.id = os.userInfo().username.match(/[st, ng]{2}\w+\d+/gm) ?  os.userInfo().username : "ng5f370";
   this.mode = "GMT_DATE";
   this.pwd = pwd
   this.mr_register = {};
