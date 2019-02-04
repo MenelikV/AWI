@@ -392,7 +392,7 @@ else{
   // Take care of Formatting
   for(let key of Object.keys(config)){
     if(config[key].format !== undefined && config_res[key] !== undefined){
-      config_res[key] = numeral(config_res[key]).format(config[key].format)
+      config_res[key] = numeral(config_res[key]).format(config[key].format, d=>Math.floor(d))
     }
   }
   return config_res
