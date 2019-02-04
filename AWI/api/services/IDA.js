@@ -248,7 +248,7 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     // No Valid Data
     console.log("No valid Data!")
     for(let key of params){
-      final_res[key] = {x: null, y: null}
+      final_res[key] = [{x: null, y: null}]
     }
     return final_res
   }
