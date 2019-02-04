@@ -1,5 +1,5 @@
 var MCISummary = function () {
-  this.Initilisation = {}
+  this.Initialisation = {}
   for (let k of Object.keys(MCIConfig.Initialisation)) {
     this.Initialisation[k] = ""
   }
