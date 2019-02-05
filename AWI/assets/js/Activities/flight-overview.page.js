@@ -75,7 +75,7 @@ $(document).ready(function () {
       var color = dynamicColors()
       datasets.push({
         label: p,
-        data: patch(data.data_res[p]),
+        data: data.data_res[p],
         fill: false,
         backgroundColor: color,
         borderColor: color,
@@ -100,6 +100,7 @@ $(document).ready(function () {
           xAxes: [{
             type: "time",
             time: {
+              timeFormat : 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
               tooltipFormat: "HH:mm:ss.SSS"
             }
           }]
