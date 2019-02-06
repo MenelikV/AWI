@@ -23,7 +23,7 @@
         <div class="row">
           <div class="col md-12">
             <!-- Flight Summary container -->
-            <div class="container-fluid" style="background-color:white; overflow:auto;">
+            <div class="container-fluid" style="background-color:white;">
               <h4 style="padding-top:0.5rem;">
                 Flight Summary
               </h4>
@@ -48,7 +48,7 @@
               <%= (name) %>
             </h4>
 
-            <table id="pvol" class="table text-left" style="width:100%">
+            <table id="pvol" class="table text-left">
 
               <thead>
                 <tr>
@@ -105,15 +105,15 @@
                     <div id="<%='demo_'+j%>" class="collapse text-center">
                       <!-- Start subtable-->
                       <% if(CSVerrors[j].length) {  %>
-                      <table id="<%='subtable_'+j%>">
+                      <table id="<%='subtable_'+j%>" class="table-md">
                         <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
-                            <th style="background-color:white;">
+                            <th>
                               <%= CSVheaders[i] %>
                             </th>
                             <% } %>
-                            <th>
+                            <th style="width: 15%">
                               ACTIONS
                             </th>
                           </tr>
@@ -124,7 +124,7 @@
                           <% for(var i=0; i< CSVerrors[j].length; i++) { %>
                           <tr>
                             <% for(var k=0; k < CSVheaders.length; k++) { %>
-                            <td id="<%=CSVheaders[k]%>" style="border-bottom: 1px solid #ddd;">
+                            <td id="<%=CSVheaders[k]%>">
                               <%= CSVerrors[j][i][CSVheaders[k]] %>
 
                             </td>

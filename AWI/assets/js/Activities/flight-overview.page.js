@@ -12,8 +12,10 @@ $(document).ready(function () {
   }
   //toggleHandler()
   $("table[id^='subtable_']").DataTable({
-    paging: false,
-  })
+    paging: true,
+    "autoWidth": false  })
+
+
   $("table[id^='full_subtable_']").DataTable({
     paging: false,
   })
@@ -100,7 +102,7 @@ $(document).ready(function () {
           xAxes: [{
             type: "time",
             time: {
-              timeFormat : 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
+              timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
               tooltipFormat: "HH:mm:ss.SSS"
             }
           }]

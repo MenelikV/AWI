@@ -1667,15 +1667,15 @@ pre code {
 }
 
 .table {
-  width: 100%;
-  max-width: 100%;
+  width: 100%; 
+  overflow-x: auto;
   margin-bottom: 1rem;
   background-color: transparent;
 }
 
 .table th,
 .table td {
-  padding: 0.75rem;
+  padding: 0.55rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
@@ -1691,6 +1691,22 @@ pre code {
 
 .table .table {
   background-color: #fff;
+}
+
+.table-md{
+  width: 100%;
+  table-layout:fixed;
+
+}
+
+.table-md th,
+.table-md td{
+  padding: 0.55rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+  font-size:14px;
+  word-wrap: break-word;  
+  border-bottom: 1px solid #ddd;
 }
 
 .table-sm th,
