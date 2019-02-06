@@ -1,6 +1,5 @@
 <div class="jumbotron jumbostyle">
   <div class="container-fluid">
-
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a style="font-size:1.2rem" class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
@@ -23,7 +22,7 @@
         <div class="row">
           <div class="col md-12">
             <!-- Flight Summary container -->
-            <div class="container-fluid" style="background-color:white; overflow:auto;">
+            <div class="container-fluid" style="background-color:white;">
               <h4 style="padding-top:0.5rem;">
                 Flight Summary
               </h4>
@@ -48,11 +47,12 @@
               <%= (name) %>
               <% if(data.full[0].START !== undefined) {%>
               <div style="float:right">
-                  <label for="">Phases</label>
-                  <button id="phaseSwitch" type="button" class="btn btn-xs btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off">
-                      <div class="handle"></div>
-                  </button>
-                  <label for="">Full Flight</label>
+                <label for="">Phases</label>
+                <button id="phaseSwitch" type="button" class="btn btn-xs btn-toggle" data-toggle="button" aria-pressed="false"
+                  autocomplete="off">
+                  <div class="handle"></div>
+                </button>
+                <label for="">Full Flight</label>
               </div>
               <%}%>
             </h4>
@@ -61,7 +61,8 @@
             <p>
               <% for(var i=0; i< filterType.length; i++) { %>
               <% if (filterType[i]["raiseError"] == true) {%>
-              <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i> </strong> error
+              <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i>
+              </strong> error
               type <strong style="text-decoration: underline;">
                 <%=filterType[i]["type"]%></strong>
               not found <br>
@@ -70,7 +71,7 @@
             </p>
             <% } %>
 
-            <table id="pvol" class="table text-left" style="width:100%">
+            <table id="pvol" class="table text-left" >
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
@@ -126,15 +127,15 @@
                     <div id="<%='demo_'+j%>" class="collapse text-center">
                       <!-- Start subtable-->
                       <% if(CSVerrors.phases[j].length) {  %>
-                      <table id="<%='subtable_'+j%>">
+                      <table id="<%='subtable_'+j%>" class="table-md">
                         <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
-                            <th style="background-color:white;">
+                            <th>
                               <%= CSVheaders[i] %>
                             </th>
                             <% } %>
-                            <th>
+                            <th style="width: 15%">
                               ACTIONS
                             </th>
                           </tr>
@@ -145,13 +146,13 @@
                           <% for(var i=0; i< CSVerrors.phases[j].length; i++) { %>
                           <tr>
                             <% for(var k=0; k < CSVheaders.length; k++) { %>
-                            <td id="<%=CSVheaders[k]%>" style="border-bottom: 1px solid #ddd;">
+                            <td id="<%=CSVheaders[k]%>">
                               <%= CSVerrors.phases[j][i][CSVheaders[k]] %>
 
                             </td>
                             <% } %>
 
-                            <td style='white-space: nowrap'>
+                            <td style="white-space: nowrap;">
                               <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" aria-hidden="true"
                                 data-id="see_par">
                                 <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
@@ -179,123 +180,125 @@
               </tbody>
             </table>
             <table id="full" class="table text-left" style="width:100%; display: none">
-                <thead>
-                  <tr>
-                    <% for(var i=0; i< headers.length; i++) { %>
-                    <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
-                    <th>
-                      <%= headers[i] %>
-                    </th>
-                    <% } 
+              <thead>
+                <tr>
+                  <% for(var i=0; i< headers.length; i++) { %>
+                  <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
+                  <th>
+                    <%= headers[i] %>
+                  </th>
+                  <% } 
                                             } %>
-                  </tr>
-                </thead>
-  
-                <tbody>
-                  <!-- Iterate over errors rows-->
-                  <% for(var j=0; j< data.full.length; j++) { %>
-                  <tr data-toggle="collapse" class="hover" data-target="<%='#full_demo_'+j%>" style="cursor : pointer;">
-                    <!-- Iterate over each field data-->
-                    <% for(var k=0; k< headers.length; k++) { %>
-                    <%if(headers[k] == "START") {%>
-                    <td>
-                      GMT
-                      <%=  data.full[j][headers[k]] %>
-                    </td>
-                    <% }else if ( headers[k] == "END") { %>
-                    <td>
-                      GMT
-                      <%=  data.full[j][headers[k]] %>
-                      <br>
-                      <p>ERROR:
-  
-                        <% if(CSVerrors.full[j].length){ %>
-                        <strong style="color:red">
-                          <%= CSVerrors.full[j].length %></strong>
-                        <%} else {%>
-                        <strong style="color:rgb(2, 179, 2)">
-                          <%= CSVerrors.full[j].length %></strong>
-                        <%}%>
-                      </p>
-                    </td>
-                    <% } else{%>
-                    <%if(headers[k] == "PHASE"){%>
-                    <td>
-                      <%= data.full[j][headers[k]] %>
-                    </td>
-                    <%}%>
-                    <%}
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- Iterate over errors rows-->
+                <% for(var j=0; j< data.full.length; j++) { %>
+                <tr data-toggle="collapse" class="hover" data-target="<%='#full_demo_'+j%>" style="cursor : pointer;">
+                  <!-- Iterate over each field data-->
+                  <% for(var k=0; k< headers.length; k++) { %>
+                  <%if(headers[k] == "START") {%>
+                  <td>
+                    GMT
+                    <%=  data.full[j][headers[k]] %>
+                  </td>
+                  <% }else if ( headers[k] == "END") { %>
+                  <td>
+                    GMT
+                    <%=  data.full[j][headers[k]] %>
+                    <br>
+                    <p>ERROR:
+
+                      <% if(CSVerrors.full[j].length){ %>
+                      <strong style="color:red">
+                        <%= CSVerrors.full[j].length %></strong>
+                      <%} else {%>
+                      <strong style="color:rgb(2, 179, 2)">
+                        <%= CSVerrors.full[j].length %></strong>
+                      <%}%>
+                    </p>
+                  </td>
+                  <% } else{%>
+                  <%if(headers[k] == "PHASE"){%>
+                  <td>
+                    <%= data.full[j][headers[k]] %>
+                  </td>
+                  <%}%>
+                  <%}
                                           } %>
-                  </tr>
-  
-                  <!--Start collapse div-->
-                  <tr class="hidden">
-                    <td colspan="3">
-                      <div id="<%='full_demo_'+j%>" class="collapse text-center">
-                        <!-- Start subtable-->
-                        <% console.log(CSVerrors.full[j].length) %>
-                        <% if(CSVerrors.full[j].length) {  %>
-                        <table id="<%='full_subtable_'+j%>">
-                          <thead> 
-                            <tr>
-                              <% for(var i=0; i< CSVheaders.length; i++) { %>
-                              <th style="background-color:white;">
-                                <%= CSVheaders[i] %>
-                              </th>
-                              <% } %>
-                              <th>
-                                ACTIONS
-                              </th>
-                            </tr>
-                          </thead>
-  
-                          <tbody style="background-color:rgba(137, 202, 255, 0.075)">
-  
-                            <% for(var i=0; i< CSVerrors.full[j].length; i++) { %>
-                            <tr>
-                              <% for(var k=0; k < CSVheaders.length; k++) { %>
-                              <td id="<%=CSVheaders[k]%>" style="border-bottom: 1px solid #ddd;">
-                                <%= CSVerrors.full[j][i][CSVheaders[k]] %>
-  
-                              </td>
-                              <% } %>
-  
-                              <td style='white-space: nowrap'>
-                                <button type="button" class="btn btn-sm"  data-mr ="<%=mr%>" style="background-color: white" aria-hidden="true"
-                                  data-id="see_par">
-                                  <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
-                                </button>
-  
-                                <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
-                                  data-id="filter_par">
-                                  <i class="fa fa-filter fa-lg" title="Filter"></i>
-                                </button>
-  
-                                <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true" data-id="search_par">
-                                   <i class="fa fa-search fa-lg" title="Search"></i>
-                                </button>
-                              </td>
-                            </tr>
+                </tr>
+
+                <!--Start collapse div-->
+                <tr class="hidden">
+                  <td colspan="3">
+                    <div id="<%='full_demo_'+j%>" class="collapse text-center">
+                      <!-- Start subtable-->
+                      <% console.log(CSVerrors.full[j].length) %>
+                      <% if(CSVerrors.full[j].length) {  %>
+                      <table id="<%='full_subtable_'+j%>">
+                        <thead>
+                          <tr>
+                            <% for(var i=0; i< CSVheaders.length; i++) { %>
+                            <th style="background-color:white;">
+                              <%= CSVheaders[i] %>
+                            </th>
                             <% } %>
-                          </tbody>
-                        </table>
-                        <!--End subtable-->
-                        <%}%>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- End collapse div -->
-                  <% } %>
-                </tbody>
-              </table>
+                            <th>
+                              ACTIONS
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody style="background-color:rgba(137, 202, 255, 0.075)">
+
+                          <% for(var i=0; i< CSVerrors.full[j].length; i++) { %>
+                          <tr>
+                            <% for(var k=0; k < CSVheaders.length; k++) { %>
+                            <td id="<%=CSVheaders[k]%>" style="border-bottom: 1px solid #ddd;">
+                              <%= CSVerrors.full[j][i][CSVheaders[k]] %>
+
+                            </td>
+                            <% } %>
+
+                            <td style='white-space: nowrap'>
+                              <button type="button" class="btn btn-sm" data-mr="<%=mr%>" style="background-color: white"
+                                aria-hidden="true" data-id="see_par">
+                                <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
+                              </button>
+
+                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                data-id="filter_par">
+                                <i class="fa fa-filter fa-lg" title="Filter"></i>
+                              </button>
+
+                              <button type="button" class="btn btn-sm" style="background-color: white" aria-hidden="true"
+                                data-id="search_par">
+                                <i class="fa fa-search fa-lg" title="Search"></i>
+                              </button>
+                            </td>
+                          </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                      <!--End subtable-->
+                      <%}%>
+                    </div>
+                  </td>
+                </tr>
+                <!-- End collapse div -->
+                <% } %>
+              </tbody>
+            </table>
           </div>
           <!-- End PVOL container -->
         </div>
       </div>
       <!-- END SECOND TAB -->
     </div>
-  </div>
-</div>
+  </div> 
+</div> 
+
 <!-- Modal -->
 <%- include ../../search-modal.ejs %>
 <%- include ../../filter-modal.ejs %>
