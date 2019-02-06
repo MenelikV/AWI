@@ -13,7 +13,8 @@ $(document).ready(function () {
   //toggleHandler()
   $("table[id^='subtable_']").DataTable({
     paging: true,
-    "autoWidth": false  })
+    "autoWidth": false,
+    "pageLength": 5  })
 
 
   $("table[id^='full_subtable_']").DataTable({
