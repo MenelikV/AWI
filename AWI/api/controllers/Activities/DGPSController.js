@@ -32,7 +32,7 @@ module.exports = {
         try{
         var filePath = path.join(folderpath, file)
         var content = fs.readFileSync(filePath, "utf8");
-        var name = path.parse(file).name
+        var name = path.parse(file).name 
         //parsing file content
         Papa.parse(content, {
           worker: true,
@@ -63,46 +63,7 @@ module.exports = {
         activity: 'DGPS'
       })
     });
-  },
-
-  getSettings: async function (req, res) {
-    var csv = Activity.DGPS.AutoValCSVDirectory;
-    var pvol = Activity.DGPS.PVOLCSVDirectory;
-
-    return res.view('pages/Settings/activity-settings', {
-      activity: 'DGPS',
-      csv: csv,
-      pvol: pvol
-    })
-  },
-
-  changeDirectory: async function (req, res) {
-    var directory = req.body["directory"]
-    var fs = require('fs')
-    //Check if directory exists
-    fs.readdir(directory, function (err, files) {
-      if (err) {
-        res.status(404)
-        return res.send()
-      }
-      files.forEach(function (file) {
-        if (file.includes(!".csv"))
-          return res.send(500)
-      })
-
-      switch (req.body["file"]) {
-        case 'CSV':
-          Activity.DGPS.AutoValCSVDirectory = directory
-          res.status(200)
-          return res.send()
-
-        case 'PVOL':
-          Activity.DGPS.PVOLCSVDirectory = directory
-          res.status(200)
-          return res.send()
-      }
-    })
-  },
+  }, 
 
   getFlightOverview: async function (req, res) {
     var filterType = [];

@@ -28,20 +28,12 @@ module.exports.routes = {
     }
   },
 
-  'POST /createFilter/:id': 'FilterController.createFilter',
-
-  'POST /deleteFilter/:id': 'FilterController.deleteFilter', 
-
   'GET /Activities/DGPS/flights': {
     view: 'pages/Activities/DGPS/flights',
     controller: 'Activities/DGPSController',
     action: 'getInfo'
   },
 
-  'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
-
-  'POST /Activities/:activity/search': 'SearchController.search',
- 
   'GET /Activities/MCI/flights': {
     view: 'pages/Activities/MCI/flights',
     controller: 'Activities/MCIController',
@@ -56,13 +48,25 @@ module.exports.routes = {
 
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
 
-  'GET /Settings/:id': 'SettingsController.getSettings', 
-
-  'POST /Settings/changeSettings': 'SettingsController.changeSettings',
-
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 
   'GET /Activities/ANEMO/flightOverview/:id': 'Activities/ANEMOController.getFlightOverview',
+
+
+  'POST /createFilter/:id': 'FilterController.createFilter',
+
+  'POST /deleteFilter/:id': 'FilterController.deleteFilter',
+
+  'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
+  
+
+  'POST /Activities/:activity/search': 'SearchController.search',
+
+
+  'GET /Settings/:id': 'SettingsController.getSettings',
+
+  'POST /Settings/changeSettings': 'SettingsController.changeSettings',
+
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 

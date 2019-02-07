@@ -14,11 +14,20 @@ $(document).ready(function () {
   $("table[id^='subtable_']").DataTable({
     paging: true,
     "autoWidth": false,
-    "pageLength": 5  })
-
-
+    "pageLength": 5,
+    "lengthMenu": [
+      [5, 10, 25, -1],
+      [5, 10, 25, "All"]
+    ]
+  })
   $("table[id^='full_subtable_']").DataTable({
-    paging: false,
+    paging: true,
+    "autoWidth": false,
+    "pageLength": 5,
+    "lengthMenu": [
+      [5, 10, 25, -1],
+      [5, 10, 25, "All"]
+    ]
   })
   $('button[data-id="see_par"]').each(function () {
     $(this).on('click', function (evt) {

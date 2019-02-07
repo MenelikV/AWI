@@ -1673,8 +1673,15 @@ pre code {
   background-color: transparent;
 }
 
-.table th,
+.table th{
+  font-size: 16px;
+  padding: 0.55rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
 .table td {
+  font-size: 14px;
   padding: 0.55rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
@@ -1704,7 +1711,7 @@ pre code {
   padding: 0.55rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
-  font-size:14px;
+  font-size:13px;
   word-wrap: break-word;  
   border-bottom: 1px solid #ddd;
 }

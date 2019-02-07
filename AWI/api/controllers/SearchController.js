@@ -1,4 +1,3 @@
-const fs = require("fs")
 module.exports = {
   search: async function (req, res) {
     var aircraft = req.param('aircraft')
@@ -13,6 +12,7 @@ module.exports = {
     var flights = [];
     var files;
     var fs = require('fs');
+    var path = require('path')
     var glob = require("glob-fs")()
     for (let x = 0; x < entries; x++) {
       testnum -= 1;
@@ -27,6 +27,7 @@ module.exports = {
         var cont = 0;
         var index = 0;
         var content = fs.readFileSync(folderpath, "utf8");
+        var name = path.parse(file).name 
         //parsing file content
         Papa.parse(content, {
           worker: true,
@@ -52,6 +53,7 @@ module.exports = {
               flightInfo["YEAR"] = results.data[index]["YEAR"]
               flightInfo["AIRCRAFT"] = results.data[index]["AIRCRAFT"]
               flightInfo["TEST"] = results.data[index]["TEST"]
+              flightInfo["MR"] = name
               flightInfo["ERRORS"] = cont
               flightInfo["CRITICITY"] = ''
               flights.push(flightInfo)
