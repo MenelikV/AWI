@@ -219,7 +219,7 @@ module.exports = {
               results.data.forEach(function (item) {
                 var startcsv = item["START"].split("-")[1];
                 var endcsv = item["END"].split("-")[1];
-                if (startcsv > startpvol && endcsv < endpvol) {
+                if (endcsv > startpvol && startcsv < endpvol) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   items.push(item)
