@@ -1,11 +1,11 @@
 <table class="table text-center width=100%">
   <tr>
     <td>
-      <%="Flight : "+summary.flight%>
+      <%="Aircraft : "+summary.aircraft%>
     </td>
     <td></td>
     <td>
-      <%="Start GMT : "+summary.start_time%>
+      <%="Start GMT : "+summary.GMT_Deb%>
     </td>
   </tr>
   <tr>
@@ -14,7 +14,7 @@
     </td>
     <td></td>
     <td>
-      <%="End GMT : "+summary.end_time%>
+      <%="End GMT : "+summary.GMT_Fin%>
     </td>
   </tr>
   <tr>
@@ -24,10 +24,10 @@
     <td></td>
     <td></td>
   </tr>
-  <% for(vari=0; i<summary.used_stations.length;i++){%>
+  <% for(var i=0; i<summary.Station_Used.length;i++){%>
   <tr>
     <td>
-      <%=summary.used_stations[i]%>
+      <%=summary.Station_Used[i]%>
     </td>
     <td></td>
     <td></td>
@@ -35,17 +35,19 @@
   <%}%>
   <tr>
     <td>
-      Used Profile(s):
+      Used Runway(s):
     </td>
     <td></td>
     <td></td>
   </tr>
-  <% for(var i=0;i<summary.used_profiles.length;i++){%>
+  <% for(var i=0;i<summary.Runways_used.length;i++){%>
   <tr>
     <td>
-      <%=summary.used_profiles[i]%>
+      <%=summary.Runways_used[i]%>
     </td>
-    <td></td>
+    <td>
+      PROFIL : <%=summary.Profils[i]%>
+    </td>
     <td></td>
   </tr>
   <%}%>

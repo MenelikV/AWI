@@ -70,6 +70,7 @@ module.exports = {
     var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
     var internal_format = "HH:mm:ss-ms"
     var times = []
+    var summary = new DGPSSummary()
     if (TEST.length != 1) {
       return res.serverError("Internal problem while finding the PVOL File name")
     } else {
@@ -84,7 +85,7 @@ module.exports = {
     var PVOLfileName = 'Output_PVOL-' + info + '.csv';
     var PVOLfilePath = await sails.helpers.getSettings('DGPS', 'PVOLCSVDirectory') + PVOLfileName;
     var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
-    var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "InfoCSVDirectory")
+    var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "SummaryINFODirectory")
     var search = AutovalCSVDirectory + name + '*.csv'
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search)
@@ -103,7 +104,9 @@ module.exports = {
     var startvol,
       endvol;
     if (infoFiles.length === 1) {
-      var summary = sails.helpers.dgpsParser(infoFiles[0])
+      summary = sails.helpers.dgpsParser(infoFiles[0])
+      summary.test = test
+      summary.aircraft = aircraft
       var summary_internal_format = "DDD-HH:mm:ss"
       times = [moment(_.get(summary, 'GMT_Deb', undefined), summary_internal_format),
         moment(_.get(summary, 'GMT_Fin', undefined), summary_internal_format)
@@ -165,7 +168,6 @@ module.exports = {
       var GMTcsv = [];
       var FullGMTcsv = []
       var errorHeader;
-      var summary = new DGPSSummary()
       Papa.parse(content, {
         header: true,
         delimiter: ";",

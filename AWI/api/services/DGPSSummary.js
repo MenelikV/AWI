@@ -1,9 +1,10 @@
 var Summary = function(){
         this.flight = ""
-        this.start_time = ""
-        this.end_time = ""
-        this.test = ""
-        this.used_stations = []
-        this.used_profiles = []
+        this.GMT_Deb = ""
+        this.GMT_Fin = ""
+        this.MR_DGPS = ""
+        this.Station_Used = []
+        this.Runways_used = []
+        this.Profils = []
 }
 module.exports = Summary
