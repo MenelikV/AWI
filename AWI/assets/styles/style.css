@@ -21,7 +21,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
 .nav-link {
   color: white;
   text-transform: capitalize;
@@ -211,6 +210,7 @@ h6 {
 
 
 .modalInput {
+  font-size: 14px;
   padding-top:1rem;
   padding-bottom:0.5rem;
   background-color: transparent;
@@ -219,12 +219,9 @@ h6 {
   border-color: rgb(26, 110, 165);
 }
 
-.filterInput {
-  font-size: 1.1rem;
-  padding-top:1rem;
-  padding-bottom:0.2rem;
-  background-color: transparent;
-  border-width: 0px 0px 1px 0px;
+.modal-text {
+  color:#0e6097;
+  font-size:16px;
 }
 
 .text-faded {
