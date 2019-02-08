@@ -27,7 +27,7 @@ module.exports = {
         var cont = 0;
         var index = 0;
         var content = fs.readFileSync(folderpath, "utf8");
-        var name = path.parse(file).name 
+        var name = path.parse(file).name
         //parsing file content
         Papa.parse(content, {
           worker: true,
@@ -62,15 +62,17 @@ module.exports = {
         });
       })
     }
-    
-    if (flights.length) {
-      aircraftHeaders = Object.keys(flights[0])
+    if (!flights.length) {
+      return res.view(`pages/Activities/${activity}/flights`, {
+        info: flights,
+        activity: activity
+      })
     }
+    aircraftHeaders = Object.keys(flights[0])
     return res.view(`pages/Activities/${activity}/flights`, {
       info: flights,
       headers: aircraftHeaders,
       activity: activity
     })
-
   }
 }
