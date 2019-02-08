@@ -180,6 +180,7 @@ $(document).ready(function () {
         row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
         row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
         row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
+        row.cells[i].id == "PARAMETER" ? $("#filter_parameter").val(row.cells[i].innerText): "";
       }
       $('#filterModalCenter').modal('show');
     })
@@ -196,6 +197,7 @@ $(document).ready(function () {
       aircraft: $("#filter_aircraft").val(),
       test: $("#filter_test").val(),
       type: $("#filter_type").val(),
+      parameter: $("#filter_parameter").val(),
     }
     $.ajax({
       url: url,

@@ -46,19 +46,22 @@ module.exports = {
     var aircraft = req.param('aircraft')
     var test = req.param('test')
     var type = req.param('type')
+    var parameter = req.param("parameter")
 
     var duplicateFilter = await Filter.find({
       aircraft: aircraft,
       test: test,
       type: type,
-      activity: activity
+      activity: activity,
+      parameter: parameter
     })
     if (!duplicateFilter.length) {
       await Filter.create({
         activity: activity,
         aircraft: aircraft,
         test: test,
-        type: type
+        type: type,
+        parameter: parameter
       });
       res.status(200)
       return res.send()
