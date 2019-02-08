@@ -63,14 +63,9 @@ module.exports = {
       })
     }
     
-    if (!flights.length) {
-      return res.view(`pages/Activities/${activity}/flights`, {
-        info: undefined,
-        headers: undefined,
-        activity: activity
-      })
+    if (flights.length) {
+      aircraftHeaders = Object.keys(flights[0])
     }
-    aircraftHeaders = Object.keys(flights[0])
     return res.view(`pages/Activities/${activity}/flights`, {
       info: flights,
       headers: aircraftHeaders,
