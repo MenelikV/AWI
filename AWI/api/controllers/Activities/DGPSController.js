@@ -148,9 +148,10 @@ module.exports = {
       if (DGPSfilter["aircraft"] === aircraft && DGPSfilter["test"] < test) {
         var filterInfo = {};
         filterInfo["type"] = DGPSfilter["type"];
+        filterInfo["parameter"] = DGPSfilter["parameter"];
         filterInfo["raiseError"] = true;
         filterType.push(filterInfo)
-      }
+      } 
     })
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
@@ -226,7 +227,7 @@ module.exports = {
                 }
                 if (filterType.length) {
                   filterType.forEach(function (filter) {
-                    if (item["TYPE"] === filter["type"]) {
+                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
                       items.pop();
                       filter["raiseError"] = false;
                     }

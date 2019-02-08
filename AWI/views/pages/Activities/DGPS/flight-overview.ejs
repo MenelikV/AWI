@@ -62,7 +62,8 @@
               <% for(var i=0; i< filterType.length; i++) { %>
               <% if (filterType[i]["raiseError"] == true) {%>
               <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i>
-              </strong> error
+              </strong> error parameter <strong style="text-decoration: underline;">
+                  <%=filterType[i]["parameter"]%></strong> and 
               type <strong style="text-decoration: underline;">
                 <%=filterType[i]["type"]%></strong>
               not found <br>
