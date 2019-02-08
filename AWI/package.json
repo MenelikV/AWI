@@ -35,6 +35,7 @@
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
   },
   "main": "app.js",
+  "bin": "app.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/anonymous node/sails user/awi.git"
@@ -43,5 +44,10 @@
   "license": "",
   "engines": {
     "node": "^8.12"
+  },
+  "pkg": {
+    "bin": "app.js",
+    "scripts": "**[!cypress]/*.js",
+    "assets": ["assets/**/*", "views/**/*"]
   }
 }
