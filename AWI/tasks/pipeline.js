@@ -34,7 +34,10 @@
 var cssFilesToInject = [
 
   // Bring in `.css` files for themes and style guides (e.g. Bootstrap, Foundation)
-  'dependencies/**/*.css',
+  'dependencies/font-awesome/css/*.css',
+  'dependencies/dataTables.bootstrap4.min.css',
+  'dependencies/bootstrap-4/bootstrap-4.css',
+  'dependencies/bootstartp-select.css',
 
   // All of the rest of your custom `.css` files will be injected here,
   // in no particular order.  To customize the ordering, add additional
@@ -60,19 +63,26 @@ var cssFilesToInject = [
 // Client-side javascript files to inject as <script> tags, in order.
 //
 var jsFilesToInject = [
-
-  // Load `sails.io` before everything else.
-  'dependencies/sails.io.js',
-
+  // Load jquery first
+  'dependencies/jquery.min.js',
   // Bring in `.js` files for any other client-side JavaScript dependencies.
   // (e.g. Lodash, Vue.js, jQuery, Bootstrap, Ember, Angular, etc.)
   // > Be sure to list dependencies that depend on each other in the right order!
-  'dependencies/**/*.js',
+  'dependencies/jquery.dataTables.min.js',
+  'dependencies/dataTables.bootstrap4.min.js',
+  'dependencies/hammer.js',
+  'dependencies/Chart.bundle.min.js',
+  'dependencies/chartjs-plugin-annotation.min.js',
+  'dependencies/chartjs-plugin-zoom.js',
+  // Load `sails.io` before everything else.
+  'dependencies/sails.io.js',
+  'dependencies/bootstrap-4/bootstrap-4.bundle.js',
 
   // All of the rest of your custom client-side js files will be injected here,
   // in no particular order.  To customize the ordering, add additional items
   // here, _above_ this one.
-  'js/**/*.js'
+  'js/**/*.js',
+  'dependencies/bootstrap-select.js'
 ];
 
 
