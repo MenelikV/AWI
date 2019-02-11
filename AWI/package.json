@@ -47,7 +47,7 @@
   },
   "pkg": {
     "bin": "app.js",
-    "scripts": "**[!cypress]/*.js",
+    "scripts": "**/*.js",
     "assets": ["assets/**/*", "views/**/*"]
   }
 }

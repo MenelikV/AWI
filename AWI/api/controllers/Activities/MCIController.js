@@ -107,6 +107,20 @@ module.exports = {
       // FIXME Warning Problem with the session closing, raises a `socket hang up` error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()
+      // Save Filters
+      var filters = await Filter.find({
+        activity: 'MCI'
+      });
+      var filterType = []
+      filters.forEach(function (MCIfilter) {
+        if (MCIfilter["aircraft"] === aircraft && MCIfilter["test"] < test) {
+          var filterInfo = {};
+          filterInfo["type"] = MCIfilter["type"];
+          filterInfo["parameter"] = MCIfilter["parameter"];
+          filterInfo["raiseError"] = true;
+          filterType.push(filterInfo)
+        } 
+      })
       var GMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if (err) {
@@ -135,6 +149,14 @@ module.exports = {
               } else {
                 console.log("Something wrong happened")
               }
+              if (filterType.length) {
+                filterType.forEach(function (filter) {
+                  if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                    items.pop();
+                    filter["raiseError"] = false;
+                  }
+                })
+              }
             })
             GMTcsv.push(items)
             return res.view("pages/Activities/MCI/flight-overview", {
@@ -146,6 +168,7 @@ module.exports = {
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,
               data: [flightData],
+              filterType: filterType,
             })
           }
         })

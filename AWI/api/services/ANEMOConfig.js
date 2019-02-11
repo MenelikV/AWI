@@ -1,5 +1,5 @@
 module.exports = {
-  "LOM": {
+  "DATA": {
     "LOM PAM": {
       "id": "LOM_PAM",
       "type": "string",
@@ -24,8 +24,6 @@ module.exports = {
       },
       refs: ["PS"]
     },
-  },
-  "CODE": {
     "IOPA": {
       "id": "IOPA",
       time: {
@@ -82,5 +80,5 @@ module.exports = {
       },
       refs: ["PS"]
     }
-  }
+  },
 }

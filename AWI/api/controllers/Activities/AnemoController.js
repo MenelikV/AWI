@@ -96,13 +96,25 @@ module.exports = {
       flightData.YEAR = ""
       summary.aircraft = flightData.AIRCRAFT
       summary.test = flightData.TEST
-      var parameters_values = await IDADataManager.FetchParameters(mr, ANEMOConfig.CODE)
-      var gen_values = await IDADataManager.FetchParameters(mr, ANEMOConfig.LOM)
+      var parameters_values = await IDADataManager.FetchParameters(mr, ANEMOConfig.DATA)
       Object.assign(summary, parameters_values)
-      Object.assign(summary, gen_values)
       // FIXME Warning Problem with the session closing, raises a `socket hang up` error
       //await IDADataManager.CloseMR(mr)
       //await IDADataManager.CloseSession()
+      // Save Filters
+      var filters = await Filter.find({
+        activity: 'ANEMO'
+      });
+      var filterType = []
+      filters.forEach(function (ANEMOfilter) {
+        if (ANEMOfilter["aircraft"] === aircraft && ANEMOfilter["test"] < test) {
+          var filterInfo = {};
+          filterInfo["type"] = ANEMOfilter["type"];
+          filterInfo["parameter"] = ANEMOfilter["parameter"];
+          filterInfo["raiseError"] = true;
+          filterType.push(filterInfo)
+        } 
+      })
       var GMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if (err) {
@@ -131,6 +143,14 @@ module.exports = {
               } else {
                 console.log("Something wrong happened")
               }
+              if (filterType.length) {
+                filterType.forEach(function (filter) {
+                  if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                    items.pop();
+                    filter["raiseError"] = false;
+                  }
+                })
+              }
             })
             GMTcsv.push(items)
             return res.view("pages/Activities/ANEMO/flight-overview", {
@@ -142,6 +162,7 @@ module.exports = {
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,
               data: [flightData],
+              filterType: filterType,
             })
           }
         })
