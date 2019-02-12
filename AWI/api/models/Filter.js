@@ -8,7 +8,7 @@
 module.exports = {
 
   attributes: {
-    
+
 
     activity: {
       type: 'string',
@@ -20,22 +20,21 @@ module.exports = {
       required: true
     },
 
-    type: {
+    test: {
       type: 'string',
       required: true
     },
-
-    test: {
-        type: 'string',
-        required: true
-      },
     
     parameter: {
       type: 'string',
       required: true
+    },
+
+    type: {
+      type: 'string',
+      required: true
     }
 
-    
   },
 
 };

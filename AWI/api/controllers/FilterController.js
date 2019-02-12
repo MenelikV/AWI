@@ -63,18 +63,21 @@ module.exports = {
         type: type,
         parameter: parameter
       });
-      res.status(200)
-      return res.send()
+      return res.status(200).send()
     } else return res.serverError("Duplicate filter!")
   },
 
 
   deleteFilter: async function (req, res) {
     var id = req.param("id");
-    await Filter.destroy({
-      id: id
-    })
-    res.status(200)
-    return res.send()
+    try {
+      await Filter.destroy({
+        id: id
+      })
+      return res.status(200).send()
+    } catch (err) {
+      return res.serverError("Problem deleting the filter",err)
+    }
+
   }
 }
