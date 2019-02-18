@@ -71,13 +71,13 @@ module.exports = {
   getFlightOverview: async function (req, res) {
 
     var AutovalCSVDirectory = await sails.helpers.getSettings('MCI', 'AutoValCSVDirectory');
-    var search = AutovalCSVDirectory + req.param("id") + '*.csv'
+    var search = req.param("id") + '*.csv'
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search)
+    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
     var flightData = {}
     if (resLength === 1) {
-      var activityfilePath = activityFiles[0]
+      var activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
       var discipline = await sails.helpers.getSettings('MCI', 'discipline')
       var _id = path.parse(activityfilePath).name
       var mr = discipline + _id

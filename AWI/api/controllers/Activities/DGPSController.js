@@ -86,12 +86,12 @@ module.exports = {
     var PVOLfilePath = await sails.helpers.getSettings('DGPS', 'PVOLCSVDirectory') + PVOLfileName;
     var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
     var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "SummaryINFODirectory")
-    var search = AutovalCSVDirectory + name + '*.csv'
+    var search = name + '*.csv'
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search)
+    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
     if (resLength === 1) {
-      activityfilePath = activityFiles[0]
+      activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
       var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
       var mr = discipline + path.parse(activityfilePath).name
     } else {
@@ -99,12 +99,12 @@ module.exports = {
     }
     var fs = require('fs');
     var glob = require("glob-fs")()
-    var info_search = InfoCSVDirectory + req.param("id") + "*.csv"
-    var infoFiles = glob.readdirSync(info_search)
+    var info_search = req.param("id") + "*.csv"
+    var infoFiles = glob.readdirSync(info_search, {cwd: InfoCSVDirectory})
     var startvol,
       endvol;
     if (infoFiles.length === 1) {
-      summary = sails.helpers.dgpsParser(infoFiles[0])
+      summary = sails.helpers.dgpsParser(path.join(AutovalCSVDirectory, infoFiles[0]))
       summary.test = test
       summary.aircraft = aircraft
       var summary_internal_format = "DDD-HH:mm:ss"
