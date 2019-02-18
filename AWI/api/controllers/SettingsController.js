@@ -10,7 +10,14 @@ module.exports = {
     var activityName = req.body["activityName"]
     var setting = req.body["setting"]
     var directory = req.body["directory"]
-    !directory.endsWith("/") ? directory += "/" : "";
+    var slash = directory.match(/\//gm).length > 0
+    if(slash){
+      var trailling = "/"
+    }
+    else{
+      var trailling = "\\"
+    }
+    !directory.endsWith(trailling) ? directory += trailling : "";
 
     switch (setting) {
       case 'AutoValCSVDirectory':
