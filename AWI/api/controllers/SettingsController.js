@@ -38,6 +38,20 @@ module.exports = {
           return res.status(500).send()
         })
         break
+      
+      case 'SummaryINFODirectory':
+      sails.helpers.checkDirectory(directory).then(async function () {
+        await ActivityModel.update({
+          activityName: activityName
+        }).set({
+          SummaryINFODirectory: directory
+        })
+        return res.status(200).send()
+      }).catch(function () {
+        return res.status(500).send()
+      })
+        break
+
 
       case 'discipline':
         await ActivityModel.update({
