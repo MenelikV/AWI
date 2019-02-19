@@ -185,7 +185,8 @@ module.exports = {
           })
         }
       })
-
+      GMTpvol = sails.helpers.phasePatcher(GMTpvol)
+      flightData = sails.helpers.phasePatcher(flightData)
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if (err) {
           res.serverError('could not retrieve activity data')
