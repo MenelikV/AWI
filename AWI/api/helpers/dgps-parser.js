@@ -22,16 +22,17 @@ module.exports = {
             var field = matches[0].slice(1)
             var values = line.replace(to_replace, "").trim(/\s/gm)
             var values_parts = values.split(/\s+/)
-            switch(values_parts.length){
-                case 2:
-                    res[field] = values_parts
-                    break;
-                case 1:
+            if(values_parts.length > 1){
+                res[field] = values_parts
+            }
+            else{
+                if(values_parts.length === 1){
                     res[field] = values
-                    break;
-                default:
-                    console.debug(`${field} was not parsed correctly`)
                 }
+                else{
+                    console.log(`${field} was not parsed correctly`)
+                }
+            }
             }
         }
 

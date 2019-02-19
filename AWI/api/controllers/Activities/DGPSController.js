@@ -54,7 +54,7 @@ module.exports = {
         }
       });
       if(_error.length){
-        return res.serverError("Problem occured while reading the files")
+        //return res.serverError("Problem occured while reading the files")
       }
       aircraftHeaders = Object.keys(flights[0])
       return res.view("pages/Activities/DGPS/flights", {
@@ -92,8 +92,6 @@ module.exports = {
     var resLength = activityFiles.length
     if (resLength === 1) {
       activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
-      var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
-      var mr = discipline + path.parse(activityfilePath).name
     } else {
       return res.serverError('Problem while searching the folder')
     }
@@ -113,13 +111,15 @@ module.exports = {
       ]
       startvol = times[0].format(internal_format)
       endvol = times[1].format(internal_format)
+      var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
+      var mr = discipline + path.parse(activityfilePath).name
     } else {
       console.debug(`No info found for ${info}`)
       startvol = undefined
       endvol = undefined
     }
     try {
-      if (startvol === undefined || endvol === undefined) {
+      if ((startvol === undefined || endvol === undefined) && (infoFiles.length === 1)) {
         await IDADataManager.OpenSessionSecured()
         await IDADataManager.OpenMR(mr)
         var times = await IDADataManager.GetMRTimes(mr)
