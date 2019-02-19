@@ -104,7 +104,7 @@ module.exports = {
     var startvol,
       endvol;
     if (infoFiles.length === 1) {
-      summary = sails.helpers.dgpsParser(path.join(AutovalCSVDirectory, infoFiles[0]))
+      summary = sails.helpers.dgpsParser(path.join(InfoCSVDirectory, infoFiles[0]))
       summary.test = test
       summary.aircraft = aircraft
       var summary_internal_format = "DDD-HH:mm:ss"
