@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  $('#aircrafts-dgps').DataTable();
+  $('#aircrafts-dgps').DataTable({
+    "order":[[0, "desc"]]
+  });
   $('.dataTables_length').addClass('bs-select');
 
   $("#aircrafts-dgps tbody tr").on("click", function (event) {

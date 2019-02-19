@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  $('#aircrafts-anemo').DataTable();
+  $('#aircrafts-anemo').DataTable({
+    "order":[[0, "desc"]]
+  });
   $('.dataTables_length').addClass('bs-select');
 
   $("#aircrafts-anemo tbody tr").on("click", function (event) {
