@@ -112,7 +112,7 @@ module.exports = {
       startvol = times[0].format(internal_format)
       endvol = times[1].format(internal_format)
       var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
-      var mr = discipline + path.parse(activityfilePath).name
+      var mr = discipline + path.parse(path.join(InfoCSVDirectory, infoFiles[0])).name
     } else {
       console.debug(`No info found for ${info}`)
       startvol = undefined
