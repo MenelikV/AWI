@@ -18,7 +18,8 @@ $(document).ready(function () {
     "lengthMenu": [
       [5, 10, 25, -1],
       [5, 10, 25, "All"]
-    ]
+    ],
+    "order": [[3, "asc"]]
   })
   $("table[id^='full_subtable_']").DataTable({
     paging: true,
@@ -27,7 +28,8 @@ $(document).ready(function () {
     "lengthMenu": [
       [5, 10, 25, -1],
       [5, 10, 25, "All"]
-    ]
+    ],
+    "order": [[3, "asc"]]
   })
   $('button[data-id="see_par"]').each(function () {
     $(this).on('click', function (evt) {
