@@ -14,19 +14,19 @@ module.exports = {
     var fs = require('fs');
     var path = require('path')
     var glob = require("glob-fs")()
+    var root = await sails.helpers.getSettings(activity, 'AutoValCSVDirectory')
     for (let x = 0; x < entries; x++) {
       testnum -= 1;
-      search = await sails.helpers.getSettings(activity, 'AutoValCSVDirectory') + "\\" + aircraft + '*' + testnum + '*.csv';
-      files = glob.readdirSync(search)
+      search = aircraft + '*' + testnum + '*.csv';
+      files = glob.readdirSync(search, {cwd: root})
     }
 
     if (files.length) {
       files.forEach(function (file) {
-        var folderpath = file;
         var Papa = require('papaparse');
         var cont = 0;
         var index = 0;
-        var content = fs.readFileSync(folderpath, "utf8");
+        var content = fs.readFileSync(path.join(root, file), "utf8");
         var name = path.parse(file).name
         //parsing file content
         Papa.parse(content, {

@@ -52,6 +52,32 @@ $(document).ready(function () {
     $('#change_pvol').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
 
+  $('#change_info').on('click', function () {
+    var dir = $("#info_dir").val();
+    var activityName = $("#change_info").attr('name')
+    var setting = $("#info_dir").attr('name')
+    var url = '/Settings/changeSettings'
+    data = {
+      activityName: activityName,
+      setting: setting,
+      directory: dir
+    }
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: data,
+      success: function success() {
+        $('#change_info').removeClass("btn-primary").addClass("btn-success").html("Changes Saved")
+      },
+      error: function error() {
+        $('#change_info').removeClass("btn-primary").addClass("btn-danger").html("Invalid Directory")
+      }
+    })
+  })
+  $("#pvol_dir").on('click', function () {
+    $('#change_pvol').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
+  })
+
   $('#change_discipline').on('click', function () {
     var dir = $("#discipline_dir").val();
     var activityName = $("#change_discipline").attr('name')

@@ -54,7 +54,7 @@ module.exports = {
         }
       });
       if(_error.length){
-        return res.serverError("Problem occured while reading the files")
+        //return res.serverError("Problem occured while reading the files")
       }
       aircraftHeaders = Object.keys(flights[0])
       return res.view("pages/Activities/DGPS/flights", {
@@ -86,25 +86,23 @@ module.exports = {
     var PVOLfilePath = await sails.helpers.getSettings('DGPS', 'PVOLCSVDirectory') + PVOLfileName;
     var AutovalCSVDirectory = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
     var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "SummaryINFODirectory")
-    var search = AutovalCSVDirectory + name + '*.csv'
+    var search = name + '*.csv'
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search)
+    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
     if (resLength === 1) {
-      activityfilePath = activityFiles[0]
-      var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
-      var mr = discipline + path.parse(activityfilePath).name
+      activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
     } else {
       return res.serverError('Problem while searching the folder')
     }
     var fs = require('fs');
     var glob = require("glob-fs")()
-    var info_search = InfoCSVDirectory + req.param("id") + "*.csv"
-    var infoFiles = glob.readdirSync(info_search)
+    var info_search = req.param("id") + "*.csv"
+    var infoFiles = glob.readdirSync(info_search, {cwd: InfoCSVDirectory})
     var startvol,
       endvol;
     if (infoFiles.length === 1) {
-      summary = sails.helpers.dgpsParser(infoFiles[0])
+      summary = sails.helpers.dgpsParser(path.join(InfoCSVDirectory, infoFiles[0]))
       summary.test = test
       summary.aircraft = aircraft
       var summary_internal_format = "DDD-HH:mm:ss"
@@ -113,13 +111,15 @@ module.exports = {
       ]
       startvol = times[0].format(internal_format)
       endvol = times[1].format(internal_format)
+      var discipline = await sails.helpers.getSettings('DGPS', 'discipline')
+      var mr = discipline + path.parse(path.join(InfoCSVDirectory, infoFiles[0])).name
     } else {
       console.debug(`No info found for ${info}`)
       startvol = undefined
       endvol = undefined
     }
     try {
-      if (startvol === undefined || endvol === undefined) {
+      if ((startvol === undefined || endvol === undefined) && (infoFiles.length === 1)) {
         await IDADataManager.OpenSessionSecured()
         await IDADataManager.OpenMR(mr)
         var times = await IDADataManager.GetMRTimes(mr)
@@ -185,7 +185,8 @@ module.exports = {
           })
         }
       })
-
+      GMTpvol = sails.helpers.phasePatcher(GMTpvol)
+      flightData = sails.helpers.phasePatcher(flightData)
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if (err) {
           res.serverError('could not retrieve activity data')

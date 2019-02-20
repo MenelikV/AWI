@@ -11,62 +11,42 @@ $(document).ready(function () {
     }
   }
   //toggleHandler()
-  $("table[id^='subtable_']").DataTable({
+  $("table[id*='subtable_']").DataTable({
     paging: true,
     "autoWidth": false,
     "pageLength": 5,
     "lengthMenu": [
       [5, 10, 25, -1],
       [5, 10, 25, "All"]
-    ]
+    ],
+    "order": [[3, "asc"]]
   })
-  $("table[id^='full_subtable_']").DataTable({
-    paging: true,
-    "autoWidth": false,
-    "pageLength": 5,
-    "lengthMenu": [
-      [5, 10, 25, -1],
-      [5, 10, 25, "All"]
-    ]
+  $("table[id*='subtable_']").on("click", 'button[data-id="see_par"]', function(){
+    var row = $(this).parents('tr')[0]
+    var table = $(this).parents('table')[0]
+    // Show Modal (Clear context before showing anything)
+    var ctx = document.getElementById("canvas").getContext("2d")
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    $("#spinnerModal").modal("show")
+    var row_data = {}
+    // Ignore Last Columns (Actions)
+    for (var i = 0; i < row.cells.length - 1; i++) {
+      row_data[table.rows[0].cells[i].innerText] = row.cells[i].innerText
+    }
+    row_data["MR"] = ($(this).data("mr"))
+    $.ajax({
+      //datatype: "json",
+      url: "/Activities/flightOverview/plot",
+      data: {
+        row: row_data
+      },
+      type: "GET",
+      success: createPlot,
+      error: function () {
+        $("#spinnerModal").modal("hide")
+        alert("Fetching Data Failed")
+      }})
   })
-  $('button[data-id="see_par"]').each(function () {
-    $(this).on('click', function (evt) {
-      var row = $(this).parents('tr')[0]
-      var table = $(this).parents('table')[0]
-      // TODO Create labels from row via ajx call
-      // Show Modal (Clear context before showing anything)
-      var ctx = document.getElementById("canvas").getContext("2d")
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      $("#spinnerModal").modal("show")
-      var row_data = {}
-      // Ignore Last Columns (Actions)
-      for (var i = 0; i < row.cells.length - 1; i++) {
-        row_data[table.rows[0].cells[i].innerText] = row.cells[i].innerText
-      }
-      row_data["MR"] = ($(this).data("mr"))
-      $.ajax({
-        //datatype: "json",
-        url: "/Activities/flightOverview/plot",
-        data: {
-          row: row_data
-        },
-        type: "GET",
-        success: createPlot,
-        error: function () {
-          $("#spinnerModal").modal("hide")
-          alert("Fetching Data Failed")
-        }
-      })
-    })
-  })
-  var patch = function (list) {
-    return list.map(function (d) {
-      return {
-        x: new Date(d.x),
-        y: d.y
-      }
-    })
-  }
   var patch_annotations = function (list) {
     return list.map(function (d) {
       if (d.mode === "vertical") {
@@ -148,17 +128,15 @@ $(document).ready(function () {
     $("#plotModal").modal("handleUpdate")
   }
 
-  $('button[data-id="search_par"]').each(function () {
-    $(this).on('click', function (evt) {
-      var row = $(this).parents('tr')[0]
-      for (var i = 0; i < row.cells.length - 1; i++) {
-        row.cells[i].id == "AIRCRAFT" ? $("#modal_aircraft").val(row.cells[i].innerText) : "";
-        row.cells[i].id == "TEST" ? $("#modal_test").val(row.cells[i].innerText) : "";
-        row.cells[i].id == "PARAMETER" ? $("#modal_param").val(row.cells[i].innerText) : "";
-        row.cells[i].id == "TYPE" ? $("#modal_type").val(row.cells[i].innerText) : "";
-      }
-      $('#searchModalCenter').modal('show');
-    })
+  $("table[id*='subtable_']").on("click", 'button[data-id="search_par"]', function(){
+    var row = $(this).parents('tr')[0]
+    for (var i = 0; i < row.cells.length - 1; i++) {
+      row.cells[i].id == "AIRCRAFT" ? $("#modal_aircraft").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "TEST" ? $("#modal_test").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "PARAMETER" ? $("#modal_param").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "TYPE" ? $("#modal_type").val(row.cells[i].innerText) : "";
+    }
+    $('#searchModalCenter').modal('show');
   })
 
   $('#searchModalCenter').on('shown.bs.modal', function () {
@@ -173,9 +151,9 @@ $(document).ready(function () {
   $('#save').on('click', function () {
     $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
   })
-  $('button[data-id="filter_par"]').each(function () {
-    $(this).on('click', function (evt) {
-      var row = $(this).parents('tr')[0]
+  
+  $("table[id*='subtable_']").on("click", 'button[data-id="filter_par"]', function(){
+    var row = $(this).parents('tr')[0]
       for (var i = 0; i < row.cells.length - 1; i++) {
         row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
         row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
@@ -184,7 +162,7 @@ $(document).ready(function () {
       }
       $('#filterModalCenter').modal('show');
     })
-  })
+    
   $('#filter').on('click', function () {
     var callbackStyles = {
       display: 'block',

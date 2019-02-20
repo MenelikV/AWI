@@ -1,8 +1,10 @@
 $(document).ready(function () {
-  $('#aircrafts-anemo').DataTable();
+  $('#aircrafts-anemo').DataTable({
+    "order":[[0, "desc"]]
+  });
   $('.dataTables_length').addClass('bs-select');
 
-  $("#aircrafts-anemo tbody tr").on("click", function (event) {
+  $("#aircrafts-anemo tbody").on("click", "tr", function (event) {
     var currentRow = $(this).closest("tr");
     var info = currentRow.find("td").eq(3).text().replace(/\s/g, '');
     window.location.href = '/Activities/ANEMO/flightOverview/' + info;
