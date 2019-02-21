@@ -10,7 +10,7 @@ module.exports = {
     var activityName = req.body["activityName"]
     var setting = req.body["setting"]
     var directory = req.body["directory"]
-    var slash = directory.match(/\//gm).length > 0
+    var slash = _.get(directory.match(/\//gm),"length", 0) > 0
     if(slash){
       var trailling = "/"
     }
