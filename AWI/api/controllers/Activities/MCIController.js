@@ -88,6 +88,18 @@ module.exports = {
         var aircraft = matches[0]
         var test = matches[1]
       }
+      var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
+      if (TEST.length != 1) {
+        return res.serverError("Internal problem while finding the PVOL File name")
+      } else {
+        var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
+        if (matches.length === 2) {
+          var aircraft = matches[0]
+          var test = matches[1]
+        }
+        var info = TEST[0]
+      }
+      // ODOT
       console.log("Starting IDA Services")
       var summary = new MCISummary()
       await IDADataManager.OpenSessionSecured()
@@ -169,7 +181,7 @@ module.exports = {
               activity: "MCI",
               summary: summary,
               mr: mr,
-              name: 'NAME',
+              name: info,
               headers: ["START", "END", "PHASE"],
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,

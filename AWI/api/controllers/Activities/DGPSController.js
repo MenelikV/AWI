@@ -245,7 +245,7 @@ module.exports = {
                 phases: flightData,
                 full: [FullFlightData]
               },
-              name: PVOLfileName,
+              name: info,
               CSVerrors: {
                 phases: GMTcsv,
                 full: FullGMTcsv

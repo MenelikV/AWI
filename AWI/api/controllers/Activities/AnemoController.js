@@ -66,11 +66,24 @@ module.exports = {
 
     var AutovalCSVDirectory = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory')
     var search = req.param("id") + '*.csv'
+    // TODO Clean Redundant Code
     var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
     if (matches.length === 2) {
       var aircraft = matches[0]
       var test = matches[1]
     }
+    var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
+    if (TEST.length != 1) {
+      return res.serverError("Internal problem while finding the PVOL File name")
+    } else {
+      var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
+      if (matches.length === 2) {
+        var aircraft = matches[0]
+        var test = matches[1]
+      }
+      var info = TEST[0]
+    }
+    // ODOT
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
@@ -160,7 +173,7 @@ module.exports = {
               activity: "ANEMO",
               summary: summary,
               mr: mr,
-              name: 'NAME',
+              name: info,
               headers: ["START", "END", "PHASE"],
               CSVerrors: GMTcsv,
               CSVheaders: errorHeader,
