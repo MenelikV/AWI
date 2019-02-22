@@ -81,7 +81,13 @@ module.exports = {
       var discipline = await sails.helpers.getSettings('MCI', 'discipline')
       var _id = path.parse(activityfilePath).name
       var mr = discipline + _id
+      // TODO Clean redudant code
       var msn = _id.match(/[A-Z]\d{4,}/)[0]
+      var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
+      if (matches.length === 2) {
+        var aircraft = matches[0]
+        var test = matches[1]
+      }
       console.log("Starting IDA Services")
       var summary = new MCISummary()
       await IDADataManager.OpenSessionSecured()

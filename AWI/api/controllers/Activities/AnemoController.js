@@ -66,8 +66,11 @@ module.exports = {
 
     var AutovalCSVDirectory = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory')
     var search = req.param("id") + '*.csv'
-
-
+    var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
+    if (matches.length === 2) {
+      var aircraft = matches[0]
+      var test = matches[1]
+    }
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
