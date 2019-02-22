@@ -92,6 +92,9 @@ $(document).ready(function () {
           xAxes: [{
             type: "time",
             time: {
+              displayFormats: {
+                second: "HH:mm:ss"
+              },
               timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
               tooltipFormat: "HH:mm:ss.SSS"
             }
