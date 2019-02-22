@@ -80,8 +80,8 @@ module.exports = {
       },
       allowedMSN: ["SA", "LR", "DD"]
     },
-    MFR1:{
-      id: "MFR1",
+    MFRF1:{
+      id: "MFRF1",
       format: "0",
       time: {
         "minutes": 1
@@ -97,7 +97,7 @@ module.exports = {
       allowedMSN : ["DD"]
     },
     MFRF2: {
-      id: "MFRM2",
+      id: "MFRF2",
       format: "0",
       time: {
         "minutes": 1
@@ -112,8 +112,8 @@ module.exports = {
       },
       allowedMSN: ["SA", "LR", "DD"]
     },
-    MFRWD: {
-      id: "MFRWD",
+    MFRWG: {
+      id: "MFRWG",
       format: "0",
       time: {
         "minutes": 1
@@ -290,8 +290,8 @@ module.exports = {
       },
       allowedMSN : ["SA", "LR", "DD"]
     },
-    MFR1:{
-      id: "MFR1",
+    MFRF1:{
+      id: "MFRF1",
       format: "0",
       time: {
         "minutes":-1
@@ -307,7 +307,7 @@ module.exports = {
       allowedMSN: ["DD"]
     },
     MFRF2: {
-      id: "MFRM2",
+      id: "MFRF2",
       format: "0",
       time: {
         "minutes":-1
@@ -321,6 +321,22 @@ module.exports = {
         "minutes":-1
       },
       allowedMSN: ["SA", "LR", "DD"]
+    },
+    MFRID: {
+      id: "MFRID",
+      format: "0",
+      time: {
+        "minutes": -1
+      },
+      allowedMSN: ["SA", "LR", "DD"]
+    },
+    MFRWG: {
+      id: "MFRWG",
+      format: "0",
+      time: {
+        "minutes":-1
+      },
+      allowedMSN: ["XWB"]
     },
     MFRC: {
       id: "MFRC",
