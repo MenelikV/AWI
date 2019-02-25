@@ -16,5 +16,6 @@ var ANEMOSummary = function () {
     this.IOPT = ""
     this.CODE_AOA = ""
     this.CODE_BETA = ""
+    this.VERSION = ""
   }
   module.exports = ANEMOSummary;

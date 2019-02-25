@@ -24,6 +24,14 @@ module.exports = {
       },
       refs: ["PS"]
     },
+    "VERSION": {
+      "id": "VERSION",
+      "type": "string",
+      time: {
+        "minutes": -1
+      },
+      refs: ["PS"]
+    },
     "IOPA": {
       "id": "IOPA",
       time: {
