@@ -336,7 +336,7 @@ else{
   const conf_minus = Object.filter(config, d => d.time.minutes === -1)
   const conf_plus = Object.filter(config, d => d.time.minutes === 1)
   // This assumes the flight test lasts at least one hour
-  var later_start = startt.clone().add({hours: 1}).format(internal_format)
+  var later_start = startt.clone().add({hours: 2}).format(internal_format)
   var _s = endt.clone().add({minutes: -1}).format(internal_format)
   var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
   var id_minus = []
