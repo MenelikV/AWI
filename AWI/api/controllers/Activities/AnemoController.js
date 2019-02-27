@@ -29,6 +29,7 @@ module.exports = {
         try{
         var filePath = path.join(folderpath, file)
         var content = fs.readFileSync(filePath, "utf8");
+        var creationDate = moment(fs.statSync(filePath).birthtime).format("DD/MM/YYYY HH:mm")
         var name = path.parse(file).name
         //parsing file content
         Papa.parse(content, {
@@ -43,6 +44,7 @@ module.exports = {
             flightInfo["TEST"] = results.data[0]["TEST"]
             flightInfo["MR"] = name
             flightInfo["CRITICITY"] = ''
+            flightInfo["CREATION DATE"] = creationDate
             flights.push(flightInfo)
           }
         })}

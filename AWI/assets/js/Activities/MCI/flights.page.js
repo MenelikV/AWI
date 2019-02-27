@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $('#aircrafts-mci').DataTable({
-    "order":[[0, "desc"]]
+    "order":[[5, "asc"]]
   });
   $('.dataTables_length').addClass('bs-select');
 

@@ -31,6 +31,7 @@ module.exports = {
       files.forEach(function (file) {
         try{
         var filePath = path.join(folderpath, file)
+        var creationDate = moment(fs.statSync(filePath).birthtime).format("DD/MM/YYYY HH:mm")
         var content = fs.readFileSync(filePath, "utf8");
         var name = path.parse(file).name 
         //parsing file content
@@ -46,6 +47,7 @@ module.exports = {
             flightInfo["TEST"] = results.data[0]["TEST"]
             flightInfo["MR"] = name
             flightInfo["CRITICITY"] = ''
+            flightInfo["CREATION DATE"] = creationDate
             flights.push(flightInfo)
           }
         })}
