@@ -114,10 +114,14 @@ module.exports = {
       Object.assign(flightData, sails.helpers.extractInfo(_id))
       flightData.START = times[0].format(CSV_format)
       flightData.END = times[1].format(CSV_format)
+      var day_number = parseInt(times[0].format("DDD"))
+      flightData.DATE = new moment(new Date()).startOf("year").add({days: day_number}).format("DD/MM/YYYY")
+      console.log(flightData.DATE)
       flightData.PHASE = "FULL FLIGHT"
       flightData.YEAR = ""
       summary.aircraft = flightData.AIRCRAFT
       summary.test = flightData.TEST
+      summary.date = flightData.DATE
       var parameters_values = await IDADataManager.FetchParameters(mr, MCIConfig.Initialisation)
       summary.Initialisation = parameters_values
       var start_values = await IDADataManager.FetchParameters(mr, MCIConfig.S, msn)

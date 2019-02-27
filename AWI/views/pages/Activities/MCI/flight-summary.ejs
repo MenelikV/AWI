@@ -1,4 +1,4 @@
-<table class="table text-center table-sm" style="width:100%">
+<table class="table text-center table-sm" style="width:60%">
   <tr>
     <th style="width: 30%">
       Flight Overview
@@ -10,154 +10,67 @@
     <td>
       <%="Aircraft : "+summary.aircraft%>
     </td>
-    <td></td>
     <td>
       <%="Start GMT : "+summary.start_time%>
+    </td>
+    <td>
+      <%="DATE : "+summary.date%>
     </td>
   </tr>
   <tr>
     <td>
       <%="Test : "+summary.test%>
     </td>
-    <td></td>
     <td>
       <%="End GMT : "+summary.end_time%>
     </td>
+    <td>
+    </td>
+  </tr>
+  <% var init = summary.Initialisation %>
+  <% var keys = init!== undefined || init!==null ? Object.keys(init): [] %>
+  <tr style="border:none">
+    <td></td>
+    <td>
+      <table class="table table-bordered text-center table-sm" style="width:150%">
+        <th colspan="2" style="border:none">
+          Initialisation
+        </th>
+        <% for(var j=0; j < keys.length;j++){%>
+          <tr>
+            <td>
+              <%=keys[j]%>
+            </td>
+            <td>
+              <%=init[keys[j]]%>
+            </td>
+          </tr>
+          <%}%>
+      </table>
+    </td>
+    <td></td>
   </tr>
   <tr>
     <th></th>
     <th>
-      Initialisation
+      Start (GMT Start + 1 min)
+    </th>
+    <th>
+      End (GMT End - 1 min)
     </th>
   </tr>
-  <% var init = summary.Initialisation %>
-  <% console.log(init) %>
+  <% var keys = Object.keys(summary.S) || []%>
+  <% for(let k of keys){%>
   <tr>
     <td>
-      Weight
+      <%=k%>
     </td>
     <td>
-      <%=init.Weight%>
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-      CG
+      <%=summary.S[k]%>
     </td>
     <td>
-      <%=init.CG%>
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-      ZCG
-    </td>
-    <td>
-      <%=init.ZCG%>
+      <%=summary.E[k]%>
     </td>
   </tr>
-  <tr>
-
-    <td style="border: none">
-      <table class='table table-sm table-borderless'>
-    <td>
-      ZFW
-    </td>
-    <td>
-      <%=init.ZFW%>
-    </td>
-</table>
-</td>
-<td style="border: none">
-  <table class='table table-sm table-borderless'>
-<td>
-  ZFCG
-</td>
-<td>
-  <%=init.ZFCG%>
-</td>
-</table>
-</td>
-<td style="border: none">
-  <table class='table table-sm table-borderless'>
-<td>
-  MYZFW
-</td>
-<td>
-  <%=init.MYZFW%>
-</td>
-</table>
-</td>
-</tr>
-<tr>
-  <td style="border: none">
-    <table class='table table-sm table-borderless'>
-      <td>
-        ZZFW
-      </td>
-      <td>
-        <%=init.ZZFW%>
-      </td>
-    </table>
-  </td>
-  <td style="border: none">
-    <table class='table table-sm table-borderless'>
-      <td>
-        LP
-      </td>
-      <td>
-        <%=init.LP%>
-      </td>
-    </table>
-  </td>
-  <td style="border: none">
-    <table class='table table-sm table-borderless'>
-      <td>
-        ST_INIT
-      </td>
-      <td>
-        <%=init.ST_INIT%>
-      </td>
-    </table>
-  </td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td style="border: none">
-    <table class='table table-sm table-borderless'>
-      <td>
-        CREW
-      </td>
-      <td>
-        <%=init.CREW%>
-      </td>
-    </table>
-  </td>
-</tr>
-<tr>
-  <th></th>
-  <th>
-    Start (GMT Start + 1 min)
-  </th>
-  <th>
-    End (GMT End - 1 min)
-  </th>
-</tr>
-<% var keys = Object.keys(summary.S) || []%>
-<% for(let k of keys){%>
-<tr>
-  <td>
-    <%=k%>
-  </td>
-  <td>
-    <%=summary.S[k]%>
-  </td>
-  <td>
-    <%=summary.E[k]%>
-  </td>
-</tr>
-<%}%>
+  <%}%>
 </table>
