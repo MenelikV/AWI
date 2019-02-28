@@ -14,13 +14,6 @@ module.exports = {
         "minutes": -1
       },
     },
-    ZCG: {
-      id: "88U02370--",
-      format: "0.00",
-      time: {
-        "minutes": +1
-      },
-    },
     ZFW: {
       id: "88U02357--",
       format: "0",
@@ -42,13 +35,6 @@ module.exports = {
         "minutes": -1
       }
     },
-    ZZFW: {
-      id: "88U02392--",
-      format: "0.00",
-      time: {
-        "minutes": +1
-      }
-    },
     LP: {
       id: "88U02302--",
       format: "0",
@@ -56,15 +42,29 @@ module.exports = {
         "minutes": -1
       }
     },
-    ST_INIT: {
-      id: "88U02460--",
+    CREW: {
+      id: "88U02344--",
       format: "0",
       time: {
         "minutes": -1
       }
     },
-    CREW: {
-      id: "88U02344--",
+    ZCG: {
+      id: "88U02370--",
+      format: "0.00",
+      time: {
+        "minutes": +1
+      },
+    },
+    ZZFW: {
+      id: "88U02392--",
+      format: "0.00",
+      time: {
+        "minutes": +1
+      }
+    },
+    ST_INIT: {
+      id: "88U02460--",
       format: "0",
       time: {
         "minutes": -1
