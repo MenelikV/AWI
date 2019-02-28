@@ -3,26 +3,26 @@
     <td>
       <%="Aircraft : "+summary.aircraft%>
     </td>
-    <td></td>
     <td>
       <%="Start GMT : "+summary.GMT_Deb%>
     </td>
+    <td></td>
   </tr>
   <tr>
     <td>
       <%="Test : "+summary.test%>
     </td>
-    <td></td>
     <td>
       <%="End GMT : "+summary.GMT_Fin%>
     </td>
+    <td></td>
   </tr>
   <tr>
-    <td>
-      Used Station(s):
-    </td>
-    <td></td>
-    <td></td>
+    <th>
+      Used Station(s)
+    </th>
+    <th></th>
+    <th></th>
   </tr>
   <% for(var i=0; i<summary.Station_Used.length;i++){%>
   <tr>
@@ -33,12 +33,21 @@
     <td></td>
   </tr>
   <%}%>
+  <%  var root = "OPT_" %>
+  <% var keys = Object.keys(summary).filter(k => k.startsWith(root)) %>
+  <% console.log(keys) %>
   <tr>
-    <td>
-      Used Runway(s):
-    </td>
-    <td></td>
-    <td></td>
+    <th>
+      Used Runway(s)
+    </th>
+    <th>
+      Profil
+    </th>
+    <% for(var i=0;i<keys.length;i++){%>
+      <th>
+        <%=keys[i].replace(root, "")%>
+      </th>
+      <%}%>
   </tr>
   <% for(var i=0;i<summary.Runways_used.length;i++){%>
   <tr>
@@ -46,29 +55,13 @@
       <%=summary.Runways_used[i]%>
     </td>
     <td>
-      PROFIL : <%=summary.Profils[i]%>
+      <%=summary.Profils[i]%>
     </td>
-    <td></td>
+    <% for(var j=0;j<keys.length;j++){%>
+      <td>
+        <%=summary[keys[j]][i]%>
+      </td>
+    <%}%>
   </tr>
   <%}%>
-  <tr>
-      <td>
-        OPT GENE_TRAJ :
-      </td>
-      <td></td>
-      <td></td>
-    </tr>
-    <% var root = "OPT_" %>
-    <% keys = Object.keys(summary).filter(k => k.startsWith(root)) %>
-    <% for(var i=0; i<keys.length;i++){%>
-        <tr>
-          <td>
-            <%=keys[i].replace(root, "") %>
-          </td>
-          <td>
-              <%=summary[keys[i]].join(" / ")%>
-          </td>
-          <td></td>
-        </tr>
-      <%}%>
 </table>
