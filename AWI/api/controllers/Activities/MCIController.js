@@ -107,10 +107,9 @@ module.exports = {
       await IDADataManager.OpenSessionSecured()
       await IDADataManager.OpenMR(mr)
       var times = await IDADataManager.GetMRTimes(mr)
-      const internal_format = "HH:mm:ss"
-      summary.start_time = times[0].format(internal_format)
-      summary.end_time = times[1].format(internal_format)
       const CSV_format = "DDD-HH:mm:ss"
+      summary.start_time = times[0].format(CSV_format)
+      summary.end_time = times[1].format(CSV_format)
       Object.assign(flightData, sails.helpers.extractInfo(_id))
       flightData.START = times[0].format(CSV_format)
       flightData.END = times[1].format(CSV_format)
