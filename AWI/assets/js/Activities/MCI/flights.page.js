@@ -1,6 +1,9 @@
 $(document).ready(function () {
+
+  $.fn.dataTable.moment("DD/MM/YYYY HH:mm");
+  
   $('#aircrafts-mci').DataTable({
-    "order":[[5, "asc"]]
+    "order":[[5, "desc"]]
   });
   $('.dataTables_length').addClass('bs-select');
 

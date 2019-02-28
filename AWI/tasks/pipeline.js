@@ -82,7 +82,9 @@ var jsFilesToInject = [
   // in no particular order.  To customize the ordering, add additional items
   // here, _above_ this one.
   'js/**/*.js',
-  'dependencies/bootstrap-select.js'
+  'dependencies/bootstrap-select.js',
+  'dependencies/moment.js',
+  'dependencies/datetime-moment.js',
 ];
 
 
