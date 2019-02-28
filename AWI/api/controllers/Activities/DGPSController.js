@@ -214,6 +214,14 @@ module.exports = {
                   Fullitems.push(item)
                 }
               }
+              if (filterType.length) {
+                filterType.forEach(function (filter) {
+                  if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                    Fullitems.pop();
+                    filter["raiseError"] = false;
+                  }
+                })
+              }
             })
             GMTpvol.forEach(function (period) {
               var items = [];
