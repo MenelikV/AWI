@@ -20,7 +20,8 @@ module.exports = {
       search = aircraft + '*' + testnum + '*.csv';
       files = glob.readdirSync(search, {cwd: root})
     }
-
+    // Filter duplicate files
+    files = [... new Set(files)]
     if (files.length) {
       files.forEach(function (file) {
         var Papa = require('papaparse');
