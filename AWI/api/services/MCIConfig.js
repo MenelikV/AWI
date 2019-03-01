@@ -49,7 +49,7 @@ module.exports = {
         "minutes": -1
       }
     },
-    ZCG: {
+    ZGWCG: {
       id: "88U02370--",
       format: "0.00",
       time: {
