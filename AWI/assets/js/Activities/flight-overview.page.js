@@ -15,26 +15,27 @@ $(document).ready(function () {
     initComplete: function () {
       this.api().columns().every( function () {
           var column = this;
-          var select = $('<select class="selctpicker" multiple><option value=""></option></select>');
+          var select = $('<select class="selctpicker" multiple></select>');
           select.appendTo( $(column.footer()).empty() )
-                .on( 'change', function () {
+                .on( 'change.bs.select', function () {
+                  var criteria = $(this).val().map(function(d){return d ? '^'+d+'$': ''}).join("|")
                   var val = $.fn.dataTable.util.escapeRegex(
-                      $(this).val()
+                      criteria
                   );
 
                   column
-                      .search( val ? '^'+val+'$' : '', true, false )
+                      .search( criteria, true, false )
                       .draw();
               } );
           column.data().unique().sort().each( function ( d, j ) {
-              select.append('<option value='+d+'>'+d+'</button>')
+              select.append('<option value='+d+'>'+d+'</option>')
           } );
           select.selectpicker({
-            size: 10,
-            style: "width: 50",
-            title: "Filter :p",
-            width: 20
+            style: 'btn btn-lg filter rounded-0 border-left-0 border-right-0 border-top-0',
+            title: "Filter",
+            width: 100
           });
+          select.selectpicker('setSize');
       } );
     },
     paging: true,
