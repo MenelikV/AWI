@@ -330,6 +330,10 @@ a:active {
   background-color: transparent;
   box-shadow:none;
 }
+/* ==== Prevent in datetimepicker */
+
+.bootstrap-datetimepicker-widget.dropdown-menu { width: 16rem; }
+
 /* ===== Select Box ===== */
 .sel {
   font-size: .8rem;
