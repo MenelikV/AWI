@@ -290,6 +290,10 @@ a:active {
   background-color: #1D809F !important;
 }
 
+.btn-outline-primary {
+  color: #1D809F !important;
+  border-color: #1D809F ! important;
+}
 
 .dropdown .dropdown-menu {
   -webkit-transition: all 0.3s;

@@ -34,7 +34,24 @@
     <td>
       <table class="table table-bordered text-center table-sm" style="width:150%">
         <th colspan="2" style="border:none">
-          Initialisation
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                          <!-- TODO get the default date-->
+                            <div class="input-group date" id="timepicker" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Initilisation</i></div>
+                                </div>
+                                <input type="text" class="form-control datetimepicker-input" data-target="#timepicker"/>
+                                <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </th>
         <% for(var j=0; j < keys.length;j++){%>
           <tr>
@@ -52,23 +69,62 @@
   </tr>
   <tr>
     <th></th>
+  <th>
+    Start
+  </th>
     <th>
-      Start (GMT Start + 1 min)
+      End 
     </th>
-    <th>
-      End (GMT End - 1 min)
-    </th>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="2">
+      <form id="gmt_form">
+        <div class="form-group row align-items-center">
+          <div class="col-auto">
+            <div class="input-group col-mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Start GMT</div>
+              </div>
+              <input type="text" class="form-control" id="start_gmt" value=1>
+              <div class="input-group-append">
+                  <div class="input-group-text">min</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <button type="button" id="change_start_gmt" class="btn btn-primary col-mb-2"><span class="fa fa-sm fa-arrow-right"></span></button>
+          </div>
+        </div>
+        <div class="form-group row align-items-center">
+            <div class="col-auto">
+              <div class="input-group col-mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">End GMT</div>
+                </div>
+                <input type="text" class="form-control" id="end_gmt" value=1>
+                <div class="input-group-append">
+                    <div class="input-group-text">min</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <button type="button" id="change_end_gmt" class="btn btn-primary col-mb-2"><span class="fa fa-sm fa-arrow-right"></span></button>
+            </div>
+          </div>
+      </form>
+    </td>
   </tr>
   <% var keys = Object.keys(summary.S) || []%>
   <% for(let k of keys){%>
-  <tr>
-    <td>
+  <tr data-id="<%=k%>">
+    <td data-id="start">
       <%=k%>
     </td>
     <td>
       <%=summary.S[k]%>
     </td>
-    <td>
+    <td data-id="end">
       <%=summary.E[k]%>
     </td>
   </tr>

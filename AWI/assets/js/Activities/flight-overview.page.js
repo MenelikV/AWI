@@ -10,6 +10,43 @@ $(document).ready(function () {
       $("#full").show()
     }
   }
+  var config = {
+    min: 0,
+    step: 1,
+    verticalbuttons: true
+  }
+  $("#start_gmt").TouchSpin(config)
+  $("#end_gmt").TouchSpin(config)
+  var timepicker = $("#timepicker")
+  var start_date = timepicker.data("start")
+  var end_date = timepicker.data("end")
+  $("#timepicker").datetimepicker({
+    format: "HH:mm:ss",
+    minDate: start_date,
+    maxDate: end_date,
+  })
+  $("#change_start_gmt").click(function(){
+    var delta,
+    url = "";
+    $.ajax({
+      method: "POST",
+      url: url,
+      data: {
+        type: "start",
+        delta: delta
+      },
+      error: function(){
+        alert("Updating Start GMT Failed")
+      },
+      success: function(new_data){
+        console.table(new_data)
+        $('[data-id="start"]').each(function(i, d){
+          var p = d.closest(tr).data("par")
+          d.contents().last()[0].textContent = new_data[p]
+        })
+      }
+    })
+  })
   //toggleHandler()
   $("table[id*='subtable_']").DataTable({
     initComplete: function () {
@@ -24,14 +61,16 @@ $(document).ready(function () {
                   );
 
                   column
-                      .search( criteria, true, false )
+                      .search( val, true, false )
                       .draw();
               } );
           column.data().unique().sort().each( function ( d, j ) {
               select.append('<option value='+d+'>'+d+'</option>')
           } );
           select.selectpicker({
-            style: 'btn btn-lg filter rounded-0 border-left-0 border-right-0 border-top-0',
+            style: 'btn btn-sm filter rounded-0 border-left-0 border-right-0 border-top-0',
+            liveSearch: true,
+            liveSearchPlaceholder: "Search for filters",
             title: "Filter",
             width: 100
           });
