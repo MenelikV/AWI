@@ -15,13 +15,13 @@ describe("Settings change should not break the app", function(){
     it("Change to Dummy CSV Folder", function(){
         var unusable_folder = "C:\\Users\\mvero-ext\\Documents\\"
         cy.get('#csv_dir').clear().type(unusable_folder)
-        cy.get('#change_csv').click().should("have.text", "Changes Saved")
+        cy.get('#change_csv').click().should("have.text", "Invalid Directory")
         cy.visit("http://localhost:1337/Activities/DGPS/flights")
     })
     it("Change to Dummy CSV Folder 2", function(){
         var unusable_folder = "TOTO"
         cy.get('#csv_dir').clear().type(unusable_folder)
-        cy.get('#change_csv').click().should("have.text", "Changes Saved")
+        cy.get('#change_csv').click().should("have.text", "Invalid Directory")
         cy.visit("http://localhost:1337/Activities/DGPS/flights")
     })
     it("Change Discipline", function(){
