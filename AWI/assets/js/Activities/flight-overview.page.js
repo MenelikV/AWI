@@ -42,7 +42,8 @@ $(document).ready(function () {
         console.table(new_data)
         $('[data-id="start"]').each(function(i, d){
           var p = d.closest(tr).data("par")
-          d.contents().last()[0].textContent = new_data[p]
+          // Change content
+          d.text(p)
         })
       }
     })
