@@ -74,8 +74,8 @@ $(document).ready(function () {
       }
     })
   })
-  $("#pvol_dir").on('click', function () {
-    $('#change_pvol').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
+  $("#info_dir").on('click', function () {
+    $('#change_info').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
 
   $('#change_discipline').on('click', function () {
