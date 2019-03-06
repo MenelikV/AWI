@@ -1,10 +1,10 @@
 <table class="table text-center table-sm" style="width:60%">
   <tr>
-    <th style="width: 30%">
+    <th style="width: 20%">
       Flight Overview
     </th>
     <th style="width: 30%"></th>
-    <th style="width: 40%"></th>
+    <th style="width: 30%"></th>
   </tr>
   <tr>
     <td>
@@ -34,7 +34,23 @@
     <td>
       <table class="table table-bordered text-center table-sm" style="width:150%">
         <th colspan="2" style="border:none">
-          Initialisation
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group date" id="timepicker_init" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="<%=summary.default_init_time%>">
+                                <div class="input-group-prepend" data-target="#timepicker_init" data-toggle="datetimepicker">
+                                    <div class="input-group-text">Initilisation<i class="fa fa-clock-o" style="margin-left: 1em"></i></div>
+                                </div>
+                                <input type="text" id="init_gmt" data-mr="<%=mr%>" class="form-control datetimepicker-input" data-target="#timepicker_init"/>
+                                <div class="input-group-append">
+                                  <button type="button" id="change_init_gmt" class="btn btn-primary"><i class="fa fa-arrow-right" style="cursor: pointer"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </th>
         <% for(var j=0; j < keys.length;j++){%>
           <tr>
@@ -52,23 +68,55 @@
   </tr>
   <tr>
     <th></th>
+  <th>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="input-group date" id="timepicker_start" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="<%=summary.default_start_time%>">
+                        <div class="input-group-prepend" data-target="#timepicker_start" data-toggle="datetimepicker">
+                            <div class="input-group-text">Start GMT<i class="fa fa-clock-o" style="margin-left: 1em"></i></div>
+                        </div>
+                        <input type="text" id="start_gmt" data-mr="<%=mr%>" class="form-control datetimepicker-input" data-target="#timepicker_start"/>
+                        <div class="input-group-append">
+                          <button type="button" id="change_start_gmt" class="btn btn-primary"><i class="fa fa-arrow-right" style="cursor: pointer"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </th>
     <th>
-      Start (GMT Start + 1 min)
-    </th>
-    <th>
-      End (GMT End - 1 min)
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                      <div class="input-group date" id="timepicker_end" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="<%=summary.default_end_time%>">
+                          <div class="input-group-prepend" data-target="#timepicker_end" data-toggle="datetimepicker">
+                              <div class="input-group-text">End GMT<i class="fa fa-clock-o" style="margin-left: 1em"></i></div>
+                          </div>
+                          <input type="text" id="end_gmt" data-mr="<%=mr%>" class="form-control datetimepicker-input" data-target="#timepicker_end"/>
+                          <div class="input-group-append">
+                            <button type="button" id="change_end_gmt" class="btn btn-primary"><i class="fa fa-arrow-right" style="cursor: pointer"></i></button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </th>
   </tr>
   <% var keys = Object.keys(summary.S) || []%>
   <% for(let k of keys){%>
-  <tr>
-    <td>
+  <tr data-id="<%=k%>">
+    <td data-id="start">
       <%=k%>
     </td>
     <td>
       <%=summary.S[k]%>
     </td>
-    <td>
+    <td data-id="end">
       <%=summary.E[k]%>
     </td>
   </tr>

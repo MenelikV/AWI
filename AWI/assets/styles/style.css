@@ -290,6 +290,10 @@ a:active {
   background-color: #1D809F !important;
 }
 
+.btn-outline-primary {
+  color: #1D809F !important;
+  border-color: #1D809F ! important;
+}
 
 .dropdown .dropdown-menu {
   -webkit-transition: all 0.3s;
@@ -300,7 +304,7 @@ a:active {
 
   max-height: 0;
   display: block;
-  overflow: hidden;
+  overflow: auto;
   opacity: 0;
 }
 
@@ -315,6 +319,20 @@ a:active {
   background-color: white;
   cursor: pointer;
 }
+
+.filter {
+  border-width: 5px !important;
+  background-color: transparent;
+  box-shadow: none;
+  border-color: #1D809F!important
+}
+.filter:hover{
+  background-color: transparent;
+  box-shadow:none;
+}
+/* ==== Prevent in datetimepicker */
+
+.bootstrap-datetimepicker-widget.dropdown-menu { width: 16rem; }
 
 /* ===== Select Box ===== */
 .sel {

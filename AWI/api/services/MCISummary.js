@@ -5,6 +5,9 @@ var MCISummary = function () {
   }
   this.start_time = ""
   this.end_time = ""
+  this.default_init_time = ""
+  this.default_start_time = ""
+  this.default_end_time = ""
   this.flight = ""
   this.test = ""
   this.S = []

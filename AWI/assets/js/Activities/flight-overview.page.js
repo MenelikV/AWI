@@ -22,6 +22,36 @@ $(document).ready(function () {
   }
   //toggleHandler()
   $("table[id*='subtable_']").DataTable({
+    initComplete: function () {
+      var colCount = this.api().columns().header().length;
+      this.api().columns().every(function () {
+        var column = this;
+        var select = $('<select class="selctpicker" multiple></select>');
+        if (column.index() === colCount) {
+          return
+        }
+        select.appendTo($("#filter_row").find("th").eq(column.index()).empty())
+          .on('change.bs.select', function () {
+            var criteria = $(this).val().map(function (d) {
+              return d ? '^' + d + '$' : ''
+            }).join("|")
+            column
+              .search(criteria, true, false)
+              .draw();
+          });
+        column.data().unique().sort().each(function (d, j) {
+          select.append('<option value=' + d + '>' + d + '</option>')
+        });
+        select.selectpicker({
+          style: 'btn btn-sm filter rounded-0 border-left-0 border-right-0 border-top-0',
+          liveSearch: true,
+          liveSearchPlaceholder: "Search for filters",
+          title: "Filter",
+          width: 100
+        });
+        select.selectpicker('setSize');
+      });
+    },
     paging: true,
     "autoWidth": false,
     "pageLength": 5,
@@ -31,7 +61,12 @@ $(document).ready(function () {
     ],
     "order": [
       [3, "asc"]
-    ]
+    ],
+    "columnDefs": [{
+      targets: [-1],
+      searchable: false,
+      sortable: false
+    }]
   })
   $("table[id*='subtable_']").on("click", 'button[data-id="see_par"]', function () {
     var row = $(this).parents('tr')[0]

@@ -110,12 +110,15 @@ module.exports = {
       const CSV_format = "DDD-HH:mm:ss"
       summary.start_time = times[0].format(CSV_format)
       summary.end_time = times[1].format(CSV_format)
+      // TODO Link those times to a config, that config could be linnked to an interface
+      summary.default_init_time = times[1].clone().add({minutes: -1}).format(CSV_format)
+      summary.default_start_time = times[0].clone().add({minutes: 1}).format(CSV_format)
+      summary.default_end_time = times[1].clone().add({minutes: -1}).format(CSV_format)
       Object.assign(flightData, sails.helpers.extractInfo(_id))
       flightData.START = times[0].format(CSV_format)
       flightData.END = times[1].format(CSV_format)
       var day_number = parseInt(times[0].format("DDD"))
       flightData.DATE = new moment(new Date()).startOf("year").add({days: day_number}).format("DD/MM/YYYY")
-      console.log(flightData.DATE)
       flightData.PHASE = "FULL FLIGHT"
       flightData.YEAR = ""
       summary.aircraft = flightData.AIRCRAFT
@@ -204,4 +207,29 @@ module.exports = {
       }
     }
   },
+
+  updateFlightOverview: async function(req, res){
+    var type = req.body["type"]
+    var time = req.body["time"]
+    var mr = req.body["mr"]
+    await IDADataManager.OpenSessionSecured()
+    await IDADataManager.OpenMR(mr)
+    switch(type){
+      case "start":
+        var config = MCIConfig.S
+        var msn = mr.match(/[A-Z]\d{4,5}/)[0]
+        break;
+      case "end":
+        var config = MCIConfig.E
+        var msn = mr.match(/[A-Z]\d{4,5}/)[0]
+        break;
+      case "init":
+        var config = MCIConfig.Initialisation;
+        var msn = undefined
+        break;
+    }
+    updated_data = await IDADataManager.FetchParametersOverridenTime(mr, config, msn, time)
+    res.status(200)
+    return res.send(updated_data)
+  }
 }
