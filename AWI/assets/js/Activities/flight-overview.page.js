@@ -1,4 +1,14 @@
 $(document).ready(function () {
+
+  //Save selected tab for refresh/back button
+  $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+  var activeTab = localStorage.getItem('activeTab');
+  if (activeTab) {
+    $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+  }
+
   var toggleHandler = function () {
     if ($("#phaseSwitch").hasClass("active")) {
       // PVOL
@@ -19,9 +29,11 @@ $(document).ready(function () {
       [5, 10, 25, -1],
       [5, 10, 25, "All"]
     ],
-    "order": [[3, "asc"]]
+    "order": [
+      [3, "asc"]
+    ]
   })
-  $("table[id*='subtable_']").on("click", 'button[data-id="see_par"]', function(){
+  $("table[id*='subtable_']").on("click", 'button[data-id="see_par"]', function () {
     var row = $(this).parents('tr')[0]
     var table = $(this).parents('table')[0]
     // Show Modal (Clear context before showing anything)
@@ -45,7 +57,8 @@ $(document).ready(function () {
       error: function () {
         $("#spinnerModal").modal("hide")
         alert("Fetching Data Failed")
-      }})
+      }
+    })
   })
   var patch_annotations = function (list) {
     return list.map(function (d) {
@@ -128,7 +141,7 @@ $(document).ready(function () {
     $("#plotModal").modal("handleUpdate")
   }
 
-  $("table[id*='subtable_']").on("click", 'button[data-id="search_par"]', function(){
+  $("table[id*='subtable_']").on("click", 'button[data-id="search_par"]', function () {
     var row = $(this).parents('tr')[0]
     for (var i = 0; i < row.cells.length - 1; i++) {
       row.cells[i].id == "AIRCRAFT" ? $("#modal_aircraft").val(row.cells[i].innerText) : "";
@@ -151,18 +164,18 @@ $(document).ready(function () {
   $('#save').on('click', function () {
     $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
   })
-  
-  $("table[id*='subtable_']").on("click", 'button[data-id="filter_par"]', function(){
+
+  $("table[id*='subtable_']").on("click", 'button[data-id="filter_par"]', function () {
     var row = $(this).parents('tr')[0]
-      for (var i = 0; i < row.cells.length - 1; i++) {
-        row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
-        row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
-        row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
-        row.cells[i].id == "PARAMETER" ? $("#filter_parameter").val(row.cells[i].innerText): "";
-      }
-      $('#filterModalCenter').modal('show');
-    })
-    
+    for (var i = 0; i < row.cells.length - 1; i++) {
+      row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "PARAMETER" ? $("#filter_parameter").val(row.cells[i].innerText) : "";
+    }
+    $('#filterModalCenter').modal('show');
+  })
+
   $('#filter').on('click', function () {
     var callbackStyles = {
       display: 'block',
