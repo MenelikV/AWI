@@ -10,59 +10,21 @@ $(document).ready(function () {
       $("#full").show()
     }
   }
-  var config = {
-    min: 0,
-    step: 1,
-    verticalbuttons: true
-  }
-  $("#start_gmt").TouchSpin(config)
-  $("#end_gmt").TouchSpin(config)
-  var timepicker = $("#timepicker")
-  var start_date = timepicker.data("start")
-  var end_date = timepicker.data("end")
-  $("#timepicker").datetimepicker({
-    format: "HH:mm:ss",
-    minDate: start_date,
-    maxDate: end_date,
-  })
-  $("#change_start_gmt").click(function(){
-    var delta,
-    url = "";
-    $.ajax({
-      method: "POST",
-      url: url,
-      data: {
-        type: "start",
-        delta: delta
-      },
-      error: function(){
-        alert("Updating Start GMT Failed")
-      },
-      success: function(new_data){
-        console.table(new_data)
-        $('[data-id="start"]').each(function(i, d){
-          var p = d.closest(tr).data("par")
-          // Change content
-          d.text(p)
-        })
-      }
-    })
-  })
   //toggleHandler()
   $("table[id*='subtable_']").DataTable({
     initComplete: function () {
+      var colCount = this.api().columns().header().length;
       this.api().columns().every( function () {
           var column = this;
           var select = $('<select class="selctpicker" multiple></select>');
-          select.appendTo( $(column.footer()).empty() )
+          if(column.index() === colCount){
+            return
+          }
+          select.appendTo($("#filter_row").find("th").eq(column.index()).empty())
                 .on( 'change.bs.select', function () {
                   var criteria = $(this).val().map(function(d){return d ? '^'+d+'$': ''}).join("|")
-                  var val = $.fn.dataTable.util.escapeRegex(
-                      criteria
-                  );
-
                   column
-                      .search( val, true, false )
+                      .search( criteria, true, false )
                       .draw();
               } );
           column.data().unique().sort().each( function ( d, j ) {
@@ -85,7 +47,10 @@ $(document).ready(function () {
       [5, 10, 25, -1],
       [5, 10, 25, "All"]
     ],
-    "order": [[3, "asc"]]
+    "order": [[3, "asc"]],
+    "columnDefs": [
+      {targets: [-1], searchable: false, sortable: false}
+    ]
   })
   $("table[id*='subtable_']").on("click", 'button[data-id="see_par"]', function(){
     var row = $(this).parents('tr')[0]

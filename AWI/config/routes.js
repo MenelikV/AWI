@@ -50,6 +50,8 @@ module.exports.routes = {
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
 
+  'POST /Activities/MCI/flightOverview/:id/update': 'Activities/MCIController.updateFlightOverview',
+
   'GET /Activities/ANEMO/flightOverview/:id': 'Activities/ANEMOController.getFlightOverview',
 
 

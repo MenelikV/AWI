@@ -398,6 +398,39 @@ else{
   }
   return config_res
 }
+IDADataManager.prototype.FetchParametersOverridenTime = async function(mr_adress, config, msn, time){
+  var internal_format = "HH:mm:ss"
+  if (msn !== undefined) {
+    var code = MSNConfig.Mapping[msn]
+    if (code !== undefined) {
+      config = Object.filter(config, d => d.allowedMSN === undefined || d.allowedMSN.indexOf(code) !== -1)
+    } else {
+      console.error(`Unknow MSN ${msn}`)
+    }
+  }
+  var _e = moment(time, internal_format).add({seconds: 1}).format(internal_format)
+  var ids = []
+  for(let k of Object.keys(config)){
+    ids.push(config[k].id)
+  }
+  var res = await this.ReadSummaryData(mr_adress, time, _e, ids)
+  var config_res = {}
+  for(let key of Object.keys(config)){
+    if(config[key].id !== undefined){
+      config_res[key] = res[config[key].id]
+    }
+    else{
+      config_res[key] = res[key]
+    }
+  }
+    // Take care of Formatting
+    for(let key of Object.keys(config)){
+      if(config[key].format !== undefined && config_res[key] !== undefined){
+        config_res[key] = numeral(config_res[key]).format(config[key].format, d=>Math.floor(d))
+      }
+    }
+  return config_res
+}
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
   // Encoding should be `null` for request which require a binary response

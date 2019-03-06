@@ -1,10 +1,10 @@
 <table class="table text-center table-sm" style="width:60%">
   <tr>
-    <th style="width: 30%">
+    <th style="width: 20%">
       Flight Overview
     </th>
     <th style="width: 30%"></th>
-    <th style="width: 40%"></th>
+    <th style="width: 30%"></th>
   </tr>
   <tr>
     <td>
@@ -38,14 +38,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                          <!-- TODO get the default date-->
-                            <div class="input-group date" id="timepicker" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">Initilisation</i></div>
+                            <div class="input-group date" id="timepicker_init" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="<%=summary.default_init_time%>">
+                                <div class="input-group-prepend" data-target="#timepicker_init" data-toggle="datetimepicker">
+                                    <div class="input-group-text">Initilisation<i class="fa fa-clock-o" style="margin-left: 1em"></i></div>
                                 </div>
-                                <input type="text" class="form-control datetimepicker-input" data-target="#timepicker"/>
-                                <div class="input-group-append" data-target="#timepicker" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                <input type="text" id="init_gmt" data-mr="<%=mr%>" class="form-control datetimepicker-input" data-target="#timepicker_init"/>
+                                <div class="input-group-append">
+                                  <button type="button" id="change_init_gmt" class="btn btn-primary"><i class="fa fa-arrow-right" style="cursor: pointer"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -70,50 +69,43 @@
   <tr>
     <th></th>
   <th>
-    Start
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="input-group date" id="timepicker_start" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="<%=summary.default_start_time%>">
+                        <div class="input-group-prepend" data-target="#timepicker_start" data-toggle="datetimepicker">
+                            <div class="input-group-text">Start GMT<i class="fa fa-clock-o" style="margin-left: 1em"></i></div>
+                        </div>
+                        <input type="text" id="start_gmt" data-mr="<%=mr%>" class="form-control datetimepicker-input" data-target="#timepicker_start"/>
+                        <div class="input-group-append">
+                          <button type="button" id="change_start_gmt" class="btn btn-primary"><i class="fa fa-arrow-right" style="cursor: pointer"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   </th>
     <th>
-      End 
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                      <div class="input-group date" id="timepicker_end" data-target-input="nearest" data-start="<%=summary.start_time%>" data-end="<%=summary.end_time%>" data-default="<%=summary.default_end_time%>">
+                          <div class="input-group-prepend" data-target="#timepicker_end" data-toggle="datetimepicker">
+                              <div class="input-group-text">End GMT<i class="fa fa-clock-o" style="margin-left: 1em"></i></div>
+                          </div>
+                          <input type="text" id="end_gmt" data-mr="<%=mr%>" class="form-control datetimepicker-input" data-target="#timepicker_end"/>
+                          <div class="input-group-append">
+                            <button type="button" id="change_end_gmt" class="btn btn-primary"><i class="fa fa-arrow-right" style="cursor: pointer"></i></button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </th>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="2">
-      <form id="gmt_form">
-        <div class="form-group row align-items-center">
-          <div class="col-auto">
-            <div class="input-group col-mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">Start GMT</div>
-              </div>
-              <input type="text" class="form-control" id="start_gmt" value=1>
-              <div class="input-group-append">
-                  <div class="input-group-text">min</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-auto">
-            <button type="button" id="change_start_gmt" class="btn btn-primary col-mb-2"><span class="fa fa-sm fa-arrow-right"></span></button>
-          </div>
-        </div>
-        <div class="form-group row align-items-center">
-            <div class="col-auto">
-              <div class="input-group col-mb-2">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">End GMT</div>
-                </div>
-                <input type="text" class="form-control" id="end_gmt" value=1>
-                <div class="input-group-append">
-                    <div class="input-group-text">min</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-auto">
-              <button type="button" id="change_end_gmt" class="btn btn-primary col-mb-2"><span class="fa fa-sm fa-arrow-right"></span></button>
-            </div>
-          </div>
-      </form>
-    </td>
   </tr>
   <% var keys = Object.keys(summary.S) || []%>
   <% for(let k of keys){%>

@@ -38,7 +38,6 @@ var cssFilesToInject = [
   'dependencies/dataTables.bootstrap4.min.css',
   'dependencies/bootstrap-4/bootstrap-4.css',
   'dependencies/bootstrap-select.css',
-  'dependencies/jquery.bootstrap-touchspin.css',
   'dependencies/tempusdominus-bootstrap-4.min.css',
 
   // All of the rest of your custom `.css` files will be injected here,
@@ -87,7 +86,6 @@ var jsFilesToInject = [
   'dependencies/bootstrap-select.js',
   'dependencies/moment.js',
   'dependencies/datetime-moment.js',
-  'dependencies/jquery.bootstrap-touchspin.js',
   'dependencies/tempusdominus-bootstrap-4.min.js'
 ];
 
