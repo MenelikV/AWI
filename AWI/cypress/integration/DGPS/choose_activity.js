@@ -1,9 +1,9 @@
 const URL = "http://localhost:1337/"
-describe("Chosse an activity on front page", function(){
-    it('Chossing from combobox', function(){
+describe("Choose DGPS activity on front page", function(){
+    it('Choosing from combobox', function(){
         cy.visit(URL)
         cy.get('.sel').click()
-        var name = "ANEMO"
+        var name = "DGPS"
         // Could be refractored with select ?
         cy.get("span.sel__box__options")
           .should(($e) => {
