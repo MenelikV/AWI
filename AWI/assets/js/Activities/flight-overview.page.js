@@ -71,16 +71,16 @@ $(document).ready(function () {
   $("table[id*='subtable_']").on("click", 'button[data-id="see_par"]', function () {
     var row = $(this).parents('tr')[0]
     var table = $(this).parents('table')[0]
+    dt = $(table).DataTable()
     // Show Modal (Clear context before showing anything)
     var ctx = document.getElementById("canvas").getContext("2d")
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    $("#spinnerModal").modal("show")
-    var row_data = {}
-    // Ignore Last Columns (Actions)
-    for (var i = 0; i < row.cells.length - 1; i++) {
-      row_data[table.rows[0].cells[i].innerText] = row.cells[i].innerText
-    }
+    headers = dt.columns().header().map(function(d){return $(d).text().trim()})
+    values = dt.row(row).data()
+    // Inspired from https://stackoverflow.com/questions/39127989/creating-a-javascript-object-from-two-arrays
+    row_data = headers.reduce((o, k, i) => ({...o, [k]: values[i]}), {})
     row_data["MR"] = ($(this).data("mr"))
+    $("#spinnerModal").modal("show")
     $.ajax({
       //datatype: "json",
       url: "/Activities/flightOverview/plot",
