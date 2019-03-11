@@ -29,31 +29,31 @@ module.exports = {
 
       //listing all files
       files.forEach(function (file) {
-        try{
-        var filePath = path.join(folderpath, file)
-        var content = fs.readFileSync(filePath, "utf8");
-        var name = path.parse(file).name 
-        //parsing file content
-        Papa.parse(content, {
-          worker: true,
-          header: true,
-          delimiter: ";",
-          skipEmptyLines: true,
-          complete: function (results) {
-            var flightInfo = {};
-            flightInfo["YEAR"] = results.data[0]["YEAR"]
-            flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
-            flightInfo["TEST"] = results.data[0]["TEST"]
-            flightInfo["MR"] = name
-            flightInfo["CRITICITY"] = ''
-            flights.push(flightInfo)
-          }
-        })}
-        catch(error){
+        try {
+          var filePath = path.join(folderpath, file)
+          var content = fs.readFileSync(filePath, "utf8");
+          var name = path.parse(file).name
+          //parsing file content
+          Papa.parse(content, {
+            worker: true,
+            header: true,
+            delimiter: ";",
+            skipEmptyLines: true,
+            complete: function (results) {
+              var flightInfo = {};
+              flightInfo["YEAR"] = results.data[0]["YEAR"]
+              flightInfo["AIRCRAFT"] = results.data[0]["AIRCRAFT"]
+              flightInfo["TEST"] = results.data[0]["TEST"]
+              flightInfo["MR"] = name
+              flightInfo["CRITICITY"] = ''
+              flights.push(flightInfo)
+            }
+          })
+        } catch (error) {
           _error.push(error)
         }
       });
-      if(_error.length){
+      if (_error.length) {
         //return res.serverError("Problem occured while reading the files")
       }
       aircraftHeaders = Object.keys(flights[0])
@@ -63,7 +63,7 @@ module.exports = {
         activity: 'DGPS'
       })
     });
-  }, 
+  },
 
   getFlightOverview: async function (req, res) {
     var filterType = [];
@@ -88,7 +88,9 @@ module.exports = {
     var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "SummaryINFODirectory")
     var search = name + '*.csv'
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
+    var activityFiles = glob.readdirSync(search, {
+      cwd: AutovalCSVDirectory
+    })
     var resLength = activityFiles.length
     if (resLength === 1) {
       activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
@@ -98,7 +100,9 @@ module.exports = {
     var fs = require('fs');
     var glob = require("glob-fs")()
     var info_search = req.param("id") + "*.csv"
-    var infoFiles = glob.readdirSync(info_search, {cwd: InfoCSVDirectory})
+    var infoFiles = glob.readdirSync(info_search, {
+      cwd: InfoCSVDirectory
+    })
     var startvol,
       endvol;
     if (infoFiles.length === 1) {
@@ -151,7 +155,7 @@ module.exports = {
         filterInfo["parameter"] = DGPSfilter["parameter"];
         filterInfo["raiseError"] = true;
         filterType.push(filterInfo)
-      } 
+      }
     })
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
@@ -181,6 +185,7 @@ module.exports = {
             GMTpvolinfo["START"] = item["START"].split("-")[1];
             GMTpvolinfo["END"] = item["END"].split("-")[1];
             GMTpvolinfo["PHASE"] = item["PHASE"]
+
             GMTpvol.push(GMTpvolinfo);
           })
         }
@@ -217,11 +222,11 @@ module.exports = {
               var items = [];
               var startpvol = period["START"]
               var endpvol = period["END"]
-
+              
               results.data.forEach(function (item) {
                 var startcsv = item["START"].split("-")[1];
                 var endcsv = item["END"].split("-")[1];
-                if (endcsv > startpvol && startcsv < endpvol) {
+                if (endcsv >= startpvol && startcsv <= endpvol && startcsv >= startpvol && endcsv <= endpvol) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   items.push(item)

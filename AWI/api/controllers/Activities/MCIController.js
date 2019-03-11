@@ -141,7 +141,7 @@ module.exports = {
             results.data.forEach(function (item) {
               var startcsv = moment(item["START"], CSV_format);
               var endcsv = moment(item["END"], CSV_format);
-              if (startcsv > startpvol && endcsv < endpvol) {
+              if (endcsv >= startpvol && startcsv <= endpvol && startcsv >= startpvol && endcsv <= endpvol) {
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
                 items.push(item)
