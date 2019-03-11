@@ -40,7 +40,7 @@ $(document).ready(function () {
               .draw();
           });
         column.data().unique().sort().each(function (d, j) {
-          select.append('<option value=' + d + '>' + d + '</option>')
+          select.append(`<option value="${d}">${d}</option>`)
         });
         select.selectpicker({
           style: 'btn btn-sm filter rounded-0 border-left-0 border-right-0 border-top-0',
