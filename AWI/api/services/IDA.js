@@ -144,16 +144,24 @@ IDADataManager.prototype.GetMRTimes = async function(mr_adress, format){
     msg: "GetResourceTimeIntervalList",
     key: mr_id
   })
+  var input_format = "DDD-HH:mm:ss"
   // Remove the last element
   var times = res.split(" | ")
   times.pop()
-  var input_format = "DDD-HH:mm:ss"
+  if(times.length >= 2){
+    // Sevreal timezones detected
+    times = times.map(t => moment(t.split("§").pop(), input_format))
+    times.sort((a, b) => a - b)
+    var start = times.shift()
+    var end = times.pop()
+    times = [start, end]
+  }
   // Convert to Moment Object
   times.forEach((o, i, a) => a[i] = moment(a[i], input_format))
   this.times_register[mr_adress] = times.map(d => d.clone())
   // Convert back to String using moment format
   if(format !== undefined){
-  times.forEach((o, i, a) => a[i] = a[i].format(ouput_format))
+  times.forEach((o, i, a) => a[i] = a[i].format(format))
 }
   return times
 }
