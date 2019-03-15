@@ -110,10 +110,10 @@
   <% var keys = Object.keys(summary.S) || []%>
   <% for(let k of keys){%>
   <tr data-id="<%=k%>">
-    <td data-id="start">
+    <td>
       <%=k%>
     </td>
-    <td>
+    <td data-id="start">
       <%=summary.S[k]%>
     </td>
     <td data-id="end">
