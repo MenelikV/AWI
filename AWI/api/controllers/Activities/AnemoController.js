@@ -68,6 +68,8 @@ module.exports = {
 
     var AutovalCSVDirectory = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory')
     var search = req.param("id") + '*.csv'
+    var PVOLfileName = 'Output_PVOL-' + info + '.csv';
+    var PVOLfilePath = await sails.helpers.getSettings('ANEMO', 'PVOLCSVDirectory') + PVOLfileName;
     // TODO Clean Redundant Code
     var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
     if (matches.length === 2) {
