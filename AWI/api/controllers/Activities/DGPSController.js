@@ -3,17 +3,21 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
 const path = require("path")
 const moment = require("moment")
 const IDADataManager = new IDA()
 
 module.exports = {
 
+  /**
+   * @description :: Accesses the csv file directory for all flights then reads, parses and saves info of each flight.
+   * @var {Array} flights - Contains the info of all flights stored in objects.
+   * @var {Object} flightInfo - Object containing info on each flight.
+   * @var {Array} aircraftHeaders - Contains the headers to be shown in the table.
+   */
   getInfo: async function (req, res) {
     var fs = require('fs');
     var folderpath = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
-
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
@@ -21,6 +25,7 @@ module.exports = {
         console.error('Unable to scan directory: ' + err);
         return res.serverError('Unable to scan directory: ' + err)
       }
+
       var Papa = require('papaparse');
       var path = require('path');
       var flights = [];
@@ -65,6 +70,19 @@ module.exports = {
     });
   },
 
+
+  /**
+   * @description :: Accesses CSV and PVOL file directory of the selected flight and stores each of it's CSV periods to it's corresponding PVOL periods, also applies filters to the corresponding errors.
+   * @var {Array} filterType - Contains an array of objects with the info of all filters that apply to the selected flight.
+   * @var {Object} filterInfo - Contains full info on each filter that applies to the selected flight.
+   * @var {Array} GMTpvol - Contains an array of objects with PVOL periods of the corresponding flight.
+   * @var {Object} GMTpvolinfo - Contains full info on each PVOL period of the selected flight.
+   * @var {Array} GMTcsv - Contains an array with all CSV errors for each PVOL period.
+   * @var {Array} items - Contains an array of objects with CSV errors full info corresponding to each PVOL period.
+   * @var {Array} FullGMTcsv - Contains an array with all the errors presented during the full flight duration (not periods)
+   * @var {Array} Fullitems - Contains all the errors presented during the full flight.
+   * @var {Array} errorHeader - Contains the headers for the selected flight overview.
+   */
   getFlightOverview: async function (req, res) {
     var filterType = [];
     var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
@@ -144,7 +162,10 @@ module.exports = {
     }
     FullFlightData.PHASE = "FULL FLIGHT"
     FullFlightData.YEAR = ""
-    //Save filters
+
+    /**
+     * Find and save filters of the corresponding flight
+     * */
     var filters = await Filter.find({
       activity: 'DGPS'
     });
@@ -165,11 +186,9 @@ module.exports = {
 
       var Papa = require('papaparse');
       var flightHeader;
-      var flightData
+      var flightData;
       var content = data;
       var GMTpvol = [];
-      //Array with array of objects (errors) for each period in PVOL
-      //If there is no error, its an emtpy array
       var GMTcsv = [];
       var FullGMTcsv = []
       var errorHeader;
@@ -202,10 +221,11 @@ module.exports = {
           delimiter: ";",
           skipEmptyLines: true,
           complete: function (results) {
-            /*For each period in PVOL, read the csv file and verify if the 
-            error is in the given period. If it is, add it to an array.*/
+            /** 
+             * For each period in PVOL, reads the csv file and verifies if the error is in the given period. 
+             * If it is, adds it to an array.
+             * */
             errorHeader = results.meta["fields"];
-            // Full Flight Analyse
             var Fullitems = []
             results.data.forEach(function (item) {
               var startcsv = item["START"].split("-")[1];
@@ -222,7 +242,7 @@ module.exports = {
               var items = [];
               var startpvol = period["START"]
               var endpvol = period["END"]
-              
+
               results.data.forEach(function (item) {
                 var startcsv = item["START"].split("-")[1];
                 var endcsv = item["END"].split("-")[1];
