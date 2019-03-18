@@ -6,33 +6,38 @@
             style="color:rgb(148, 196, 224);" class="fa fa-eyedropper fa-sm" title="filter"></i></h4>
       </div>
       <div class="modal-body " style="background-color:white; margin: 0 auto;">
-        <table class="table modal-table text-center">
-          <thead>
-            <tr>
-              <th>AIRCRAFT</th>
-              <th>TEST</th>
-              <th>PARAMETER</th>
-              <th>TYPE</th>
-              <th>PHASE</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td name="aircraft" id="filter_aircraft"></td>
-              <td name="test" id="filter_test"></td>
-              <td name="parameter" id="filter_parameter"></td>
-              <td name="type" id="filter_type"></td>
-              <td name="phase" id="filter_phase"></td>
-            </tr>
-          </tbody>
-        </table>
-        <input type="hidden" id="filter_activity" value="<%=activity%>">
+
+        <table class="modal-table table-responsive">
+            <thead>
+              <tr>
+                <th>AIRCRAFT</th>
+                <th>TEST</th>
+                <th>PARAMETER</th>
+                <th>TYPE</th>
+                <th>PHASE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td name="aircraft" id="filter_aircraft"></td>
+                <td name="test" id="filter_test"></td>
+                <td name="parameter" id="filter_parameter"></td>
+                <td name="type" id="filter_type"></td>
+                <td name="phase" id="filter_phase"></td>
+              </tr>
+            </tbody>
+          </table>
+          <input type="hidden" id="filter_activity" value="<%=activity%>">
+        
+
+        <br>
         <div class="row text-center">
           <div class="col md-12">
             <h7> <i>A filter will be applied on the specified error type of the tests posterior to this one. <br> An
                 error will be raised when it does <strong>not</strong> appear.</i> </h7>
           </div>
         </div>
+
       </div>
 
       <div class="modal-footer">
