@@ -33,6 +33,11 @@ module.exports = {
     type: {
       type: 'string',
       required: true
+    },
+
+    phase: {
+      type: 'string',
+      required: true
     }
 
   },

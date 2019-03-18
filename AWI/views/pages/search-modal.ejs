@@ -7,28 +7,27 @@
               style="color:rgb(148, 196, 224);" class="fa fa-search fa-sm" title="Search"></i></h4>
         </div>
         <div class="modal-body " style="background-color:white; margin: 0 auto;">
-          <div class="container col-md-12">
-            <div class="row">
-              <div class="col md-4 ">
-
-                <p class="modal-text"> AIRCRAFT <br> <input class="modalInput" type="text" name="aircraft" id="modal_aircraft" value="" readonly></p>
-              </div>
-
-              <div class="col md-4 ">
-                <p class="modal-text">PARAMETER 
-                  <br> <input class="modalInput" type="text" name="parameter" id="modal_param" value=""></p>
-              </div>
-
-              <div class="col md-4 ">
-                <p class="modal-text">TYPE <label class="switch">
+          <table class="table modal-table text-center">
+            <thead>
+              <tr>
+                <th>AIRCRAFT</th>
+                <th>PARAMETER</th>
+                <th>TYPE <label class="switch">
                     <input type="checkbox" id="type_check" checked>
                     <span class="slider round"></span>
-                  </label>
-                  <br> <input class="modalInput" type="text" name="type" id="modal_type" value=""></p>
-              </div>
-            </div>
-            <br>
-            
+                  </label></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center">
+                <td><input type="text" name="aircraft" id="modal_aircraft" value="" readonly></td>
+                <td><input type="text" name="parameter" id="modal_param" value=""></td>
+                <td><input type="text" name="type" id="modal_type" value=""></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="container col-md-12">            
             <input type="text" hidden name="test" id="modal_test" value="">
             <input type="hidden" id="modal_activity" value="<%=activity%>">
 

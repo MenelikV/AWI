@@ -70,7 +70,6 @@ module.exports = {
     });
   },
 
-
   /**
    * @description :: Accesses CSV and PVOL file directory of the selected flight and stores each of it's CSV periods to it's corresponding PVOL periods, also applies filters to the corresponding errors.
    * @var {Array} filterType - Contains an array of objects with the info of all filters that apply to the selected flight.
@@ -174,9 +173,10 @@ module.exports = {
         var filterInfo = {};
         filterInfo["type"] = DGPSfilter["type"];
         filterInfo["parameter"] = DGPSfilter["parameter"];
+        filterInfo["phase"] = DGPSfilter["phase"];
         filterInfo["raiseError"] = true;
         filterType.push(filterInfo)
-      }
+      } 
     })
 
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
@@ -253,7 +253,7 @@ module.exports = {
                 }
                 if (filterType.length) {
                   filterType.forEach(function (filter) {
-                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
                       items.pop();
                       filter["raiseError"] = false;
                     }

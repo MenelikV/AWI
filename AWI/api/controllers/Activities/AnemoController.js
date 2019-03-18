@@ -112,6 +112,7 @@ module.exports = {
           filterInfo["type"] = ANEMOfilter["type"];
           filterInfo["parameter"] = ANEMOfilter["parameter"];
           filterInfo["raiseError"] = true;
+          filterInfo["phase"] = DGPSfilter["phase"];
           filterType.push(filterInfo)
         } 
       })
@@ -145,7 +146,7 @@ module.exports = {
               }
               if (filterType.length) {
                 filterType.forEach(function (filter) {
-                  if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                  if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
                     items.pop();
                     filter["raiseError"] = false;
                   }
