@@ -7,7 +7,7 @@
               style="color:rgb(148, 196, 224);" class="fa fa-search fa-sm" title="Search"></i></h4>
         </div>
         <div class="modal-body " style="background-color:white; margin: 0 auto;">
-          <table class="table modal-table text-center">
+          <table class="modal-table">
             <thead>
               <tr>
                 <th>AIRCRAFT</th>
@@ -19,18 +19,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="text-center">
+              <tr>
                 <td><input type="text" name="aircraft" id="modal_aircraft" value="" readonly></td>
                 <td><input type="text" name="parameter" id="modal_param" value=""></td>
                 <td><input type="text" name="type" id="modal_type" value=""></td>
               </tr>
             </tbody>
           </table>
-          
-          <div class="container col-md-12">            
+
+          <div class="container col-md-12">
             <input type="text" hidden name="test" id="modal_test" value="">
             <input type="hidden" id="modal_activity" value="<%=activity%>">
-
+            <br>
             <div class="row text-center">
               <div class="col md-12">
                 <h6>Specify the amount of previous tests to display</h6>

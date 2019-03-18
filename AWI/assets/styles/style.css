@@ -197,18 +197,34 @@ h6 {
   font-weight: 700;
 }
 
+table.modal-table {
+  width: 100%; 
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 50px 0;
+}
+
 table.modal-table tbody td input{
-  font-size: 14px;
+  font-size: 16px;
   background-color: transparent;
   border-width: 0px 0px 0px 0px;
-  text-align: center;
+  text-align: left;
+}
+
+table.modal-table td {
+  width:150px;
+  border-bottom: 1px solid #dee2e6;
 }
 
 table.modal-table thead th {
   color:#0e6097;
   font-size:16px;
-  font-weight: normal;
+  font-weight: bold;
   width:150px;
+  padding-bottom: 0.45rem;
 }
 
 .text-faded {
