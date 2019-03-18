@@ -206,10 +206,11 @@ $(document).ready(function () {
   $("table[id*='subtable_']").on("click", 'button[data-id="filter_par"]', function () {
     var row = $(this).parents('tr')[0]
     for (var i = 0; i < row.cells.length - 1; i++) {
-      row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
-      row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
-      row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
-      row.cells[i].id == "PARAMETER" ? $("#filter_parameter").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "TEST" ? $("#filter_test").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "TYPE" ? $("#filter_type").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "PARAMETER" ? $("#filter_parameter").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "PHASE" ? $("#filter_phase").html(row.cells[i].innerText) : "";
     }
     $('#filterModalCenter').modal('show');
   })
@@ -223,10 +224,11 @@ $(document).ready(function () {
     $("#filter_load").css(callbackStyles)
     var url = '/createFilter/' + $("#filter_activity").val()
     var data = {
-      aircraft: $("#filter_aircraft").val(),
-      test: $("#filter_test").val(),
-      type: $("#filter_type").val(),
-      parameter: $("#filter_parameter").val(),
+      aircraft: $("#filter_aircraft").text(),
+      test: $("#filter_test").text(),
+      type: $("#filter_type").text(),
+      parameter: $("#filter_parameter").text(),
+      phase: $("#filter_phase").text()
     }
     $.ajax({
       url: url,

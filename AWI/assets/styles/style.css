@@ -7,8 +7,6 @@
   height: 2rem;
 }
 
-
-
 .dot {
   height: 13px;
   width: 13px;
@@ -142,17 +140,14 @@ h3.heading {
   color: white;
   background: rgba(131, 150, 161, 0.336);
   font-size: .9rem;
-
   overflow-x: hidden;
   /*--right gutter fix--*/
-
 }
 
 .footer-logo img {
   width: auto;
   height: auto;
   padding: 0%;
-
 }
 
 html,
@@ -161,7 +156,6 @@ body {
   color: #0a1e33;
   overflow-x: hidden;
   /*--right gutter fix--*/
-
   height: 100%;
   margin: 0;
 }
@@ -174,7 +168,6 @@ body {
   background-size: cover;
   overflow-x: hidden;
   /*--right gutter fix--*/
-
 }
 
 .home-back {
@@ -185,9 +178,7 @@ body {
   background-size: cover;
   overflow-x: hidden;
   /*--right gutter fix--*/
-
 } 
-
 
 .btn-xl {
   padding: 1.25rem 2.5rem;
@@ -196,8 +187,6 @@ body {
 h1 {
   font-family: 'Source Sans Pro';
 }
-
- 
 
 h4 {
 color: #0e6097;
@@ -208,20 +197,18 @@ h6 {
   font-weight: 700;
 }
 
-
-.modalInput {
+table.modal-table tbody td input{
   font-size: 14px;
-  padding-top:1rem;
-  padding-bottom:0.5rem;
   background-color: transparent;
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
-  border-color: rgb(26, 110, 165);
+  border-width: 0px 0px 0px 0px;
+  text-align: center;
 }
 
-.modal-text {
+table.modal-table thead th {
   color:#0e6097;
   font-size:16px;
+  font-weight: normal;
+  width:150px;
 }
 
 .text-faded {
@@ -260,7 +247,6 @@ h6 {
   }
 }
 
-
 a:hover,
 a:focus,
 a:active {
@@ -288,11 +274,6 @@ a:active {
 
 .bg-primary {
   background-color: #1D809F !important;
-}
-
-.btn-outline-primary {
-  color: #1D809F !important;
-  border-color: #1D809F ! important;
 }
 
 .dropdown .dropdown-menu {
@@ -355,7 +336,6 @@ a:active {
   left: 45rem;
   top: calc(50% - 2rem);
 }
-
 
 .sel.active::before {
   display: block;
@@ -435,11 +415,9 @@ a:active {
   background-color: #ebedef;
 }
 
-/* ----- Select Box Black Panther ----- */
 .sel {
   border-bottom: 4px solid rgba(0, 0, 0, 0.3);
 }
-
 
 /* ===== Keyframes ===== */
 @keyframes fadeInUp {
@@ -463,8 +441,6 @@ a:active {
     opacity: 0;
   }
 }
-
-
 
 table.dataTable thead>tr>td.sorting,
 table.dataTable thead>tr>td.sorting_asc,

@@ -8,7 +8,6 @@
       </div>
     </nav>
 
-
     <div class="tab-content" id="nav-tabContent">
 
       <!-- FIRST TAB-->
@@ -16,7 +15,6 @@
         <br>
 
         <!-- End title and Activity container-->
-
         <div class="row">
           <div class="col md-12">
             <!-- Flight Summary container -->
@@ -28,9 +26,7 @@
             </div>
             <!-- End Flight Summary container -->
           </div>
-
         </div>
-
       </div>
       <!-- END FIRST TAB-->
 
@@ -61,9 +57,10 @@
               <% if (filterType[i]["raiseError"] == true) {%>
               <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i>
               </strong> error with parameter <strong style="text-decoration: underline;">
-                  <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong> and 
+                  <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong>, 
               type <strong style="text-decoration: underline;">
-                <%=filterType[i]["type"]%></strong>
+                <%=filterType[i]["type"]%></strong> and phase <strong style="text-decoration: underline;">
+                    <%=filterType[i]["phase"]%></strong> 
               not found <br>
               <% } %>
               <% } %>

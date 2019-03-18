@@ -65,8 +65,20 @@ module.exports = {
         activity: 'DGPS'
       })
     });
-  }, 
+  },
 
+  /**
+   * @description :: Accesses CSV and PVOL file directory of the selected flight and stores each of it's CSV periods to it's corresponding PVOL periods, also applies filters to the corresponding errors.
+   * @var {Array} filterType - Contains an array of objects with the info of all filters that apply to the selected flight.
+   * @var {Object} filterInfo - Contains full info on each filter that applies to the selected flight.
+   * @var {Array} GMTpvol - Contains an array of objects with PVOL periods of the corresponding flight.
+   * @var {Object} GMTpvolinfo - Contains full info on each PVOL period of the selected flight.
+   * @var {Array} GMTcsv - Contains an array with all CSV errors for each PVOL period.
+   * @var {Array} items - Contains an array of objects with CSV errors full info corresponding to each PVOL period.
+   * @var {Array} FullGMTcsv - Contains an array with all the errors presented during the full flight duration (not periods)
+   * @var {Array} Fullitems - Contains all the errors presented during the full flight.
+   * @var {Array} errorHeader - Contains the headers for the selected flight overview.
+   */
   getFlightOverview: async function (req, res) {
     var filterType = [];
     var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
@@ -151,6 +163,7 @@ module.exports = {
         var filterInfo = {};
         filterInfo["type"] = DGPSfilter["type"];
         filterInfo["parameter"] = DGPSfilter["parameter"];
+        filterInfo["phase"] = DGPSfilter["phase"];
         filterInfo["raiseError"] = true;
         filterType.push(filterInfo)
       } 
@@ -238,7 +251,7 @@ module.exports = {
                 }
                 if (filterType.length) {
                   filterType.forEach(function (filter) {
-                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
                       items.pop();
                       filter["raiseError"] = false;
                     }
