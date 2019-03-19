@@ -16,7 +16,6 @@ module.exports = {
       if (err) {
         return res.serverError('error searching filters')
       }
-      console.log('resultssss: '+results)
       if (results.length) {
         var headers = Object.keys(results[0])
         results.forEach(function (item) {

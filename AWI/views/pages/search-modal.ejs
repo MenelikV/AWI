@@ -6,16 +6,21 @@
           <h4 class="modal-title text-center" style="margin: 0 auto;" id="searchModalCenterTitle"> Search Criteria <i
               style="color:rgb(148, 196, 224);" class="fa fa-search fa-sm" title="Search"></i></h4>
         </div>
-        <div class="modal-body " style="background-color:white; margin: 0 auto;">
-          <table class="modal-table">
+        <div class="modal-body " style="background-color:white; margin: 0 auto; overflow-x: auto">
+          <table class="modal-table" style="border-spacing: 30px 0">
             <thead>
               <tr>
                 <th>AIRCRAFT</th>
                 <th>PARAMETER</th>
-                <th>TYPE <label class="switch">
-                    <input type="checkbox" id="type_check" checked>
-                    <span class="slider round"></span>
-                  </label></th>
+                <th>
+                  <div id="type_header" style="display:inline-block; padding-right:7rem;">TYPE</div>
+                  <span>
+                    <button id="typeSwitch" type="button" class="btn btn-xs btn-toggle active" data-toggle="button"
+                      aria-pressed="false" autocomplete="off">
+                      <div class="handle"></div>
+                    </button></span>
+                </th>
+
               </tr>
             </thead>
             <tbody>
@@ -42,7 +47,7 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
-          <button type="" id="save" class="btn btn-primary">Search &raquo;</button>
+          <button type="" id="search" class="btn btn-primary">Search &raquo;</button>
         </div>
     </div>
     </form>

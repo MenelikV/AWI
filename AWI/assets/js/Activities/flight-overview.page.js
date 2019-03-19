@@ -9,7 +9,17 @@ $(document).ready(function () {
     $('#nav-tab a[href="' + activeTab + '"]').tab('show');
   }
 
-  var toggleHandler = function () {
+  $("#typeSwitch").on('click', function () {
+    if ($("#typeSwitch").hasClass("active")) {
+      $("#type_header").removeClass('enabled-th').addClass('disabled-th')
+      $("#modal_type").prop('disabled', true);
+    } else {
+      $("#type_header").removeClass('disabled-th').addClass('enabled-th')
+      $("#modal_type").prop('disabled', false);
+    }
+  })
+
+  $("#phaseSwitch").on('click', function () {
     if ($("#phaseSwitch").hasClass("active")) {
       // PVOL
       $("#full").hide()
@@ -19,8 +29,12 @@ $(document).ready(function () {
       $("#pvol").hide()
       $("#full").show()
     }
-  }
-  //toggleHandler()
+  })
+
+  $('#search').on('click', function () {
+    $("#typeSwitch").hasClass("active") ? "" : $("#modal_type").val("");
+  })
+
   $("table[id*='subtable_']").DataTable({
     paging: true,
     "autoWidth": false,
@@ -141,6 +155,9 @@ $(document).ready(function () {
     $("#plotModal").modal("handleUpdate")
   }
 
+  /** 
+   * Filling in fields on the search modal
+   */
   $("table[id*='subtable_']").on("click", 'button[data-id="search_par"]', function () {
     var row = $(this).parents('tr')[0]
     for (var i = 0; i < row.cells.length - 1; i++) {
@@ -151,20 +168,13 @@ $(document).ready(function () {
     }
     $('#searchModalCenter').modal('show');
   })
-
   $('#searchModalCenter').on('shown.bs.modal', function () {
     $('#modal_entries').focus();
   })
-  $("#phaseSwitch").click(toggleHandler)
-  $('#type_check').on('click', function () {
-    $("#modal_type").prop('disabled', function (_, val) {
-      return !val;
-    });
-  })
-  $('#save').on('click', function () {
-    $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
-  })
 
+  /** 
+   * Filling in fields on the filter modal
+   */
   $("table[id*='subtable_']").on("click", 'button[data-id="filter_par"]', function () {
     var row = $(this).parents('tr')[0]
     for (var i = 0; i < row.cells.length - 1; i++) {
@@ -200,7 +210,6 @@ $(document).ready(function () {
         $("#filter_load").css("display", "none")
         $("#filter").css(callbackStyles).prop('disabled', true)
         $("#filter").removeClass('btn-primary').addClass('btn-success').html("Filter added!")
-
       },
       error: function error() {
         $("#filter_load").css("display", "none")
