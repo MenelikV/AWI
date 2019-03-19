@@ -33,7 +33,7 @@ $(document).ready(function () {
         select.appendTo($("#filter_row").find("th").eq(column.index()).empty())
           .on('change.bs.select', function () {
             var criteria = $(this).val().map(function (d) {
-              return d ? '^' + d + '$' : ''
+              return '^' + d + '$'
             }).join("|")
             column
               .search(criteria, true, false)
