@@ -52,7 +52,7 @@ module.exports = {
           _error.push(error)
         }
       });
-      if(_error.length){
+      if (_error.length) {
         return res.serverError("Problem occured while reading the files")
       }
       aircraftHeaders = Object.keys(flights[0])
@@ -119,7 +119,9 @@ module.exports = {
       phasesFlightData = sails.helpers.phasePatcher(phasesFlightData)
     }
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
+    var activityFiles = glob.readdirSync(search, {
+      cwd: AutovalCSVDirectory
+    })
     var resLength = activityFiles.length
     var flightData = {}
     if (resLength === 1) {
@@ -164,7 +166,7 @@ module.exports = {
           filterInfo["raiseError"] = true; 
           filterInfo["phase"] = ANEMOfilter["phase"];
           filterType.push(filterInfo)
-        } 
+        }
       })
       var GMTcsv = []
       var FullGMTcsv = []
@@ -253,6 +255,12 @@ module.exports = {
               errorMap.push(currentMap)
             })
             var filterHeader = filterType.length ? Object.keys(filterType[0]) : []
+            var filterTrigger = false;
+            filterType.forEach(function (filter) {
+              if (filter["raiseError"] === true) {
+                filterTrigger = true;
+              }
+            })
             return res.view("pages/Activities/ANEMO/flight-overview", {
               activity: "ANEMO",
               summary: summary,
@@ -274,6 +282,7 @@ module.exports = {
                 phases: errorMap,
                 full: FullerrorMap
               },
+              filterTrigger: filterTrigger
             })
           }
         })

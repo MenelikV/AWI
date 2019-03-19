@@ -54,7 +54,7 @@ module.exports = {
           _error.push(error)
         }
       });
-      if(_error.length){
+      if (_error.length) {
         return res.serverError("Problem occured while reading the files")
       }
       if (flights.length) {
@@ -75,7 +75,9 @@ module.exports = {
     var AutovalCSVDirectory = await sails.helpers.getSettings('MCI', 'AutoValCSVDirectory');
     var search = req.param("id") + '*.csv'
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
+    var activityFiles = glob.readdirSync(search, {
+      cwd: AutovalCSVDirectory
+    })
     var resLength = activityFiles.length
     var flightData = {}
     if (resLength === 1) {
@@ -146,7 +148,7 @@ module.exports = {
           filterInfo["raiseError"] = true;
           filterInfo["phase"] = MCIfilter["phase"];
           filterType.push(filterInfo)
-        } 
+        }
       })
       var GMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
@@ -186,6 +188,13 @@ module.exports = {
               }
             })
             GMTcsv.push(items)
+            var filterTrigger = false;
+            filterType.forEach(function (filter) {
+              if (filter["raiseError"] === true) {
+                filterTrigger = true;
+              }
+            })
+
             return res.view("pages/Activities/MCI/flight-overview", {
               activity: "MCI",
               summary: summary,
@@ -196,6 +205,7 @@ module.exports = {
               CSVheaders: errorHeader,
               data: [flightData],
               filterType: filterType,
+              filterTrigger: filterTrigger
             })
           }
         })

@@ -262,6 +262,13 @@ module.exports = {
               FullGMTcsv.push(Fullitems)
             })
 
+            var filterTrigger = false;
+            filterType.forEach(function (filter){
+              if (filter["raiseError"] === true){
+                filterTrigger = true;
+              }
+            })
+
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
               data: {
@@ -277,7 +284,8 @@ module.exports = {
               activity: 'DGPS',
               summary: summary,
               mr: mr,
-              filterType: filterType
+              filterType: filterType,
+              filterTrigger: filterTrigger
             })
           }
         })

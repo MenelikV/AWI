@@ -321,11 +321,11 @@
               <thead>
                 <tr>
                   <% for(var i=0; i< filterHeader.length; i++) { %>
-                  <th>
-                    <% if(filterHeader[i] == "parameter" || filterHeader[i] == "type"){%>
-                      <%= filterHeader[i].toUpperCase() %>
+                    <% if(filterHeader[i] === "parameter" || filterHeader[i] === "type" || filterHeader[i] === "phase"){%>
+                      <th>
+                        <%= filterHeader[i].toUpperCase() %>
+                      </th>
                     <%}%>
-                  </th>
                   <% }%>
                 </tr>
               </thead>
@@ -342,6 +342,11 @@
                             <td>
                               <%= filter_[filterHeader[l]] %>
                             </td>
+                            <%}
+                            else if(filterHeader[l] == "phase"){%>
+                              <td>
+                                <%= filter_[filterHeader[l]] %>
+                              </td>
                             <%}
                           %>
                       <%}%>
