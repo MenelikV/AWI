@@ -6,7 +6,8 @@
           role="tab" aria-controls="nav-home" aria-selected="true">Summary</a>
         <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
           role="tab" aria-controls="nav-profile" aria-selected="false">Output</a>
-
+        <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-filters-tab" data-toggle="tab" href="#nav-filters"
+        role="tab" aria-controls="nav-filters" aria-selected="false">Filters</a>
       </div>
     </nav>
 
@@ -178,32 +179,37 @@
       </div>
       <!-- END SECOND TAB -->
       <!-- BEGIN THIRD TAB -->
-      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <div class="tab-pane fade" id="nav-filters" role="tabpanel" aria-labelledby="nav-filters-tab">
         <br>
         <div class="col md-12">
           <!-- Applied filters containers -->
           <div class="container-fluid" style="background-color:white; overflow:auto;">
             <h4 style="padding-top:0.5rem;">
-              <%= Applied Filters %>
+              Applied Filters
             </h4>
             <table id="applied_filters" class="table text-left">
               <thead>
                 <tr>
-                  <% for(var i=0; i< headers.length; i++) { %>
-                  <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
+                  <% for(var i=0; i< filterHeader.length; i++) { %>
                   <th>
-                    <%= headers[i] %>
+                    <%= filterHeader[i] %>
                   </th>
-                  <% } 
-                  } %>
+                  <% }%>
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                <% for(var l=0; l<filterType.length; l++){%>
+                  <td>
+                    <%= filterType[filterHeader[l]] %>
+                  </td>
+                  <%}%>
+                </tr>
               </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 <!-- Modal -->
 <%- include ../../search-modal.ejs %>

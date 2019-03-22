@@ -68,6 +68,7 @@ module.exports = {
 
     var AutovalCSVDirectory = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory')
     var search = req.param("id") + '*.csv'
+    // TODO Move this part at the bottom, info is not DEFINED HERE
     var PVOLfileName = 'Output_PVOL-' + info + '.csv';
     var PVOLfilePath = await sails.helpers.getSettings('ANEMO', 'PVOLCSVDirectory') + PVOLfileName;
     // TODO Clean Redundant Code
@@ -173,6 +174,7 @@ module.exports = {
               }
             })
             GMTcsv.push(items)
+            var filterHeader = filterType.length ? Object.keys(filterType[0]) : []
             return res.view("pages/Activities/ANEMO/flight-overview", {
               activity: "ANEMO",
               summary: summary,
@@ -183,6 +185,7 @@ module.exports = {
               CSVheaders: errorHeader,
               data: [flightData],
               filterType: filterType,
+              filterHeader: filterHeader,
             })
           }
         })
