@@ -157,12 +157,12 @@ module.exports = {
       });
       var filterType = []
       filters.forEach(function (ANEMOfilter) {
-        if (ANEMOfilter["aircraft"] === aircraft && ANEMOfilter["test"] < test) {
+        if (ANEMOfilter["aircraft"] === flightData.AIRCRAFT && ANEMOfilter["test"] < flightData.TEST) {
           var filterInfo = {};
           filterInfo["type"] = ANEMOfilter["type"];
           filterInfo["parameter"] = ANEMOfilter["parameter"];
-          filterInfo["raiseError"] = true;
-          filterInfo["phase"] = DGPSfilter["phase"];
+          filterInfo["raiseError"] = true; 
+          filterInfo["phase"] = ANEMOfilter["phase"];
           filterType.push(filterInfo)
         } 
       })

@@ -58,19 +58,23 @@
               <%}%>
             </h4>
 
-            <% if(filterType.length) { %>
-              <p>
-                <% for(var i=0; i< filterType.length; i++) { %>
-                <% if (filterType[i]["raiseError"] == true) {%>
-                <strong style="color:rgb(238, 180, 22); padding-right:0.2rem">Filter trigger <i class="fa fa-warning fa-md"></i>
-                </strong> error with parameter <strong style="text-decoration: underline;">
-                    <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong> and 
-                type <strong style="text-decoration: underline;">
-                  <%=filterType[i]["type"]%></strong>
-                not found <br>
-                <% } %>
-                <% } %>
-              </p>
+            <% if(filterTrigger) { %>
+              <div style="padding-bottom:1rem;">
+                  <button type="button" class=" btn-sm btn-warning" data-toggle="collapse" data-target="#demo" style="color:white; cursor:pointer;"><strong>Filter Trigger</strong>     <i class="fa fa-warning fa-md"></i></button>
+                  <div id="demo" style="padding-top:1rem;" class="collapse">
+                      <% for(var i=0; i< filterType.length; i++) { %>
+                        <% if (filterType[i]["raiseError"] == true) {%>
+                          <div style="font-size:15px;">
+                         Error with parameter <strong style="text-decoration: underline;">
+                            <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong>, 
+                        type <strong style="text-decoration: underline;">
+                          <%=filterType[i]["type"]%></strong> and phase <strong style="text-decoration: underline;">
+                              <%=filterType[i]["phase"]%></strong> 
+                        not found.</div>
+                        <% } %>
+                        <% } %>
+                  </div>
+                </div>
               <% } %>
 
             <table id="pvol" class="table text-left">
