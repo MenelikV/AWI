@@ -115,12 +115,12 @@ module.exports = {
       });
       var filterType = []
       filters.forEach(function (MCIfilter) {
-        if (MCIfilter["aircraft"] === aircraft && MCIfilter["test"] < test) {
+        if (MCIfilter["aircraft"] === flightData.AIRCRAFT && MCIfilter["test"] < flightData.TEST) {
           var filterInfo = {};
           filterInfo["type"] = MCIfilter["type"];
           filterInfo["parameter"] = MCIfilter["parameter"];
           filterInfo["raiseError"] = true;
-          filterInfo["phase"] = DGPSfilter["phase"];
+          filterInfo["phase"] = MCIfilter["phase"];
           filterType.push(filterInfo)
         }
       })
