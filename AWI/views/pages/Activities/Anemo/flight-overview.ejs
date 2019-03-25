@@ -81,27 +81,31 @@
                 <!-- Iterate over errors rows-->
                 <% for(var j=0; j< data.length; j++) { %>
                 <tr data-toggle="collapse" class="hover" data-target="<%='#demo_'+j%>" style="cursor : pointer;">
+                  <% var errorTypes = Object.keys(errorMap) %>
                   <!-- Iterate over each field data-->
                   <% for(var k=0; k< headers.length; k++) { %>
                   <%if(headers[k] == "START") {%>
                   <td>
                     GMT
                     <%=  data[j][headers[k]] %>
+                    <p>
+                      <% var evenTypes = errorTypes.filter((e, i) => {return i % 2 === 0}) %>
+                      <% for(let type of evenTypes){%>
+                          <%= type %>: <strong style="color:red"><%= errorMap[type] %></strong>
+                          <br>
+                      <%}%>
+                    </p>
                   </td>
                   <% }else if ( headers[k] == "END") { %>
                   <td>
                     GMT
                     <%=  data[j][headers[k]] %>
-                    <br>
-                    <p>ERROR:
-
-                      <% if(CSVerrors[j].length){ %>
-                      <strong style="color:red">
-                        <%= CSVerrors[j].length %></strong>
-                      <%} else {%>
-                      <strong style="color:rgb(2, 179, 2)">
-                        <%= CSVerrors[j].length %></strong>
-                      <%}%>
+                    <p>
+                        <% var oddTypes = errorTypes.filter((e, i) => {return i % 2 !== 0}) %>
+                        <% for(let type of oddTypes){%>
+                            <%= type %>: <strong style="color:red"><%= errorMap[type] %></strong>
+                            <br>
+                        <%}%>
                     </p>
                   </td>
                   <% } else{%>

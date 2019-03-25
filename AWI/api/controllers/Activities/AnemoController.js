@@ -68,9 +68,7 @@ module.exports = {
 
     var AutovalCSVDirectory = await sails.helpers.getSettings('ANEMO', 'AutoValCSVDirectory')
     var search = req.param("id") + '*.csv'
-    // TODO Move this part at the bottom, info is not DEFINED HERE
-    var PVOLfileName = 'Output_PVOL-' + info + '.csv';
-    var PVOLfilePath = await sails.helpers.getSettings('ANEMO', 'PVOLCSVDirectory') + PVOLfileName;
+
     // TODO Clean Redundant Code
     var matches = req.param("id").match(/[A-Z]\d{4,5}/gm)
     if (matches.length === 2) {
@@ -89,6 +87,8 @@ module.exports = {
       var info = TEST[0]
     }
     // ODOT
+    var PVOLfileName = 'Output_PVOL-' + info + '.csv';
+    var PVOLfilePath = await sails.helpers.getSettings('ANEMO', 'PVOLCSVDirectory') + PVOLfileName;
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
@@ -152,6 +152,7 @@ module.exports = {
             errorHeader = results.meta["fields"];
             startpvol = times[0]
             endpvol = times[1]
+            var errorMap = {}
 
             results.data.forEach(function (item) {
               var startcsv = moment(item["START"], CSV_format);
@@ -160,6 +161,13 @@ module.exports = {
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
                 items.push(item)
+                var type = item["TYPE"]
+                if(errorMap[type] === undefined){
+                  errorMap[type] = 1
+                }
+                else{
+                  errorMap[type]++;
+                }
 
               } else {
                 console.log("Something wrong happened")
@@ -186,6 +194,7 @@ module.exports = {
               data: [flightData],
               filterType: filterType,
               filterHeader: filterHeader,
+              errorMap: errorMap,
             })
           }
         })
