@@ -89,6 +89,35 @@ module.exports = {
     // ODOT
     var PVOLfileName = 'Output_PVOL-' + info + '.csv';
     var PVOLfilePath = await sails.helpers.getSettings('ANEMO', 'PVOLCSVDirectory') + PVOLfileName;
+    var content;
+    try{
+      var content = fs.readFileSync(PVOLfilePath, "utf8")
+    }
+    catch(error){
+      console.error(`${PVOLfilePath} was not found or is invalid`)
+    }
+    var GMTpvol = []
+    var phasesFlightData = [];
+    if(content !== undefined){
+      Papa.parse(content, {
+        header: true,
+        delimiter: ";",
+        skipEmptyLines: true,
+        complete: function (results) {
+          flightHeader = results.meta["fields"]
+          phasesFlightData = results.data
+          results.data.forEach(function (item) {
+            var GMTpvolinfo = {};
+            GMTpvolinfo["START"] = item["START"].split("-")[1];
+            GMTpvolinfo["END"] = item["END"].split("-")[1];
+            GMTpvolinfo["PHASE"] = item["PHASE"]
+            GMTpvol.push(GMTpvolinfo);
+          })
+        }
+      })
+      GMTpvol = sails.helpers.phasePatcher(GMTpvol)
+      phasesFlightData = sails.helpers.phasePatcher(phasesFlightData)
+    }
     var glob = require("glob-fs")()
     var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
     var resLength = activityFiles.length
@@ -137,6 +166,7 @@ module.exports = {
         } 
       })
       var GMTcsv = []
+      var FullGMTcsv = []
       fs.readFile(activityfilePath, 'utf8', function (err, data) {
         if (err) {
           return res.serverError(`Could not read the following file :${activityfilePath}`)
@@ -148,25 +178,25 @@ module.exports = {
           complete: function (results) {
             /*For each period in PVOL, read the csv file and verify if the 
             error is in the given period. If it is, add it to an array.*/
-            var items = [];
+            var Fullitems = [];
             errorHeader = results.meta["fields"];
             startpvol = times[0]
             endpvol = times[1]
-            var errorMap = {}
-
+            var FullerrorMap = {}
+            // Full Flight Analysis
             results.data.forEach(function (item) {
               var startcsv = moment(item["START"], CSV_format);
               var endcsv = moment(item["END"], CSV_format);
               if (startcsv > startpvol && endcsv < endpvol) {
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
-                items.push(item)
+                Fullitems.push(item)
                 var type = item["TYPE"]
-                if(errorMap[type] === undefined){
-                  errorMap[type] = 1
+                if(FullerrorMap[type] === undefined){
+                  FullerrorMap[type] = 1
                 }
                 else{
-                  errorMap[type]++;
+                  FullerrorMap[type]++;
                 }
 
               } else {
@@ -175,13 +205,52 @@ module.exports = {
               if (filterType.length) {
                 filterType.forEach(function (filter) {
                   if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
-                    items.pop();
+                    Fullitems.pop();
+                    FullerrorMap[type]--;
                     filter["raiseError"] = false;
                   }
                 })
               }
             })
-            GMTcsv.push(items)
+            FullerrorMap = _.pick(FullerrorMap, (v, k) => {return v > 0;})
+            FullGMTcsv.push(Fullitems)
+            // Phases Analysis
+            var errorMap = []
+            GMTpvol.forEach(function (period) {
+              var items = [];
+              var startpvol = period["START"]
+              var endpvol = period["END"]
+              var currentMap = {}
+              results.data.forEach(function (item) {
+                var startcsv = item["START"].split("-")[1];
+                var endcsv = item["END"].split("-")[1];
+                if (endcsv > startpvol && startcsv < endpvol) {
+                  item.MAX = sails.helpers.numberFormat(item.MAX)
+                  item.MIN = sails.helpers.numberFormat(item.MIN)
+                  items.push(item)
+                  var type = item["TYPE"]
+                  if(currentMap[type] === undefined){
+                    currentMap[type] = 1
+                  }
+                  else{
+                    currentMap[type]++;
+                  }
+  
+                }
+                if (filterType.length) {
+                  filterType.forEach(function (filter) {
+                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
+                      items.pop();
+                      currentMap[type]--;
+                      filter["raiseError"] = false;
+                    }
+                  })
+                }
+              })
+              GMTcsv.push(items)
+              currentMap = _.pick(currentMap, (v, k) => {return v > 0;})
+              errorMap.push(currentMap)
+            })
             var filterHeader = filterType.length ? Object.keys(filterType[0]) : []
             return res.view("pages/Activities/ANEMO/flight-overview", {
               activity: "ANEMO",
@@ -189,12 +258,21 @@ module.exports = {
               mr: mr,
               name: info,
               headers: ["START", "END", "PHASE"],
-              CSVerrors: GMTcsv,
+              CSVerrors: {
+                phases: GMTcsv,
+                full: FullGMTcsv
+              },
               CSVheaders: errorHeader,
-              data: [flightData],
+              data: {
+                phases: phasesFlightData,
+                full: [flightData]
+              },
               filterType: filterType,
               filterHeader: filterHeader,
-              errorMap: errorMap,
+              errorMap: {
+                phases: errorMap,
+                full: FullerrorMap
+              },
             })
           }
         })

@@ -46,6 +46,16 @@
           <div class="container-fluid" style="background-color:white; overflow:auto;">
             <h4 style="padding-top:0.5rem;">
               <%= (name) %>
+              <% if(data.full[0].START !== undefined) {%>
+                <div style="float:right">
+                  <label for="">Phases</label>
+                  <button id="phaseSwitch" type="button" class="btn btn-xs btn-toggle" data-toggle="button" aria-pressed="false"
+                    autocomplete="off">
+                    <div class="handle"></div>
+                  </button>
+                  <label for="">Full Flight</label>
+                </div>
+              <%}%>
             </h4>
 
             <% if(filterType.length) { %>
@@ -79,19 +89,19 @@
 
               <tbody>
                 <!-- Iterate over errors rows-->
-                <% for(var j=0; j< data.length; j++) { %>
+                <% for(var j=0; j< data.phases.length; j++) { %>
                 <tr data-toggle="collapse" class="hover" data-target="<%='#demo_'+j%>" style="cursor : pointer;">
-                  <% var errorTypes = Object.keys(errorMap) %>
+                  <% var errorTypes = Object.keys(errorMap.phases[j]) %>
                   <!-- Iterate over each field data-->
                   <% for(var k=0; k< headers.length; k++) { %>
                   <%if(headers[k] == "START") {%>
                   <td>
                     GMT
-                    <%=  data[j][headers[k]] %>
+                    <%=  data.phases[j][headers[k]] %>
                     <p>
                       <% var evenTypes = errorTypes.filter((e, i) => {return i % 2 === 0}) %>
                       <% for(let type of evenTypes){%>
-                          <%= type %>: <strong style="color:red"><%= errorMap[type] %></strong>
+                          <%= type %>: <strong style="color:red"><%= errorMap.phases[j][type] %></strong>
                           <br>
                       <%}%>
                     </p>
@@ -99,11 +109,11 @@
                   <% }else if ( headers[k] == "END") { %>
                   <td>
                     GMT
-                    <%=  data[j][headers[k]] %>
+                    <%=  data.phases[j][headers[k]] %>
                     <p>
                         <% var oddTypes = errorTypes.filter((e, i) => {return i % 2 !== 0}) %>
                         <% for(let type of oddTypes){%>
-                            <%= type %>: <strong style="color:red"><%= errorMap[type] %></strong>
+                            <%= type %>: <strong style="color:red"><%= errorMap.phases[j][type] %></strong>
                             <br>
                         <%}%>
                     </p>
@@ -111,7 +121,7 @@
                   <% } else{%>
                   <%if(headers[k] == "PHASE"){%>
                   <td>
-                    <%= data[j][headers[k]] %>
+                    <%= data.phases[j][headers[k]] %>
                   </td>
                   <%}%>
                   <%}
@@ -123,7 +133,7 @@
                   <td colspan="2">
                     <div id="<%='demo_'+j%>" class="collapse text-center">
                       <!-- Start subtable-->
-                      <% if(CSVerrors[j].length) {  %>
+                      <% if(CSVerrors.phases[j].length) {  %>
                       <table id="<%='subtable_'+j%>" class="table-md">
                         <thead>
                           <tr>
@@ -140,11 +150,11 @@
 
                         <tbody style="background-color:rgba(137, 202, 255, 0.075)">
 
-                          <% for(var i=0; i< CSVerrors[j].length; i++) { %>
+                          <% for(var i=0; i< CSVerrors.phases[j].length; i++) { %>
                           <tr>
                             <% for(var k=0; k < CSVheaders.length; k++) { %>
                             <td id="<%=CSVheaders[k]%>">
-                              <%= CSVerrors[j][i][CSVheaders[k]] %>
+                              <%= CSVerrors.phases[j][i][CSVheaders[k]] %>
 
                             </td>
                             <% } %>
@@ -177,6 +187,118 @@
                 <% } %>
               </tbody>
             </table>
+            <table id="full" class="table text-left" style="width:100%; display:none">
+              <thead>
+                <tr>
+                  <% for(var i=0; i< headers.length; i++) { %>
+                    <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
+                    <th>
+                      <%= headers[i] %>
+                    </th>
+                    <% } 
+                  } %>
+                </tr>
+              </thead>
+              <tbody>
+                  <!-- Iterate over errors rows-->
+                  <% for(var j=0; j< data.full.length; j++) { %>
+                  <tr data-toggle="collapse" class="hover" data-target="<%='#full_demo_'+j%>" style="cursor : pointer;">
+                    <% var errorTypes = Object.keys(errorMap.full) %>
+                    <!-- Iterate over each field data-->
+                    <% for(var k=0; k< headers.length; k++) { %>
+                    <%if(headers[k] == "START") {%>
+                    <td>
+                      GMT
+                      <%=  data.full[j][headers[k]] %>
+                      <p>
+                        <% var evenTypes = errorTypes.filter((e, i) => {return i % 2 === 0}) %>
+                        <% for(let type of evenTypes){%>
+                            <%= type %>: <strong style="color:red"><%= errorMap.full[type] %></strong>
+                            <br>
+                        <%}%>
+                      </p>
+                    </td>
+                    <% }else if ( headers[k] == "END") { %>
+                    <td>
+                      GMT
+                      <%=  data.full[j][headers[k]] %>
+                      <p>
+                          <% var oddTypes = errorTypes.filter((e, i) => {return i % 2 !== 0}) %>
+                          <% for(let type of oddTypes){%>
+                              <%= type %>: <strong style="color:red"><%= errorMap.full[type] %></strong>
+                              <br>
+                          <%}%>
+                      </p>
+                    </td>
+                    <% } else{%>
+                    <%if(headers[k] == "PHASE"){%>
+                    <td>
+                      <%= data.full[j][headers[k]] %>
+                    </td>
+                    <%}%>
+                    <%}
+                                                } %>
+                  </tr>
+  
+                  <!--Start collapse div-->
+                  <tr class="hidden">
+                    <td colspan="2">
+                      <div id="<%='full_demo_'+j%>" class="collapse text-center">
+                        <!-- Start subtable-->
+                        <% if(CSVerrors.full[j].length) {  %>
+                        <table id="<%='full_subtable_'+j%>" class="table-md">
+                          <thead>
+                            <tr>
+                              <% for(var i=0; i< CSVheaders.length; i++) { %>
+                              <th>
+                                <%= CSVheaders[i] %>
+                              </th>
+                              <% } %>
+                              <th style="width: 15%">
+                                ACTIONS
+                              </th>
+                            </tr>
+                          </thead>
+  
+                          <tbody style="background-color:rgba(137, 202, 255, 0.075)">
+  
+                            <% for(var i=0; i< CSVerrors.full[j].length; i++) { %>
+                            <tr>
+                              <% for(var k=0; k < CSVheaders.length; k++) { %>
+                              <td id="<%=CSVheaders[k]%>">
+                                <%= CSVerrors.full[j][i][CSVheaders[k]] %>
+  
+                              </td>
+                              <% } %>
+  
+                              <td style='white-space: nowrap'>
+                                <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" aria-hidden="true"
+                                  data-id="see_par">
+                                  <span class="fa fa-line-chart fa-lg" title="See Parameter"></span>
+                                </button>
+  
+                                <button type="button" class=" btn-light btn-sm" aria-hidden="true" data-id="filter_par">
+                                  <i class="fa fa-eyedropper fa-lg" title="Filter"></i>
+                                </button>
+  
+                                <button type="button" class=" btn-light btn-sm" aria-hidden="true" data-id="search_par"">
+                                         <i class="
+                                  fa fa-search fa-lg" title="Search"></i>
+                                </button>
+                              </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                        <!--End subtable-->
+                        <%}%>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- End collapse div -->
+                  <% } %>
+              </tbody>
+            </table>
           </div>
           <!-- End PVOL container -->
         </div>
@@ -196,19 +318,31 @@
                 <tr>
                   <% for(var i=0; i< filterHeader.length; i++) { %>
                   <th>
-                    <%= filterHeader[i] %>
+                    <% if(filterHeader[i] == "parameter" || filterHeader[i] == "type"){%>
+                      <%= filterHeader[i].toUpperCase() %>
+                    <%}%>
                   </th>
                   <% }%>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                <% for(var l=0; l<filterType.length; l++){%>
-                  <td>
-                    <%= filterType[filterHeader[l]] %>
-                  </td>
-                  <%}%>
-                </tr>
+                <% for(let filter_ of filterType){%>
+                  <tr>
+                      <% for(var l=0; l<filterHeader.length; l++){%>
+                          <% if(filterHeader[l] == "parameter"){%>
+                            <td>
+                              <%= filter_[filterHeader[l]] %>
+                            </td>
+                            <%}
+                            else if(filterHeader[l] == "type"){%>
+                            <td>
+                              <%= filter_[filterHeader[l]] %>
+                            </td>
+                            <%}
+                          %>
+                      <%}%>
+                  </tr>
+                <%}%>
               </tbody>
             </table>
           </div>
