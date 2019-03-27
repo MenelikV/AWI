@@ -148,17 +148,16 @@ module.exports = {
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
                 items.push(item)
-
+                if (filterType.length) {
+                  filterType.forEach(function (filter) {
+                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
+                      items.pop();
+                      filter["raiseError"] = false;
+                    }
+                  })
+                }
               } else {
                 console.log("Something wrong happened")
-              }
-              if (filterType.length) {
-                filterType.forEach(function (filter) {
-                  if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
-                    items.pop();
-                    filter["raiseError"] = false;
-                  }
-                })
               }
             })
             GMTcsv.push(items)
