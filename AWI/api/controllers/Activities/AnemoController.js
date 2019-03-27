@@ -163,7 +163,7 @@ module.exports = {
           var filterInfo = {};
           filterInfo["type"] = ANEMOfilter["type"];
           filterInfo["parameter"] = ANEMOfilter["parameter"];
-          filterInfo["raiseError"] = true; 
+          filterInfo["raiseError"] = true;
           filterInfo["phase"] = ANEMOfilter["phase"];
           filterType.push(filterInfo)
         }
