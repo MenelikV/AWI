@@ -47,13 +47,15 @@ module.exports = {
     var test = req.param('test')
     var type = req.param('type')
     var parameter = req.param("parameter")
+    var phase = req.param("phase")
 
     var duplicateFilter = await Filter.find({
       aircraft: aircraft,
       test: test,
       type: type,
       activity: activity,
-      parameter: parameter
+      parameter: parameter,
+      phase: phase
     })
     if (!duplicateFilter.length) {
       await Filter.create({
@@ -61,7 +63,8 @@ module.exports = {
         aircraft: aircraft,
         test: test,
         type: type,
-        parameter: parameter
+        parameter: parameter,
+        phase: phase
       });
       return res.status(200).send()
     } else return res.serverError("Duplicate filter!")

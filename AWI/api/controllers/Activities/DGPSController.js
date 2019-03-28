@@ -65,8 +65,20 @@ module.exports = {
         activity: 'DGPS'
       })
     });
-  }, 
+  },
 
+  /**
+   * @description :: Accesses CSV and PVOL file directory of the selected flight and stores each of it's CSV errors to it's corresponding PVOL periods, also applies filters to the corresponding errors.
+   * @var {Array} filterType - Contains an array of objects with the info of all filters that apply to the selected flight.
+   * @var {Object} filterInfo - Contains full info on each filter that applies to the selected flight.
+   * @var {Array} GMTpvol - Contains an array of objects with PVOL periods of the corresponding flight.
+   * @var {Object} GMTpvolinfo - Contains full info on each PVOL period of the selected flight.
+   * @var {Array} GMTcsv - Contains an array with all CSV errors for each PVOL period.
+   * @var {Array} items - Contains an array of objects with CSV errors full info corresponding to each PVOL period.
+   * @var {Array} FullGMTcsv - Contains an array with all the errors presented during the full flight duration (not periods)
+   * @var {Array} Fullitems - Contains all the errors presented during the full flight.
+   * @var {Array} errorHeader - Contains the headers for the selected flight overview.
+   */
   getFlightOverview: async function (req, res) {
     var filterType = [];
     var TEST = req.param("id").match(/([A-Z]\d{4,5}){2}/gm)
@@ -90,13 +102,20 @@ module.exports = {
     var InfoCSVDirectory = await sails.helpers.getSettings("DGPS", "SummaryINFODirectory")
     var search = name + '*.csv'
     var glob = require("glob-fs")()
-    var activityFiles = glob.readdirSync(search, {cwd: AutovalCSVDirectory})
+
+    var activityFiles = glob.readdirSync(search, {
+      cwd: AutovalCSVDirectory
+    })
     var resLength = activityFiles.length
     if (resLength === 1) {
       activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
     } else {
       return res.serverError('Problem while searching the folder')
     }
+
+    /**
+     * Check for flight summary data
+     */
     var fs = require('fs');
     var glob = require("glob-fs")()
     var info_search = req.param("id") + "*.csv"
@@ -132,6 +151,10 @@ module.exports = {
       var startvol = undefined
       var endvol = undefined
     }
+
+    /**
+     * Check for full flight data
+     */
     var _id = path.parse(activityfilePath).name
     const CSV_format = "DDD-HH:mm:ss"
     var FullFlightData = {};
@@ -142,20 +165,28 @@ module.exports = {
     }
     FullFlightData.PHASE = "FULL FLIGHT"
     FullFlightData.YEAR = ""
-    //Save filters
+
+    /**
+     * Find and save filters for the corresponding flight
+     * */
+    const numeral = require("numeral")
     var filters = await Filter.find({
       activity: 'DGPS'
     });
     filters.forEach(function (DGPSfilter) {
-      if (DGPSfilter["aircraft"] === aircraft && DGPSfilter["test"] < test) {
+      if (DGPSfilter["aircraft"] === aircraft && numeral(DGPSfilter["test"]).value() < numeral(test).value()) {
         var filterInfo = {};
         filterInfo["type"] = DGPSfilter["type"];
         filterInfo["parameter"] = DGPSfilter["parameter"];
+        filterInfo["phase"] = DGPSfilter["phase"];
         filterInfo["raiseError"] = true;
         filterType.push(filterInfo)
-      } 
+      }
     })
 
+    /**
+     * Read the flight's PVOL file and save each period
+     */
     fs.readFile(PVOLfilePath, 'utf8', function (err, data) {
       if (err) {
         return res.serverError('Could not read the file')
@@ -199,8 +230,10 @@ module.exports = {
           delimiter: ";",
           skipEmptyLines: true,
           complete: function (results) {
-            /*For each period in PVOL, read the csv file and verify if the 
-            error is in the given period. If it is, add it to an array.*/
+            /* * 
+             * For each period in PVOL, reads the csv file and verifies if each error is in the given period. 
+             * If it is, adds it to an array. Also checks and filters specified errors if necessary.
+             * */
             errorHeader = results.meta["fields"];
             // Full Flight Analyse
             var Fullitems = []
@@ -223,6 +256,7 @@ module.exports = {
                 })
               }
             })
+
             GMTpvol.forEach(function (period) {
               var items = [];
               var startpvol = period["START"]
@@ -235,20 +269,25 @@ module.exports = {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   items.push(item)
-                }
-                if (filterType.length) {
-                  filterType.forEach(function (filter) {
-                    if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"]) {
-                      items.pop();
-                      filter["raiseError"] = false;
-                    }
-                  })
+                  if (filterType.length) {
+                    filterType.forEach(function (filter) {
+                      if (item["TYPE"] === filter["type"] && item["PARAMETER"] === filter["parameter"] && item["PHASE"] === filter["phase"]) {
+                        items.pop();
+                        filter["raiseError"] = false;
+                      }
+                    })
+                  }
                 }
               })
               GMTcsv.push(items)
               FullGMTcsv.push(Fullitems)
             })
-
+            var filterTrigger = false;
+            filterType.forEach(function (filter) {
+              if (filter["raiseError"] === true) {
+                filterTrigger = true;
+              }
+            })
             return res.view("pages/Activities/DGPS/flight-overview", {
               headers: flightHeader,
               data: {
@@ -264,7 +303,8 @@ module.exports = {
               activity: 'DGPS',
               summary: summary,
               mr: mr,
-              filterType: filterType
+              filterType: filterType,
+              filterTrigger: filterTrigger,
             })
           }
         })

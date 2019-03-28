@@ -9,7 +9,17 @@ $(document).ready(function () {
     $('#nav-tab a[href="' + activeTab + '"]').tab('show');
   }
 
-  var toggleHandler = function () {
+  $("#typeSwitch").on('click', function () {
+    if ($("#typeSwitch").hasClass("active")) {
+      $("#type_header").removeClass('enabled-th').addClass('disabled-th')
+      $("#modal_type").prop('disabled', true);
+    } else {
+      $("#type_header").removeClass('disabled-th').addClass('enabled-th')
+      $("#modal_type").prop('disabled', false);
+    }
+  })
+
+  $("#phaseSwitch").on('click', function () {
     if ($("#phaseSwitch").hasClass("active")) {
       // PVOL
       $("#full").hide()
@@ -19,8 +29,12 @@ $(document).ready(function () {
       $("#pvol").hide()
       $("#full").show()
     }
-  }
-  //toggleHandler()
+  })
+
+  $('#search').on('click', function () {
+    $("#typeSwitch").hasClass("active") ? "" : $("#modal_type").val("");
+  })
+
   $("table[id*='subtable_']").DataTable({
     initComplete: function () {
       var colCount = this.api().columns().header().length;
@@ -179,6 +193,9 @@ $(document).ready(function () {
     $("#plotModal").modal("handleUpdate")
   }
 
+  /** 
+   * Filling in fields on the search modal
+   */
   $("table[id*='subtable_']").on("click", 'button[data-id="search_par"]', function () {
     var row = $(this).parents('tr')[0]
     for (var i = 0; i < row.cells.length - 1; i++) {
@@ -189,27 +206,21 @@ $(document).ready(function () {
     }
     $('#searchModalCenter').modal('show');
   })
-
   $('#searchModalCenter').on('shown.bs.modal', function () {
     $('#modal_entries').focus();
   })
-  $("#phaseSwitch").click(toggleHandler)
-  $('#type_check').on('click', function () {
-    $("#modal_type").prop('disabled', function (_, val) {
-      return !val;
-    });
-  })
-  $('#save').on('click', function () {
-    $("#modal_type").prop("disabled") ? $("#modal_type").val("") : "";
-  })
 
+  /** 
+   * Filling in fields on the filter modal
+   */
   $("table[id*='subtable_']").on("click", 'button[data-id="filter_par"]', function () {
     var row = $(this).parents('tr')[0]
     for (var i = 0; i < row.cells.length - 1; i++) {
-      row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").val(row.cells[i].innerText) : "";
-      row.cells[i].id == "TEST" ? $("#filter_test").val(row.cells[i].innerText) : "";
-      row.cells[i].id == "TYPE" ? $("#filter_type").val(row.cells[i].innerText) : "";
-      row.cells[i].id == "PARAMETER" ? $("#filter_parameter").val(row.cells[i].innerText) : "";
+      row.cells[i].id == "AIRCRAFT" ? $("#filter_aircraft").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "TEST" ? $("#filter_test").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "TYPE" ? $("#filter_type").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "PARAMETER" ? $("#filter_parameter").html(row.cells[i].innerText) : "";
+      row.cells[i].id == "PHASE" ? $("#filter_phase").html(row.cells[i].innerText) : "";
     }
     $('#filterModalCenter').modal('show');
   })
@@ -223,10 +234,11 @@ $(document).ready(function () {
     $("#filter_load").css(callbackStyles)
     var url = '/createFilter/' + $("#filter_activity").val()
     var data = {
-      aircraft: $("#filter_aircraft").val(),
-      test: $("#filter_test").val(),
-      type: $("#filter_type").val(),
-      parameter: $("#filter_parameter").val(),
+      aircraft: $("#filter_aircraft").text(),
+      test: $("#filter_test").text(),
+      type: $("#filter_type").text(),
+      parameter: $("#filter_parameter").text(),
+      phase: $("#filter_phase").text()
     }
     $.ajax({
       url: url,
@@ -236,7 +248,6 @@ $(document).ready(function () {
         $("#filter_load").css("display", "none")
         $("#filter").css(callbackStyles).prop('disabled', true)
         $("#filter").removeClass('btn-primary').addClass('btn-success').html("Filter added!")
-
       },
       error: function error() {
         $("#filter_load").css("display", "none")

@@ -7,8 +7,6 @@
   height: 2rem;
 }
 
-
-
 .dot {
   height: 13px;
   width: 13px;
@@ -79,7 +77,6 @@ h3.heading {
   color: #1b4079
 }
 
-/*--- iOS Landing Page Fix --*/
 .landing {
   position: relative;
   width: 100%;
@@ -142,17 +139,14 @@ h3.heading {
   color: white;
   background: rgba(131, 150, 161, 0.336);
   font-size: .9rem;
-
   overflow-x: hidden;
   /*--right gutter fix--*/
-
 }
 
 .footer-logo img {
   width: auto;
   height: auto;
   padding: 0%;
-
 }
 
 html,
@@ -161,7 +155,6 @@ body {
   color: #0a1e33;
   overflow-x: hidden;
   /*--right gutter fix--*/
-
   height: 100%;
   margin: 0;
 }
@@ -174,7 +167,6 @@ body {
   background-size: cover;
   overflow-x: hidden;
   /*--right gutter fix--*/
-
 }
 
 .home-back {
@@ -185,9 +177,7 @@ body {
   background-size: cover;
   overflow-x: hidden;
   /*--right gutter fix--*/
-
 } 
-
 
 .btn-xl {
   padding: 1.25rem 2.5rem;
@@ -196,8 +186,6 @@ body {
 h1 {
   font-family: 'Source Sans Pro';
 }
-
- 
 
 h4 {
 color: #0e6097;
@@ -208,20 +196,42 @@ h6 {
   font-weight: 700;
 }
 
-
-.modalInput {
-  font-size: 14px;
-  padding-top:1rem;
-  padding-bottom:0.5rem;
+table.modal-table {
+  width: 100%; 
+  overflow-x: auto;
+  margin-bottom: 1rem;
   background-color: transparent;
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
-  border-color: rgb(26, 110, 165);
+  text-align: left;
+  border-collapse: separate;
 }
 
-.modal-text {
+table.modal-table tbody td input{
+  font-size: 14px;
+  background-color: transparent;
+  border-width: 0px 0px 0px 0px;
+  text-align: left;
+}
+
+table.modal-table td {
+  width:150px;
+  font-size: 14px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+table.modal-table thead th {
   color:#0e6097;
   font-size:16px;
+  font-weight: bold;
+  width:150px;
+  padding-bottom: 0.45rem;
+}
+
+.enabled-th{
+  color: #0e6097;
+}
+
+.disabled-th {
+  color: gray;
 }
 
 .text-faded {
@@ -260,7 +270,6 @@ h6 {
   }
 }
 
-
 a:hover,
 a:focus,
 a:active {
@@ -288,11 +297,6 @@ a:active {
 
 .bg-primary {
   background-color: #1D809F !important;
-}
-
-.btn-outline-primary {
-  color: #1D809F !important;
-  border-color: #1D809F ! important;
 }
 
 .dropdown .dropdown-menu {
@@ -355,7 +359,6 @@ a:active {
   left: 45rem;
   top: calc(50% - 2rem);
 }
-
 
 .sel.active::before {
   display: block;
@@ -435,11 +438,9 @@ a:active {
   background-color: #ebedef;
 }
 
-/* ----- Select Box Black Panther ----- */
 .sel {
   border-bottom: 4px solid rgba(0, 0, 0, 0.3);
 }
-
 
 /* ===== Keyframes ===== */
 @keyframes fadeInUp {
@@ -463,8 +464,6 @@ a:active {
     opacity: 0;
   }
 }
-
-
 
 table.dataTable thead>tr>td.sorting,
 table.dataTable thead>tr>td.sorting_asc,
@@ -578,68 +577,4 @@ canvas {
   100% {
     transform: rotate(360deg);
   }
-}
-
-
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 20px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 2px;
-  bottom: 2px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(6px);
-  -ms-transform: translateX(6px);
-  transform: translateX(10px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
 }

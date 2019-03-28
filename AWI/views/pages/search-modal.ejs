@@ -6,32 +6,36 @@
           <h4 class="modal-title text-center" style="margin: 0 auto;" id="searchModalCenterTitle"> Search Criteria <i
               style="color:rgb(148, 196, 224);" class="fa fa-search fa-sm" title="Search"></i></h4>
         </div>
-        <div class="modal-body " style="background-color:white; margin: 0 auto;">
+        <div class="modal-body " style="background-color:white; margin: 0 auto; overflow-x: auto">
+          <table class="modal-table" style="border-spacing: 30px 0">
+            <thead>
+              <tr>
+                <th>AIRCRAFT</th>
+                <th>PARAMETER</th>
+                <th>
+                  <div id="type_header" style="display:inline-block; padding-right:7rem;">TYPE</div>
+                  <span>
+                    <button id="typeSwitch" type="button" class="btn btn-xs btn-toggle active" data-toggle="button"
+                      aria-pressed="false" autocomplete="off">
+                      <div class="handle"></div>
+                    </button></span>
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="aircraft" id="modal_aircraft" value="" readonly></td>
+                <td><input type="text" name="parameter" id="modal_param" value=""></td>
+                <td><input type="text" name="type" id="modal_type" value=""></td>
+              </tr>
+            </tbody>
+          </table>
+
           <div class="container col-md-12">
-            <div class="row">
-              <div class="col md-4 ">
-
-                <p class="modal-text"> AIRCRAFT <br> <input class="modalInput" type="text" name="aircraft" id="modal_aircraft" value="" readonly></p>
-              </div>
-
-              <div class="col md-4 ">
-                <p class="modal-text">PARAMETER 
-                  <br> <input class="modalInput" type="text" name="parameter" id="modal_param" value=""></p>
-              </div>
-
-              <div class="col md-4 ">
-                <p class="modal-text">TYPE <label class="switch">
-                    <input type="checkbox" id="type_check" checked>
-                    <span class="slider round"></span>
-                  </label>
-                  <br> <input class="modalInput" type="text" name="type" id="modal_type" value=""></p>
-              </div>
-            </div>
-            <br>
-            
             <input type="text" hidden name="test" id="modal_test" value="">
             <input type="hidden" id="modal_activity" value="<%=activity%>">
-
+            <br>
             <div class="row text-center">
               <div class="col md-12">
                 <h6>Specify the amount of previous tests to display</h6>
@@ -43,7 +47,7 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-secondary" data-dismiss="modal" id="#closeButton">Close</button>
-          <button type="" id="save" class="btn btn-primary">Search &raquo;</button>
+          <button type="" id="search" class="btn btn-primary">Search &raquo;</button>
         </div>
     </div>
     </form>
