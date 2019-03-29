@@ -245,6 +245,14 @@ module.exports = {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   Fullitems.push(item)
+                  if (filterType.length) {
+                    filterType.forEach(function (filter) {
+                      if (item["TYPE"] === filter["type"] && item["PARAMETER"] === filter["parameter"] && item["PHASE"] === filter["phase"]) {
+                        Fullitems.pop();
+                        filter["raiseError"] = false;
+                      }
+                    })
+                  }
                 }
               }
               if (filterType.length) {
