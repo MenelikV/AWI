@@ -1,12 +1,15 @@
 module.exports = {
   search: async function (req, res) {
+    var glob = require('glob');
+    const numeral = require("numeral")
     var aircraft = req.param('aircraft')
     var test = req.param('test')
     var param = req.param('parameter')
     var type = req.param('type')
     var entries = req.param('entries')
     var activity = req.param('activity')
-    var testnum = test.replace(/[^0-9]/g, '')
+    var testnum = numeral(test).value()
+    console.log(testnum)
     var search = "";
     var aircraftHeaders = [];
     var flights = [];
@@ -16,11 +19,13 @@ module.exports = {
     var glob = require("glob-fs")()
     var root = await sails.helpers.getSettings(activity, 'AutoValCSVDirectory')
     for (let x = 0; x < entries; x++) {
-      testnum -= 1;
+      testnum = numeral(testnum).value() -1;
+      testnum = testnum.toString(10).padStart(4,"0")
       search = aircraft + '*' + testnum + '*.csv';
       files = glob.readdirSync(search, {cwd: root})
     }
-
+ 
+    files = [... new Set(files)]
     if (files.length) {
       files.forEach(function (file) {
         var Papa = require('papaparse');
