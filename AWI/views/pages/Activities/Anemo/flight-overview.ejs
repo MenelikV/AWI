@@ -156,7 +156,7 @@
                         <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
-                            <th>
+                            <th id="<%= CSVheaders[i] %>">
                               <%= CSVheaders[i] %>
                             </th>
                             <% } %>
@@ -209,7 +209,7 @@
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
-                    <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END") {%>
+                    <%if(headers[i] == "PHASE" || headers[i] == "START" ||  headers[i] == "END" || headers[i] == "ERRORS") {%>
                     <th>
                       <%= headers[i] %>
                     </th>
@@ -220,7 +220,7 @@
               <tbody>
                   <!-- Iterate over errors rows-->
                   <% for(var j=0; j< data.full.length; j++) { %>
-                  <tr data-toggle="collapse" class="hover" data-target="<%='#full_demo_'+j%>" style="cursor : pointer;">
+                  <tr class="hover" data-target="<%='#full_demo_'+j%>" id="<%='#full-row-demo_'+j%>"+>
                     <% var errorTypes = Object.keys(errorMap.full) %>
                     <!-- Iterate over each field data-->
                     <% for(var k=0; k< headers.length; k++) { %>
@@ -228,39 +228,51 @@
                     <td>
                       GMT
                       <%=  data.full[j][headers[k]] %>
-                      <p>
-                        <% var evenTypes = errorTypes.filter((e, i) => {return i % 2 === 0}) %>
-                        <% for(let type of evenTypes){%>
-                            <%= type %>: <strong style="color:red"><%= errorMap.full[type] %></strong>
-                            <br>
-                        <%}%>
-                      </p>
                     </td>
                     <% }else if ( headers[k] == "END") { %>
                     <td>
                       GMT
                       <%=  data.full[j][headers[k]] %>
-                      <p>
-                          <% var oddTypes = errorTypes.filter((e, i) => {return i % 2 !== 0}) %>
-                          <% for(let type of oddTypes){%>
-                              <%= type %>: <strong style="color:red"><%= errorMap.full[type] %></strong>
-                              <br>
-                          <%}%>
-                      </p>
                     </td>
-                    <% } else{%>
-                    <%if(headers[k] == "PHASE"){%>
+                    <% } else if(headers[k] == "PHASE"){%>
                     <td>
                       <%= data.full[j][headers[k]] %>
                     </td>
+                    <%} else if(headers[k] == "ERRORS"){%>
+                      <td>
+                        <% if(!errorTypes.length){%>
+                          <strong style="color:green"> <i class="fa fa-minus fa-sm"></i> </strong>
+                          <%}
+                          else{%>
+                            <% if (errorTypes.length <=3) {%>
+                              <%  for(let type of errorTypes){%>
+                              <a style="color:black" id="<%='full_subtable_'+j+'-'+ type %>" href="#"><%= type %></a>: <strong
+                                style="color:red;"><%= errorMap.full[type] %></strong>
+                              <br>
+          
+                              <%}%>
+          
+                                  <%} else {%>
+                              <div style="overflow:auto; width: 200px;
+                                height: 80px;">
+                                <%  for(let type of errorTypes){%>
+          
+                                  <a style="color:black" id="<%='full_subtable_'+j+'-'+ type %>" href="#"><%= type %></a>: <strong
+                                  style="color:red;"><%= errorMap.full[type] %></strong>
+                                <br>
+          
+                                <%}%>
+                            </div>
+                            <%}%>
+                            <%}%>
+                      </td>
+                      <%}%>
                     <%}%>
-                    <%}
-                                                } %>
                   </tr>
   
                   <!--Start collapse div-->
                   <tr class="hidden">
-                    <td colspan="2">
+                    <td colspan="4">
                       <div id="<%='full_demo_'+j%>" class="collapse text-center">
                         <!-- Start subtable-->
                         <% if(CSVerrors.full[j].length) {  %>
@@ -268,7 +280,7 @@
                           <thead>
                             <tr>
                               <% for(var i=0; i< CSVheaders.length; i++) { %>
-                              <th>
+                              <th id="<%=CSVheaders[i]%>">
                                 <%= CSVheaders[i] %>
                               </th>
                               <% } %>

@@ -84,14 +84,14 @@ $(document).ready(function () {
   })
 
 
-  $("#pvol tbody").on("click", "a[id*='subtable_']", function (event) {
+  $("#pvol tbody, #full tbody").on("click", "a[id*='subtable_']", function (event) {
     var data = $(this).attr('id').split('-')
     $("table[id="+data[0]+"]").DataTable().search(data[1]).draw()
     event.stopPropagation();
-    $("#"+data[0].replace("subtable","demo")).show('1500')
+    $("#"+data[0].replace("subtable","demo")).toggle('1500')
   });
 
-  $("#pvol tbody").on("click","tr", function (event){
+  $("#pvol tbody, #full tbody").on("click","tr", function (event){
     demo_table = $(this).closest("tr").attr('id').split("-")
     $("table[id="+demo_table[1].replace("demo","subtable")+"]").DataTable().search("").draw()
     $("#"+demo_table[1]).toggle('1500')
