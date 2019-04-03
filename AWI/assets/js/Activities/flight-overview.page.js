@@ -88,7 +88,7 @@ $(document).ready(function () {
     var data = $(this).attr('id').split('-')
     $("table[id="+data[0]+"]").DataTable().search(data[1]).draw()
     event.stopPropagation();
-    $("#"+data[0].replace("subtable","demo")).toggle('1500')
+    $("#"+data[0].replace("subtable","demo")).show('1500')
   });
 
   $("#pvol tbody, #full tbody").on("click","tr", function (event){
