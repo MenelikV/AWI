@@ -92,7 +92,7 @@
               <tbody>
                 <!-- Iterate over errors rows-->
                 <% for(var j=0; j< data.phases.length; j++) { %>
-                <tr data-toggle="collapse" class="hover" data-target="<%='#demo_'+j%>" style="cursor : pointer;">
+                <tr data-toggle="collapse" data-target="<%='#demo_'+j%>" style="cursor : pointer;">
                   <!-- Iterate over each field data-->
                   <% for(var k=0; k< headers.length; k++) { %>
                   <%if(headers[k] == "START") {%>
