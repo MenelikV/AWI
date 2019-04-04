@@ -52,26 +52,31 @@
             </h4>
  
             <% if(filterTrigger) { %>
-              <div style="padding-bottom:1rem;">
-                  <button type="button" class=" btn-sm btn-warning" data-toggle="collapse" data-target="#demo" style="color:white; cursor:pointer;"><strong>Filter Trigger</strong>     <i class="fa fa-warning fa-md"></i></button>
-                  <div id="demo" style="padding-top:1rem;" class="collapse">
-                      <% for(var i=0; i< filterType.length; i++) { %>
-                        <% if (filterType[i]["raiseError"] == true) {%>
-                          <div style="font-size:15px;">
-                         Error with parameter <strong style="text-decoration: underline;">
-                            <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong>, 
-                        type <strong style="text-decoration: underline;">
-                          <%=filterType[i]["type"]%></strong> and phase <strong style="text-decoration: underline;">
-                              <%=filterType[i]["phase"]%></strong> 
-                        not found.</div>
-                        <% } %>
-                        <% } %>
-                  </div>
-                </div>
+              <div style="padding-bottom:1rem;overflow: auto;">
+                <button type="button" class=" btn-sm btn-warning" role="button" data-toggle="collapse" href="#filter_errors"
+                  aria-expanded="false" aria-controls="filter_errors" style="color:white; cursor:pointer;"><strong>Filter
+                    Trigger</strong> <i class="fa fa-warning fa-md"></i></button>
+              </div>
+  
+              <div id="filter_errors" class="collapse">
+                    <div style="max-height: 150px; overflow-y: scroll;">
+                  <% for(var i=0; i< filterType.length; i++) { %>
+                  <% if (filterType[i]["raiseError"] == true) {%>
+                  <div style="font-size:15px;">
+                    Error with parameter <strong style="text-decoration: underline;">
+                      <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong>,
+                    type <strong style="text-decoration: underline;">
+                      <%=filterType[i]["type"]%></strong> and phase <strong style="text-decoration: underline;">
+                      <%=filterType[i]["phase"]%></strong>
+                    not found.</div>
+                  <% } %>
+                  <% } %>
+                    </div>
+              </div>
               <% } %>
             
 
-            <table id="pvol" class="table text-left" >
+            <table id="pvol" class="table overview_table text-left" >
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
@@ -127,7 +132,7 @@
                     <div id="<%='demo_'+j%>" class="collapse text-center">
                       <!-- Start subtable-->
                       <% if(CSVerrors.phases[j].length) {  %>
-                      <table id="<%='subtable_'+j%>" class="table-md">
+                      <table id="<%='subtable_'+j%>" class="sub_overview table-md">
                         <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
@@ -179,7 +184,7 @@
                 <% } %>
               </tbody>
             </table>
-            <table id="full" class="table text-left" style="width:100%; display: none">
+            <table id="full" class="table overview_table text-left" style="width:100%; display: none">
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
@@ -236,7 +241,7 @@
                       <!-- Start subtable-->
                       <% console.log(CSVerrors.full[j].length) %>
                       <% if(CSVerrors.full[j].length) {  %>
-                      <table id="<%='full_subtable_'+j%>" class="table-md">
+                      <table id="<%='full_subtable_'+j%>" class="sub_overview table-md">
                         <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>

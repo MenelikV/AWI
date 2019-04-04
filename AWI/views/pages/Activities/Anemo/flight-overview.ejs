@@ -59,25 +59,30 @@
             </h4>
 
             <% if(filterTrigger) { %>
-              <div style="padding-bottom:1rem;">
-                  <button type="button" class=" btn-sm btn-warning" data-toggle="collapse" data-target="#demo" style="color:white; cursor:pointer;"><strong>Filter Trigger</strong>     <i class="fa fa-warning fa-md"></i></button>
-                  <div id="demo" style="padding-top:1rem;" class="collapse">
-                      <% for(var i=0; i< filterType.length; i++) { %>
-                        <% if (filterType[i]["raiseError"] == true) {%>
-                          <div style="font-size:15px;">
-                         Error with parameter <strong style="text-decoration: underline;">
-                            <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong>, 
-                        type <strong style="text-decoration: underline;">
-                          <%=filterType[i]["type"]%></strong> and phase <strong style="text-decoration: underline;">
-                              <%=filterType[i]["phase"]%></strong> 
-                        not found.</div>
-                        <% } %>
-                        <% } %>
-                  </div>
-                </div>
+              <div style="padding-bottom:1rem;overflow: auto;">
+                <button type="button" class=" btn-sm btn-warning" role="button" data-toggle="collapse" href="#filter_errors"
+                  aria-expanded="false" aria-controls="filter_errors" style="color:white; cursor:pointer;"><strong>Filter
+                    Trigger</strong> <i class="fa fa-warning fa-md"></i></button>
+              </div>
+  
+              <div id="filter_errors" class="collapse">
+                    <div style="max-height: 150px; overflow-y: scroll;">
+                  <% for(var i=0; i< filterType.length; i++) { %>
+                  <% if (filterType[i]["raiseError"] == true) {%>
+                  <div style="font-size:15px;">
+                    Error with parameter <strong style="text-decoration: underline;">
+                      <%=filterType[i]["parameter"].replace(/_/g, " ")%></strong>,
+                    type <strong style="text-decoration: underline;">
+                      <%=filterType[i]["type"]%></strong> and phase <strong style="text-decoration: underline;">
+                      <%=filterType[i]["phase"]%></strong>
+                    not found.</div>
+                  <% } %>
+                  <% } %>
+                    </div>
+              </div>
               <% } %>
 
-            <table id="pvol" class="table text-left">
+            <table id="pvol" class="table overview_table text-left">
 
               <thead>
                 <tr>
@@ -124,7 +129,7 @@
                     <%} else{  %>
                     <% if (errorTypes.length <=3) {%>
                     <%  for(let type of errorTypes){%>
-                    <a style="color:black" id="<%='subtable_'+j+'-'+ type %>" href="#"><%= type %></a>: <strong
+                      <a class="type" id="<%='subtable_'+j+'-'+ type %>" role="button"><%= type %></a>: <strong
                       style="color:red;"><%= errorMap.phases[j][type] %></strong>
                     <br>
 
@@ -135,7 +140,7 @@
                       height: 80px;">
                       <%  for(let type of errorTypes){%>
 
-                        <a style="color:black" id="<%='subtable_'+j+'-'+ type %>" href="#"><%= type %></a>: <strong
+                        <a class="type" id="<%='subtable_'+j+'-'+ type %>" role="button"><%= type %></a>: <strong
                         style="color:red;"><%= errorMap.phases[j][type] %></strong>
                       <br>
 
@@ -152,7 +157,7 @@
                     <div id="<%='demo_'+j%>" class="collapse text-center">
                       <!-- Start subtable-->
                       <% if(CSVerrors.phases[j].length) {  %>
-                      <table id="<%='subtable_'+j%>" class="table-md">
+                      <table id="<%='subtable_'+j%>" class="sub_overview table-md">
                         <thead>
                           <tr>
                             <% for(var i=0; i< CSVheaders.length; i++) { %>
@@ -205,7 +210,9 @@
                 <% } %>
               </tbody>
             </table>
-            <table id="full" class="table text-left" style="width:100%; display:none">
+
+            <!-- FULL FLIGHT TABLE -->
+            <table id="full" class="table overview_table text-left" style="width:100%; display:none">
               <thead>
                 <tr>
                   <% for(var i=0; i< headers.length; i++) { %>
@@ -220,7 +227,7 @@
               <tbody>
                   <!-- Iterate over errors rows-->
                   <% for(var j=0; j< data.full.length; j++) { %>
-                  <tr class="hover" data-target="<%='#full_demo_'+j%>" id="<%='row-full_demo_'+j%>"+>
+                  <tr class="hover" data-target="<%='#full_demo_'+j%>" id="<%='row-full_demo_'+j%>">
                     <% var errorTypes = Object.keys(errorMap.full) %>
                     <!-- Iterate over each field data-->
                     <% for(var k=0; k< headers.length; k++) { %>
@@ -246,7 +253,7 @@
                           else{%>
                             <% if (errorTypes.length <=3) {%>
                               <%  for(let type of errorTypes){%>
-                              <a style="color:black" id="<%='full_subtable_'+j+'-'+ type %>" href="#"><%= type %></a>: <strong
+                                <a class="type" id="<%='full_subtable_'+j+'-'+ type %>" role="button"><%= type %></a>: <strong
                                 style="color:red;"><%= errorMap.full[type] %></strong>
                               <br>
           
@@ -257,9 +264,9 @@
                                 height: 80px;">
                                 <%  for(let type of errorTypes){%>
           
-                                  <a style="color:black" id="<%='full_subtable_'+j+'-'+ type %>" href="#"><%= type %></a>: <strong
-                                  style="color:red;"><%= errorMap.full[type] %></strong>
-                                <br>
+                                  <a class="type" id="<%='full_subtable_'+j+'-'+ type %>" role="button"><%= type %></a>: <strong
+                        style="color:red;"><%= errorMap.full[type] %></strong>
+                      <br>
           
                                 <%}%>
                             </div>
@@ -276,7 +283,7 @@
                       <div id="<%='full_demo_'+j%>" class="collapse text-center">
                         <!-- Start subtable-->
                         <% if(CSVerrors.full[j].length) {  %>
-                        <table id="<%='full_subtable_'+j%>" class="table-md">
+                        <table id="<%='full_subtable_'+j%>" class="sub_overview table-md">
                           <thead>
                             <tr>
                               <% for(var i=0; i< CSVheaders.length; i++) { %>
@@ -334,55 +341,58 @@
         </div>
       </div>
       <!-- END SECOND TAB -->
-      <!-- BEGIN THIRD TAB -->
-      <div class="tab-pane fade" id="nav-filters" role="tabpanel" aria-labelledby="nav-filters-tab">
+
+     <!-- BEGIN THIRD TAB -->
+     <div class="tab-pane fade" id="nav-filters" role="tabpanel" aria-labelledby="nav-filters-tab">
         <br>
+        <% if(filterHeader.length) { %>
         <div class="col md-12">
           <!-- Applied filters containers -->
-          <div class="container-fluid" style="background-color:white; overflow:auto;">
+          <div class="container-fluid" style="background-color:white; overflow:auto;padding-bottom:10px">
             <h4 style="padding-top:0.5rem;">
               Applied Filters
             </h4>
             <table id="applied_filters" class="table text-left">
               <thead>
                 <tr>
-                  <% for(var i=0; i< filterHeader.length; i++) { %>
-                    <% if(filterHeader[i] === "parameter" || filterHeader[i] === "type" || filterHeader[i] === "phase"){%>
-                      <th>
-                        <%= filterHeader[i].toUpperCase() %>
-                      </th>
-                    <%}%>
+                  <% for(var i=0; i< filterHeader.length-1; i++) { %>
+                  <th style="text-transform: uppercase">
+                    <%= filterHeader[i] %>
+                  </th>
                   <% }%>
                 </tr>
               </thead>
-              <tbody>
-                <% for(let filter_ of filterType){%>
-                  <tr>
-                      <% for(var l=0; l<filterHeader.length; l++){%>
-                          <% if(filterHeader[l] == "parameter"){%>
-                            <td>
-                              <%= filter_[filterHeader[l]] %>
-                            </td>
-                            <%}
-                            else if(filterHeader[l] == "type"){%>
-                            <td>
-                              <%= filter_[filterHeader[l]] %>
-                            </td>
-                            <%}
-                            else if(filterHeader[l] == "phase"){%>
-                              <td>
-                                <%= filter_[filterHeader[l]] %>
-                              </td>
-                            <%}
-                          %>
-                      <%}%>
-                  </tr>
-                <%}%>
+              <tbody style="background-color:rgba(137, 202, 255, 0.075)">
+  
+                <% for(var l=0; l < filterType.length; l++){%>
+                <tr>
+                  <% for(var i=0; i < filterHeader.length-1; i++){%>
+  
+                  <td><%= filterType[l][filterHeader[i]] %></td>
+  
+                  <%}%> 
+                    </tr>
+                    <%}%>
+  
               </tbody>
             </table>
           </div>
         </div>
+        <% } else { %>
+        <div class="container" style="background-color:rgba(255, 255, 255, 0.836); overflow:auto; padding:10px;">
+          <div style="padding:2rem">
+            <h2><strong style="color:#1D809F">No filters found</strong> </h2>
+            <hr />
+            <div class="help">
+              <h5>This flight has no filters applied up to this moment.</h5><br>
+  
+            </div>
+          </div>
+        </div>
+        <%}%>
       </div>
+      <!-- END THIRD TAB -->  
+
   </div>
 </div>
 <!-- Modal -->
