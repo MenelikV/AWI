@@ -2753,14 +2753,16 @@ fieldset:disabled a.btn {
 
 .btn-light:not(:disabled):not(.disabled):active, .btn-light:not(:disabled):not(.disabled).active,
 .show > .btn-light.dropdown-toggle {
-  color: #2187c2;
-  background-color: #dae0e5;
-  border-color: #d3d9df;
+  color: #ffffff;
+  background-color: #2187c2;
+  border-color: #2187c2;
+  box-shadow: 0 0 0 0.2rem rgba(155, 205, 255, 0.815);
+
 }
 
 .btn-light:not(:disabled):not(.disabled):active:focus, .btn-light:not(:disabled):not(.disabled).active:focus,
 .show > .btn-light.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.521);
 }
 
 .btn-dark {

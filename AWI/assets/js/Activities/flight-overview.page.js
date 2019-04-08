@@ -222,6 +222,16 @@ $(document).ready(function () {
     $("#plotModal").modal("handleUpdate")
   }
 
+  $("table[id*='subtable_']").on("click",'button.btn-light', function (event){
+    $('.btn-light').removeClass('active');
+    $(this).addClass('active');
+    event.stopPropagation();
+  })
+
+  $("#nav-profile").on('click', function (event){
+    $('.btn-light').removeClass('active');
+  })
+
   /** 
    * Filling in fields on the search modal
    */
