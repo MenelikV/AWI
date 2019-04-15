@@ -100,6 +100,13 @@ module.exports = {
     var phasesFlightData = [];
     if(content !== undefined){
       Papa.parse(content, {
+        // Be sure that the header are uppercase
+        beforeFirstChunk: function(chunk) {
+          var rows = chunk.split( /\r\n|\r|\n/ );
+          var headings = rows[0].toUpperCase();
+          rows[0] = headings;
+          return rows.join("\r\n");
+        },
         header: true,
         delimiter: ";",
         skipEmptyLines: true,
