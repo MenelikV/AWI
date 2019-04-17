@@ -61,7 +61,7 @@ module.exports = {
               flightInfo["TEST"] = results.data[index]["TEST"]
               flightInfo["MR"] = name
               flightInfo["ERRORS"] = cont
-              flightInfo["CRITICITY"] = ''
+              flightInfo["FOUND TYPE"] = results.data[index]["TYPE"]
               flights.push(flightInfo)
             }
           }
