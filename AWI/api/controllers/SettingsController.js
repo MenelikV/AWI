@@ -5,19 +5,19 @@
  */
 
 module.exports = {
-
+  /**
+   * @description :: Updates a specific directory field in the Activity model.
+   */
   changeSettings: async function (req, res) {
     var activityName = req.body["activityName"]
     var setting = req.body["setting"]
     var directory = req.body["directory"]
-    var slash = _.get(directory.match(/\//gm),"length", 0) > 0
-    if(slash){
+    var slash = _.get(directory.match(/\//gm), "length", 0) > 0
+    if (slash) {
       var trailling = "/"
-    }
-    else{
+    } else {
       var trailling = "\\"
-    }
-    !directory.endsWith(trailling) ? directory += trailling : "";
+    }!directory.endsWith(trailling) ? directory += trailling : "";
 
     switch (setting) {
       case 'AutoValCSVDirectory':
@@ -45,18 +45,18 @@ module.exports = {
           return res.status(500).send()
         })
         break
-      
+
       case 'SummaryINFODirectory':
-      sails.helpers.checkDirectory(directory).then(async function () {
-        await ActivityModel.update({
-          activityName: activityName
-        }).set({
-          SummaryINFODirectory: directory
+        sails.helpers.checkDirectory(directory).then(async function () {
+          await ActivityModel.update({
+            activityName: activityName
+          }).set({
+            SummaryINFODirectory: directory
+          })
+          return res.status(200).send()
+        }).catch(function () {
+          return res.status(500).send()
         })
-        return res.status(200).send()
-      }).catch(function () {
-        return res.status(500).send()
-      })
         break
 
 
@@ -70,6 +70,9 @@ module.exports = {
     }
   },
 
+  /**
+   * @description :: Retrieves all the info from a specific Activity model.
+   */
   getSettings: async function (req, res) {
     var activityName = req.param('id')
     var settings = await ActivityModel.find({

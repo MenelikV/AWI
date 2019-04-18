@@ -9,11 +9,12 @@ const moment = require("moment")
 const IDADataManager = new IDA()
 
 module.exports = {
-
+  /**
+   * @description :: Retrieves all the flights from a specific Activity.
+   */
   getInfo: async function (req, res) {
     var fs = require('fs');
     var folderpath = await sails.helpers.getSettings('DGPS', 'AutoValCSVDirectory')
-
 
     fs.readdir(folderpath, function (err, files) {
       //handling error
