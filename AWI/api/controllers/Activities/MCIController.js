@@ -145,8 +145,8 @@ module.exports = {
           var filterInfo = {};
           filterInfo["type"] = MCIfilter["type"];
           filterInfo["parameter"] = MCIfilter["parameter"];
-          filterInfo["raiseError"] = true;
           filterInfo["phase"] = MCIfilter["phase"];
+          filterInfo["raiseError"] = true;
           filterType.push(filterInfo)
         }
       })
