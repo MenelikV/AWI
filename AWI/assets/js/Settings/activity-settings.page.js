@@ -1,9 +1,15 @@
 $(document).ready(function () {
+
+  /**
+   * START CSV DIRECTORY LOGIC
+   */
+
+  //AJAX post on form submition for CSV directory and button CSS editing on success/error
   $('#change_csv').on('click', function () {
     var dir = $("#csv_dir").val();
     var activityName = $("#change_csv").attr('name')
     var setting = $("#csv_dir").attr('name')
-    var url = '/Settings/changeSettings' 
+    var url = '/Settings/changeSettings'
     data = {
       activityName: activityName,
       setting: setting,
@@ -21,11 +27,15 @@ $(document).ready(function () {
       }
     })
   })
-
   $("#csv_dir").on('click', function () {
     $('#change_csv').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
 
+  /**
+   * START PVOL DIRECTORY LOGIC
+   */
+
+  //AJAX post on form submition for PVOL directory and button CSS editing on success/error
   $('#change_pvol').on('click', function () {
     var dir = $("#pvol_dir").val();
     var activityName = $("#change_pvol").attr('name')
@@ -52,6 +62,11 @@ $(document).ready(function () {
     $('#change_pvol').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
 
+  /**
+   * START INFO DIRECTORY LOGIC
+   */
+
+  //AJAX post on form submition for INFO directory and button CSS editing on success/error
   $('#change_info').on('click', function () {
     var dir = $("#info_dir").val();
     var activityName = $("#change_info").attr('name')
@@ -78,6 +93,11 @@ $(document).ready(function () {
     $('#change_info').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
 
+  /**
+   * START discipline DIRECTORY LOGIC
+   */
+
+  //AJAX post on form submition for discipline directory and button CSS editing on success/error
   $('#change_discipline').on('click', function () {
     var dir = $("#discipline_dir").val();
     var activityName = $("#change_discipline").attr('name')
@@ -103,5 +123,5 @@ $(document).ready(function () {
   $("#discipline_dir").on('click', function () {
     $('#change_discipline').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
-  
+
 })
