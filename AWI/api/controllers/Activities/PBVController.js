@@ -111,6 +111,26 @@ module.exports = {
             }
             var info = TEST[0]
           }
+          var test_type = /([A-Z]\d{4,5}){2}([A-Z]*)/gm.exec(req.param("id"))
+          if(test_type.length === 3){
+            var suffix = test_type[2]
+            if(suffix.includes("RTO") || suffix.includes("BRK")){
+              var type = "RTO"
+            }
+            else if(suffix.includes("TO")){
+              var type = "TO"
+            }
+            else if(suffix.includes('LDG'))
+            {
+              var type = "LDG"
+            }
+            else{
+              res.serverError("Type could not be determined")
+            }
+          }
+          else{
+            return res.serverError("Type could not be determined")
+          }
           // ODOT
           console.log("Starting IDA Services")
           var summary = new PBVSummary()
@@ -125,7 +145,7 @@ module.exports = {
           summary.mr = mr
           summary.aircraft = aircraft
           summary.test = test
-          var parameters_values = await IDADataManager.FetchParametersPBV(mr, PBVConfig.DATA, aircraft.substring(1))
+          var parameters_values = await IDADataManager.FetchParametersPBV(mr, PBVConfig.DATA, aircraft.substring(1), type)
           Object.assign(summary, parameters_values)
           var filters = await Filter.find({
             activity: 'PBV'

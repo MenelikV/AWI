@@ -5,14 +5,24 @@ module.exports ={
             time: {
                 minutes: +1
             },
-            type: "float"
+            type: "float",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         },
         RUNWAY: {
             id: "RUNWAY_NAME",
             time: {
                 minutes: +1
             },
-            type: "string"
+            type: "string",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         },
         SLAT: {
             id: {
@@ -29,7 +39,12 @@ module.exports ={
             time: {
                 minutes: +1
             },
-            type: "float"
+            type: "float",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         },
         FLAP: {
             id: {
@@ -45,7 +60,12 @@ module.exports ={
             time: {
                 minutes: +1
             },
-            type: "float"
+            type: "float",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         },
         FLAPI: {
             id: {
@@ -55,7 +75,12 @@ module.exports ={
             time: {
                 minutes: +1
             },
-            type: "float"
+            type: "float",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         },
         FLAPOR: {
             id: {
@@ -65,7 +90,12 @@ module.exports ={
             time: {
                 minutes: +1
             },
-            type: "float"
+            type: "float",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         },
         FLAPOL: {
             id: {
@@ -75,7 +105,12 @@ module.exports ={
             time: {
                 minutes: +1
             },
-            type: "float"
+            type: "float",
+            refs: {
+                "LDG": ["VC_att"],
+                "TO": ["VC_dec"],
+                "RTO": ["VC_dec"]
+            }
         }
     }
 }

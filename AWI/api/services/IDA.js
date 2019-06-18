@@ -439,26 +439,28 @@ IDADataManager.prototype.FetchParametersOverridenTime = async function(mr_adress
     }
   return config_res
 }
-IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn) {
+IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn, type) {
   var times = await this.GetMRTimes(mr_adress)
   var startt = times[0]
-  var endt = times[1]
   var conf_plus = config
   var internal_format = "HH:mm:ss"
-  var _s = startt.clone().add({minutes: 1}).format(internal_format)
-  var _e = moment(_s, internal_format).add({seconds: 1}).format(internal_format)
+  var _s = startt.clone().format(internal_format)
+  var later_start = startt.clone().add({hours: 1}).format(internal_format)
   var id_plus = []
   var type_plus = []
+  var ref_plus;
   for(let k of Object.keys(conf_plus)){
     if(typeof conf_plus[k].id === "string"){
       id_plus.push(conf_plus[k].id)
       type_plus.push(conf_plus[k].type)
+      ref_plus = conf_plus[k].refs[type]
     }
     else{
       try{
         if(conf_plus[k].id[msn] !== undefined){
           id_plus.push(conf_plus[k].id[msn])
           type_plus.push(conf_plus[k].type)
+          ref_plus = conf_plus[k].refs[type]
         }
       }
       catch(error){
@@ -467,7 +469,7 @@ IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, 
 
     }
   }
-  var res =  await this.ReadSummaryData(mr_adress, _s, _e, id_plus, type_plus)
+  var res =  await this.ReadSummaryData(mr_adress, _s, later_start, id_plus, type_plus, ref_plus)
   var config_res = {}
   for(let key of Object.keys(config)){
     if(typeof conf_plus[key].id === "string"){
