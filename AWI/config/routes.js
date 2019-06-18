@@ -46,6 +46,12 @@ module.exports.routes = {
     action: 'getInfo'
   },
 
+  'GET /Activities/PBV/flights': {
+    view: 'pages/Activities/PBV/flights',
+    controller: 'Activities/PBVController',
+    action: 'getInfo'
+  },
+
   'GET /Activities/DGPS/flightOverview/:id': 'Activities/DGPSController.getFlightOverview',
 
   'GET /Activities/MCI/flightOverview/:id': 'Activities/MCIController.getFlightOverview',
@@ -53,6 +59,8 @@ module.exports.routes = {
   'POST /Activities/MCI/flightOverview/:id/update': 'Activities/MCIController.updateFlightOverview',
 
   'GET /Activities/ANEMO/flightOverview/:id': 'Activities/ANEMOController.getFlightOverview',
+
+  'GET /Activities/PBV/flightOverview/:id': 'Activities/PBVController.getFlightOverview',
 
 
   'POST /createFilter/:id': 'FilterController.createFilter',
