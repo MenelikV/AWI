@@ -1,0 +1,52 @@
+<table class="table text-center width=100%">
+    <tr>
+      <td>
+        <%="Aircraft : "+summary.aircraft%>
+      </td>
+      <td></td>
+      <td>
+        <%="Start GMT : "+summary.start_time%>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%="Test : "+summary.test%>
+      </td>
+      <td></td>
+      <td>
+        <%="End GMT : "+summary.end_time%>
+      </td>
+    </tr>
+    <tr>
+        <td>
+            <%= "MR : "+summary.mr%>
+        </td>
+        <td>
+          <%= "Flight Date : "+summary.flight_date %>
+        </td>
+    </tr>
+    <td>
+       <%="FLEX MODE : "+summary.FLEX%>
+    </td>
+    <td>
+        <%="RUNWAY : "+summary.RUNWAY%>
+    </td>
+    <tr>
+      <td>
+        <%="SLAT : "+summary.SLAT%>
+      </td>
+      <td>
+       <% if(summary.FLAP.length !== 0){%>
+        <%="FLAP : "+summary.FLAP%>
+        <%}
+        else{%>
+          <%="FLAPI : "+summary.FLAPI%>
+          <br>
+          <%="FLAPOL : "+summary.FLAPOL%>
+          <br>
+          <%="FLAPOR : "+summary.FLAPOR%>
+          <%}
+        %>
+      </td>
+    </tr>
+  </table>

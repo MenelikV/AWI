@@ -439,6 +439,57 @@ IDADataManager.prototype.FetchParametersOverridenTime = async function(mr_adress
     }
   return config_res
 }
+IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn, type) {
+  var times = await this.GetMRTimes(mr_adress)
+  var startt = times[0]
+  var conf_plus = config
+  var internal_format = "HH:mm:ss"
+  var _s = startt.clone().format(internal_format)
+  var later_start = startt.clone().add({hours: 1}).format(internal_format)
+  var id_plus = []
+  var type_plus = []
+  var ref_plus;
+  for(let k of Object.keys(conf_plus)){
+    if(typeof conf_plus[k].id === "string"){
+      id_plus.push(conf_plus[k].id)
+      type_plus.push(conf_plus[k].type)
+      ref_plus = conf_plus[k].refs[type]
+    }
+    else{
+      try{
+        if(conf_plus[k].id[msn] !== undefined){
+          id_plus.push(conf_plus[k].id[msn])
+          type_plus.push(conf_plus[k].type)
+          ref_plus = conf_plus[k].refs[type]
+        }
+      }
+      catch(error){
+        // Do nothing here
+      }
+
+    }
+  }
+  var res =  await this.ReadSummaryData(mr_adress, _s, later_start, id_plus, type_plus, ref_plus)
+  var config_res = {}
+  for(let key of Object.keys(config)){
+    if(typeof conf_plus[key].id === "string"){
+      config_res[key] = res[config[key].id]
+    }
+    else{
+      // TODO Switch case here ?
+      if(res[conf_plus[key].id[msn]] !== undefined){
+        config_res[key] = res[conf_plus[key].id[msn]]
+      }
+    }
+  }
+    // Take care of Formatting
+    for(let key of Object.keys(config)){
+      if(config[key].format !== undefined && config_res[key] !== undefined){
+        config_res[key] = numeral(config_res[key]).format(config[key].format, d=>Math.floor(d))
+      }
+    }
+  return config_res
+}
 IDADataManager.prototype.doRequest = function (form, encoding, ex) {
   var exception_rejected = ex || false
   // Encoding should be `null` for request which require a binary response
