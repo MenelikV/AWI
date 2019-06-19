@@ -236,7 +236,7 @@ module.exports = {
              * If it is, adds it to an array. Also checks and filters specified errors if necessary.
              * */
             errorHeader = results.meta["fields"];
-            // Full Flight Analyse
+            // START Full Flight Analysis
             var Fullitems = []
             results.data.forEach(function (item) {
               var startcsv = item["START"].split("-")[1];
@@ -265,16 +265,18 @@ module.exports = {
                 })
               }
             })
+            //END Full Flight Analysis
 
+            //START Phase Flight Analysis
             GMTpvol.forEach(function (period) {
               var items = [];
-              var startpvol = period["START"]
-              var endpvol = period["END"]
-
+              var startpvol = moment(period["START"], 'h:mm:ss')
+              var endpvol = moment(period["END"], 'h:mm:ss')
+ 
               results.data.forEach(function (item) {
-                var startcsv = item["START"].split("-")[1];
-                var endcsv = item["END"].split("-")[1];
-                if (endcsv > startpvol && startcsv < endpvol) {
+                var startcsv = moment(item["START"].split("-")[1], 'h:mm:ss');
+                var endcsv = moment(item["END"].split("-")[1], 'h:mm:ss');
+                if (startcsv.isBetween(startpvol,endpvol,null,'[]') && endcsv.isBetween(startpvol,endpvol,null,'[]')) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   items.push(item)
@@ -291,6 +293,8 @@ module.exports = {
               GMTcsv.push(items)
               FullGMTcsv.push(Fullitems)
             })
+            //END Phase Flight Analysis
+
             var filterTrigger = false;
             filterType.forEach(function (filter) {
               if (filter["raiseError"] === true) {
