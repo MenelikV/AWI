@@ -32,10 +32,10 @@
         <%="RUNWAY : "+summary.RUNWAY%>
     </td>
     <tr>
-      <td>
+      <td id="SLAT" data-slat=<%=summary.slat%>>
         <%="SLAT : "+summary.SLAT%>
       </td>
-      <td>
+      <td id="FLAP" data-flap=<%=summary.FLAP%> data-flapi=<%=summary.flapi%> data-flapol=<%=summary.flapol%> data-flapor=<%=summary.flapor%>>
        <% if(summary.FLAP.length !== 0){%>
         <%="FLAP : "+summary.FLAP%>
         <%}
@@ -48,5 +48,153 @@
           <%}
         %>
       </td>
+    </tr>
+  </table>
+  <br>
+  <table  class="table text-center width=100%" id="cor_slat_flap" data-msn="">
+    <caption>Table for SLAT/FLAP</caption>
+    <tr>
+      <td></td>
+      <th>Q</th>
+      <th>N</th>
+      <th>F</th>
+      <th>M</th>
+      <th>P</th>
+      <th>P</th>
+      <th>L</th>
+      <th>V</th>
+      <th>V</th>
+    </tr>
+    <tr>
+      <th scope="row">CONF S/F</th>
+      <td>A318</td>
+      <td>A319</td>
+      <td>A320</td>
+      <td>A321</td>
+      <td>A330CEO / BELUGAXL</td>
+      <td>A330-800/900</td>
+      <td>A380</td>
+      <td>A350-900</td>
+      <td>A350-1000</td>
+    </tr>
+    <tr>
+      <th scope="row">1</th>
+      <td></td>
+      <td></td>
+      <td>1800</td>
+      <td></td>
+      <td>1600</td>
+      <td>1600</td>
+      <td></td>
+      <td>1800</td>
+      <td>1800</td>
+    </tr>
+    <tr>
+      <th scope="row">1+F</th>
+      <td>1810</td>
+      <td>1810</td>
+      <td>1810</td>
+      <td>1810</td>
+      <td>1608</td>
+      <td>1608</td>
+      <td>2008</td>
+      <td>1816</td>
+      <td>1814</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>2215</td>
+      <td>2215</td>
+      <td>2215</td>
+      <td>2214</td>
+      <td>2014</td>
+      <td></td>
+      <td>2017</td>
+      <td>1820</td>
+      <td>1820</td>
+    </tr>
+    <tr>
+      <th scope="row">2TO</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2015</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">2LD</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2014</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>2220</td>
+      <td>2220</td>
+      <td>2220</td>
+      <td>2221</td>
+      <td>2322</td>
+      <td></td>
+      <td>2326</td>
+      <td>1826</td>
+      <td>1826</td>
+    </tr>
+    <tr>
+      <th scope="row">3TO</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2323</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+        <th scope="row">3LD</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>2322</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+      <th scope="row">3+S</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2426</td>
+      <td>2526</td>
+    </tr>
+    <tr>
+      <th scope="row">FULL</th>
+      <td>2740</td>
+      <td>2740</td>
+      <td>2740 (35 CEO)</td>
+      <td>2725 (34 NEO PW)</td>
+      <td>2332</td>
+      <td>2332</td>
+      <td>2332</td>
+      <td>2437</td>
+      <td>2536</td>
     </tr>
   </table>
