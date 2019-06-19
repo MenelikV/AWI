@@ -228,13 +228,13 @@ module.exports = {
             var errorMap = []
             GMTpvol.forEach(function (period) {
               var items = [];
-              var startpvol = moment(period["START"], 'h:mm:ss')
-              var endpvol = moment(period["END"], 'h:mm:ss')
+              var startpvol = period["START"]
+              var endpvol = period["END"]
               var currentMap = {}
               results.data.forEach(function (item) {
-                var startcsv = moment(item["START"].split("-")[1], 'h:mm:ss');
-                var endcsv = moment(item["END"].split("-")[1], 'h:mm:ss');
-                if (startcsv.isBetween(startpvol,endpvol,null,'[]') && endcsv.isBetween(startpvol,endpvol,null,'[]')) {
+                var startcsv = item["START"].split("-")[1];
+                var endcsv = item["END"].split("-")[1];
+                if (endcsv > startpvol && startcsv < endpvol) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   items.push(item)
