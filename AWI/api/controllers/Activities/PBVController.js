@@ -214,6 +214,7 @@ module.exports = {
                 })
                 GMTcsv.push(items)
                 currentMap = _.pick(currentMap, (v, k) => {return v > 0;})
+                var filterHeader = filterType.length ? Object.keys(filterType[0]) : []
                 var filterTrigger = false;
                 filterType.forEach(function (filter) {
                   if (filter["raiseError"] === true) {
@@ -232,7 +233,8 @@ module.exports = {
                   data: [flightData],
                   filterType: filterType,
                   filterTrigger: filterTrigger,
-                  errorMap: currentMap
+                  errorMap: currentMap,
+                  filterHeader: filterHeader,
                 })
               }
             })
