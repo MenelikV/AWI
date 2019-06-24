@@ -77,7 +77,7 @@
             <thead>
               <tr>
                 <% for(var i=0; i< headers.length; i++) { %>
-                <%if(headers[i] == "START" ||  headers[i] == "END") {%>
+                <%if(headers[i] == "START" ||  headers[i] == "END" || headers[i] == "PHASE" || headers[i] == "ERRORS") {%>
                 <th>
                   <%= headers[i] %>
                 </th>
@@ -89,7 +89,8 @@
             <tbody>
               <!-- Iterate over errors rows-->
               <% for(var j=0; j< data.length; j++) { %>
-              <tr data-toggle="collapse" data-target="<%='#demo_'+j%>" style="cursor : pointer;">
+              <tr data-toggle="collapse" data-target="<%='#demo_'+j%>" id="<%='row-demo_'+j%>" style="cursor : pointer;">
+                <% var errorTypes = Object.keys(errorMap) %>
                 <!-- Iterate over each field data-->
                 <% for(var k=0; k< headers.length; k++) { %>
                 <%if(headers[k] == "START") {%>
@@ -101,19 +102,41 @@
                 <td>
                   GMT
                   <%=  data[j][headers[k]] %>
-                  <br>
-                  <p>ERROR:
-
-                    <% if(CSVerrors[j].length){ %>
-                    <strong style="color:red">
-                      <%= CSVerrors[j].length %></strong>
-                    <%} else {%>
-                    <strong style="color:rgb(2, 179, 2)">
-                      <%= CSVerrors[j].length %></strong>
-                    <%}%>
-                  </p>
                 </td>
-                <% } } %>
+                <% } else if(headers[k] == "PHASE"){%>
+                <td>
+                  <%= data[j][headers[k]] %>
+                </td>
+                <%} else if(headers[k] == "ERRORS"){%>
+                  <td>
+                    <% if(!errorTypes.length){%>
+                      <strong style="color:green"> <i class="fa fa-minus fa-sm"></i> </strong>
+                      <%}
+                      else{%>
+                        <% if (errorTypes.length <=3) {%>
+                          <%  for(let type of errorTypes){%>
+                            <a class="type" id="<%='subtable_'+j+'-'+ type %>" role="button"><%= type %></a>: <strong
+                            style="color:red;"><%= errorMap[type] %></strong>
+                          <br>
+      
+                          <%}%>
+      
+                              <%} else {%>
+                          <div style="overflow:auto; width: 200px;
+                            height: 80px;">
+                            <%  for(let type of errorTypes){%>
+      
+                              <a class="type" id="<%='subtable_'+j+'-'+ type %>" role="button"><%= type %></a>: <strong
+                    style="color:red;"><%= errorMap[type] %></strong>
+                  <br>
+      
+                            <%}%>
+                        </div>
+                        <%}%>
+                        <%}%>
+                  </td>
+                  <%}%>
+                <%}%>
               </tr>
 
               <!--Start collapse div-->

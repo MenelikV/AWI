@@ -88,6 +88,7 @@ module.exports = {
         })
         var resLength = activityFiles.length
         var flightData = {}
+        var errorMap = []
         if (resLength === 1) {
           var activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
           var discipline = await sails.helpers.getSettings('PBV', 'discipline')
@@ -145,6 +146,13 @@ module.exports = {
           summary.mr = mr
           summary.aircraft = aircraft
           summary.test = test
+          Object.assign(flightData, sails.helpers.extractInfo(_id))
+          flightData.START = times[0].format(CSV_format)
+          flightData.END = times[1].format(CSV_format)
+          flightData.PHASE = "FULL FLIGHT"
+          flightData.YEAR = ""
+          summary.aircraft = flightData.AIRCRAFT
+          summary.test = flightData.TEST
           var parameters_values = await IDADataManager.FetchParametersPBV(mr, PBVConfig.DATA, aircraft.substring(1), type)
           Object.assign(summary, parameters_values)
           var filters = await Filter.find({
@@ -177,7 +185,7 @@ module.exports = {
                 errorHeader = results.meta["fields"];
                 startpvol = times[0]
                 endpvol = times[1]
-    
+                var currentMap = {}
                 results.data.forEach(function (item) {
                   var startcsv = moment(item["START"], CSV_format);
                   var endcsv = moment(item["END"], CSV_format);
@@ -185,6 +193,13 @@ module.exports = {
                     item.MAX = sails.helpers.numberFormat(item.MAX)
                     item.MIN = sails.helpers.numberFormat(item.MIN)
                     items.push(item)
+                    var type = item["TYPE"]
+                    if(currentMap[type] === undefined){
+                      currentMap[type] = 1
+                    }
+                    else{
+                      currentMap[type]++;
+                    }
                     if (filterType.length) {
                       filterType.forEach(function (filter) {
                         if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
@@ -198,6 +213,7 @@ module.exports = {
                   }
                 })
                 GMTcsv.push(items)
+                currentMap = _.pick(currentMap, (v, k) => {return v > 0;})
                 var filterTrigger = false;
                 filterType.forEach(function (filter) {
                   if (filter["raiseError"] === true) {
@@ -210,12 +226,13 @@ module.exports = {
                   summary: summary,
                   mr: mr,
                   name: info,
-                  headers: ["START", "END", "PHASE"],
+                  headers: ["START", "END", "PHASE", "ERRORS"],
                   CSVerrors: GMTcsv,
                   CSVheaders: errorHeader,
                   data: [flightData],
                   filterType: filterType,
-                  filterTrigger: filterTrigger
+                  filterTrigger: filterTrigger,
+                  errorMap: currentMap
                 })
               }
             })
