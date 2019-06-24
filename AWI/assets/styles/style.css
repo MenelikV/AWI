@@ -601,3 +601,7 @@ canvas {
 /* ==== Prevent in datetimepicker */
 
 .bootstrap-datetimepicker-widget.dropdown-menu { width: 16rem; }
+
+.grey { /* Color the cell in the table for PBV */
+  background-color: darkgrey;
+}
