@@ -10,7 +10,7 @@ module.exports ={
                 "LDG": ["VC_att"],
                 "TO": ["VC_dec"],
                 "RTO": ["VC_dec"]
-            }
+            },
         },
         RUNWAY: {
             id: "RUNWAY_NAME",
@@ -45,7 +45,8 @@ module.exports ={
                 "LDG": ["VC_att"],
                 "TO": ["VC_dec"],
                 "RTO": ["VC_dec"]
-            }
+            },
+            format: "0.00"
         },
         FLAP: {
             id: {
@@ -66,7 +67,8 @@ module.exports ={
                 "LDG": ["VC_att"],
                 "TO": ["VC_dec"],
                 "RTO": ["VC_dec"]
-            }
+            },
+            format: "0.00"
         },
         FLAPI: {
             id: {
@@ -81,7 +83,8 @@ module.exports ={
                 "LDG": ["VC_att"],
                 "TO": ["VC_dec"],
                 "RTO": ["VC_dec"]
-            }
+            },
+            format: "0.00"
         },
         FLAPOR: {
             id: {
@@ -111,7 +114,8 @@ module.exports ={
                 "LDG": ["VC_att"],
                 "TO": ["VC_dec"],
                 "RTO": ["VC_dec"]
-            }
+            },
+            format: "0.00"
         }
     }
 }
