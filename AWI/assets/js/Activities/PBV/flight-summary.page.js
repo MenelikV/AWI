@@ -8,7 +8,7 @@ $(document).ready(function(){
         flapor = $("#FLAP").data("flapor");
         // Suppose flap & slat are strings
         // What to do when flap in not available anymore ? Ask Audrey :/
-        if(slat & flap & prog.length > 0){
+        if(slat  > 0 & flap > 0 & prog.length > 0){
             console.log(`th:contains("${prog}")`)
             table_index = $(`td:contains("${prog}")`).index()+1
             $("#cor_slat_flap tr td:nth-child("+table_index+')').each(function(){
