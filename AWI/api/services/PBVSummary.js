@@ -12,5 +12,7 @@ var PBVSummary = function(){
     this.FLAPI = ""
     this.FLAPOR = ""
     this.FLAPOL = "" 
+    this.msn = ""
+    this.prog = ""
 }
 module.exports = PBVSummary

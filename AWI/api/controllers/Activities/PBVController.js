@@ -146,6 +146,8 @@ module.exports = {
           summary.mr = mr
           summary.aircraft = aircraft
           summary.test = test
+          summary.msn = msn
+          summary.prog = ProgramConfig.Config[msn]
           Object.assign(flightData, sails.helpers.extractInfo(_id))
           flightData.START = times[0].format(CSV_format)
           flightData.END = times[1].format(CSV_format)
