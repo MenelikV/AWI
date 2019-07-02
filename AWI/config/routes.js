@@ -69,6 +69,7 @@ module.exports.routes = {
 
   'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
   
+  'GET /Activities/:id/colorSettings':  'ColorController.getColors',
 
   'POST /Activities/:activity/search': 'SearchController.search',
 
