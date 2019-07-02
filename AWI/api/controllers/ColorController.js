@@ -1,6 +1,9 @@
 module.exports = {
     getColors: async function(req, res){
-        console.log(req)
-        res.status(200)
+        var activity = req.params.id
+        return res.view("pages/Settings/color-settings.ejs",{
+            info: {},
+            activity: activity,
+        })
     }
 }

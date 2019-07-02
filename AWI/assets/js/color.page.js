@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#color_modal").colorpicker();})
