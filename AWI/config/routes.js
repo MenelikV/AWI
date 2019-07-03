@@ -67,6 +67,10 @@ module.exports.routes = {
 
   'POST /deleteFilter/:id': 'FilterController.deleteFilter',
 
+  'POST /createColor/:id': 'ColorController.addColor',
+
+  'POST /deleteColor/:id': 'ColorController.deleteColor',
+
   'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
   
   'GET /Activities/:id/colorSettings':  'ColorController.getColors',
