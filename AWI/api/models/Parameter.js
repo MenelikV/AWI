@@ -12,6 +12,10 @@ module.exports = {
         name: {
             type: "string",
             required: true
+        },
+        mr_id:{
+            type: "string",
+            required: true
         }
     }
 }

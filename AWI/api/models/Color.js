@@ -18,6 +18,10 @@ module.exports = {
             required: true,
             type: "string"
         },
+        filename: {
+            required: true,
+            type: "string"
+        },
         parameters: {
             collection: 'parameter',
             via: 'source'

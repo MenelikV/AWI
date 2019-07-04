@@ -10,6 +10,7 @@ $(document).ready(function(){
     formData.append("color", color)
     formData.append("msn", msn)
     formData.append("file", input_file)
+    formData.append('activity', activity)
     $.ajax({
       url: '/createColor/'+activity,
       type: 'POST',
@@ -18,12 +19,12 @@ $(document).ready(function(){
       contentType: false,
       success: function(res){
         console.log(res)
-        $("#colorModalCenter").hide()
+        $("#colorModalCenter").modal("hide")
       },
       error: function(res){
         alert(res)
         console.log(res)
-        $("#colorModalCenter").hide()
+        $("#colorModalCenter").modal("hide")
       }
     })
   })
