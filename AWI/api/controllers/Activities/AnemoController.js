@@ -306,7 +306,9 @@ module.exports = {
                 phases: errorMap,
                 full: FullerrorMap
               },
-              filterTrigger: filterTrigger
+              filterTrigger: filterTrigger,
+              colorHeader: colors.length? ["color", "filename"]: [],
+              colorType: colors
             })
           }
         })
