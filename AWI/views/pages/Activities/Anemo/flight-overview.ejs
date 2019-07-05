@@ -303,7 +303,9 @@
                             <tr>
                               <% for(var k=0; k < CSVheaders.length; k++) { %>
                               <td id="<%=CSVheaders[k]%>">
-                                <%= CSVerrors.full[j][i][CSVheaders[k]] %>
+                                <font style='<%="color:"+CSVerrors.full[j][i].STYLE%>'>
+                                    <%= CSVerrors.full[j][i][CSVheaders[k]] %>
+                                </font>
   
                               </td>
                               <% } %>
