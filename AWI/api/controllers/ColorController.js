@@ -58,8 +58,14 @@ module.exports = {
         return res.send()
     },
     deleteColor: async function(req, res){
-        console.log(req)
-        res.status(200)
-        return res.send()
+        var id = req.param("id");
+        try {
+          await Color.destroy({
+            id: id
+          })
+          return res.status(200).send()
+        } catch (err) {
+          return res.serverError("Problem deleting the filter",err)
+        }
     }
 }

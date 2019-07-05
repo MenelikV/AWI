@@ -1,5 +1,9 @@
 $(document).ready(function(){
+  // Create the Colorpicker
   picker = $("#modal_color").colorpicker();
+  /*
+   * Modal Color Logic 
+   */ 
   $("#color").click(function(){
     $("#color_load").show()
     var activity = $(this).data("activity"),
@@ -27,5 +31,21 @@ $(document).ready(function(){
         $("#colorModalCenter").modal("hide")
       }
     })
+  })
+  /*
+   * DataTable and delete logic 
+   */
+  var dt = $("#colors-table").DataTable();
+  $('tbody').on('click', '#delete-color', function () {
+    $(this).closest("tr").addClass('selected');
+    var row = $("#colors-table tr.selected");
+    var id = $(this).closest("tr").attr('id');
+    $.ajax({
+      url: '/deleteColor/' + id,
+      type: 'POST',
+      success: function success() {
+        dt.row(row).remove().draw(true);
+      }
+    }) 
   })
 })
