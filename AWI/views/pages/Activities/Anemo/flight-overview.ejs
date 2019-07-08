@@ -409,7 +409,7 @@
             <table id="applied_colors" class="table text-left">
               <thead>
                 <tr>
-                  <% for(var i=0; i< colorHeader.length-1; i++) { %>
+                  <% for(var i=0; i< colorHeader.length; i++) { %>
                   <th style="text-transform: uppercase">
                     <%= colorHeader[i] %>
                   </th>
@@ -420,9 +420,8 @@
   
                 <% for(var l=0; l < colorType.length; l++){%>
                 <tr>
-                  <% for(var i=0; i < colorHeader.length-1; i++){%>
-  
-                  <td><%= colorType[l][filterHeader[i]] %></td>
+                  <% for(var i=0; i < colorHeader.length; i++){%>
+                  <td><%= colorType[l][colorHeader[i]] %></td>
   
                   <%}%> 
                     </tr>
