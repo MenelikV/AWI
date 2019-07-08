@@ -102,7 +102,7 @@ module.exports = {
     var par_colors = {}
     colors.forEach(color => {
       color.parameters.forEach(paremeter => {
-        par_colors[paremeter] = color.color
+        par_colors[paremeter.mr_id] = color.color
       })
     })
     const black = "#000000"

@@ -35,7 +35,7 @@ module.exports = {
                     return res.serverError(err)
                 }
                 var content = data.toString("utf-8")
-                lines = content.split("\n")
+                lines = content.split(/\r?\n/)
                 lines.shift()
                 lines.forEach(async element => {
                     data = element.split("\t")
