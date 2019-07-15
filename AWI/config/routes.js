@@ -87,6 +87,11 @@ module.exports.routes = {
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 
+  'GET /Activities/Anemo/chart': {
+    controller: 'Activities/AnemoChartController',
+    action: 'plot'
+  },
+
 
   /***************************************************************************
    *                                                                          *

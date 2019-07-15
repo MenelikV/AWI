@@ -273,7 +273,96 @@ $(document).ready(function () {
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
+  /**
+   * LOAD DATA (ANEMO)
+   */
+  var createAnemoChart = function (data, status) {
+    var dynamicColors = function () {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
+    }
+    for (let p of data.par) {
+      var color = dynamicColors()
+      var config = {
+        type: 'line',
+        data: {
+          label: p,
+          data: data.data_res[p],
+          fill: false,
+          backgroundColor: color,
+          borderColor: color,
+          borderWidth: 1,
+        },
+        options: {
+          annotation: {
+            events: ["click"],
+            annotations: patch_annotations(data.annotations)
+          },
+          title: {
+            display: true,
+            text: data.text
+          },
+          scales: {
+            xAxes: [{
+              type: "time",
+              time: {
+                displayFormats: {
+                  second: "HH:mm:ss"
+                },
+                timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
+                tooltipFormat: "HH:mm:ss.SSS"
+              }
+            }]
+          },
+          // Container for pan options
+          pan: {
+            // Boolean to enable panning
+            enabled: true,
+  
+            // Panning directions. Remove the appropriate direction to disable 
+            // Eg. 'y' would only allow panning in the y direction
+            mode: 'xy'
+          },
+  
+          // Container for zoom options
+          zoom: {
+            // Boolean to enable zooming
+            enabled: true,
+            drag: false,
+  
+            // Zooming directions. Remove the appropriate direction to disable 
+            // Eg. 'y' would only allow zooming in the y direction
+            mode: 'xy',
+          }
+        }
+      }
+      $(`#anemoChart_${p}`).remove()
+      $("#anemoChartContainer").append(`<canvas id="anemoChart_${p}"></canvas>`)
+      var ctx = document.getElementById(`anemoChart_${p}`).getContext("2d")
+      new Chart(ctx, config)
+    }
 
+    $("#spinnerModal").modal("hide")
+
+  }
+  $("#load_data").click(function(){
+    var mr = $(this).data('mr')
+    $("#spinnerModal").modal("show");
+    $.ajax({
+      url: "/Activities/Anemo/chart",
+      data: {
+        mr: mr
+      },
+      type: "GET",
+      success: createAnemoChart,
+      error: function(){
+        alert("Error")
+        $("#spinnerModal").modal("hide")
+      }
+    })
+  })
 
   /**
    * START DATATABLES CONFIGURATIONS

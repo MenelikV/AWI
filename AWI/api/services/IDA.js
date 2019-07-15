@@ -180,8 +180,14 @@ IDADataManager.prototype.ReadAllSamples = async function (mr_adress, startt, end
     }, null)
   }
 }
-IDADataManager.prototype.ReadParamsSamplesSampling = async function (mr_adress, startt, endt, params) {
+IDADataManager.prototype.ReadParamsSamplesSampling = async function (mr_adress, startt, endt, params, rate) {
   var mr_id = await this.getMRID(mr_adress)
+  if(rate !== undefined){
+    var rate = String(rate)
+  }
+  else{
+    var rate = "10"
+  }
   if (mr_id === undefined) {
     return undefined
   } else {
@@ -189,7 +195,7 @@ IDADataManager.prototype.ReadParamsSamplesSampling = async function (mr_adress, 
       key: mr_id,
       startt: startt,
       endt: endt,
-      rate: "10",
+      rate: rate,
       list: params.join("~"),
       mode: this.mode,
       msg: "ReadParamsSamplesSampling"
@@ -242,7 +248,8 @@ IDADataManager.prototype.validate = function (res) {
 IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params) {
   // TODO Cache it ?
   let data = []
-  var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params)
+  let rate = 1
+  var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
   while (this.validate(res)) {
     data.push(res)
     var res = await this.ReadParamsSamplesNext(mr_adress)

@@ -10,6 +10,8 @@
         role="tab" aria-controls="nav-filters" aria-selected="false">Filters</a>
         <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-colors-tab" data-toggle="tab" href="#nav-colors"
         role="tab" aria-controls="nav-colors" aria-selected="false">Colors</a>
+        <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-chart-tab" data-toggle="tab" href="#nav-chart"
+        role="tab" aria-controls="nav-chart" aria-selected="false">Chart</a>
       </div>
     </nav>
 
@@ -421,7 +423,15 @@
                 <% for(var l=0; l < colorType.length; l++){%>
                 <tr>
                   <% for(var i=0; i < colorHeader.length; i++){%>
-                  <td><%= colorType[l][colorHeader[i]] %></td>
+                  <td>
+                      <%if(colorHeader[i].toUpperCase()==="COLOR"){%>
+                        <font color="<%= colorType[l][colorHeader[i]] %>">
+                          <%= colorType[l][colorHeader[i]] %>
+                        </font>
+                        <%}else{%>
+                          <%= colorType[l][colorHeader[i]] %>
+                          <%}%>  
+                  </td>
   
                   <%}%> 
                     </tr>
@@ -444,8 +454,21 @@
         </div>
         <%}%>
       </div>
-      <!-- END FOURTH TAB -->   
-
+      <!-- END FOURTH TAB -->
+      <!-- BEGIN FIFH TAB -->
+      <div class="tab-pane fade" id="nav-chart" role="tabpanel" aria-labelledby="nav-chart-tab">
+          <br>
+          <div class="col md-12">
+            <!-- Chart container -->
+            <div id="anemoChartContainer" class="container-fluid" style="background-color:white; overflow:auto;">
+              <h4 style="padding-top:0.5rem;">
+              <div class="d-flex justify-content-center">
+                  <button type="button" class="btn btn-primary btn-lg" id="load_data" data-mr="<%=mr%>">Load Data</button>
+              </div>
+            </div>
+          </div>
+      </div>   
+      <!--END FIFTH TAB-->
   </div>
 </div>
 <!-- Modal -->
