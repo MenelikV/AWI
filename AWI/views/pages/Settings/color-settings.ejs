@@ -35,7 +35,15 @@
                 <tr id="<%= info[i]['id']%>" name="<%=activity%>">
                   <% for(var j=0; j < headers.length; j++) {%>
                   <td>
-                    <%= info[i][headers[j]] %>
+                    <%if(headers[j].toUpperCase()==="COLOR"){%>
+                      <font color="<%= info[i][headers[j]] %>">
+                          <%= info[i][headers[j]] %>
+                      </font>
+                      <%}else{%>
+                        <%= info[i][headers[j]] %>
+                        <%}%>
+
+                    
                   </td>
                   <% } %>
                   <td class="text-center">
