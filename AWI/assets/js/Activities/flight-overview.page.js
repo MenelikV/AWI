@@ -288,18 +288,16 @@ $(document).ready(function () {
       var config = {
         type: 'line',
         data: {
-          label: p,
-          data: data.data_res[p],
-          fill: false,
-          backgroundColor: color,
-          borderColor: color,
-          borderWidth: 1,
+          datasets:[{
+            label: p,
+            data: data.data_res[p],
+            fill: false,
+            backgroundColor: color,
+            borderColor: color,
+            borderWidth: 1,
+          }]
         },
         options: {
-          annotation: {
-            events: ["click"],
-            annotations: patch_annotations(data.annotations)
-          },
           title: {
             display: true,
             text: data.text
