@@ -181,8 +181,9 @@
                           <tr>
                             <% for(var k=0; k < CSVheaders.length; k++) { %>
                             <td id="<%=CSVheaders[k]%>">
-                              <%= CSVerrors.phases[j][i][CSVheaders[k]] %>
-
+                              <font color="<%=CSVerrors.phases[j][i][CSVheaders[k]].STYLE%>">
+                                  <%= CSVerrors.phases[j][i][CSVheaders[k]] %>
+                              </font>
                             </td>
                             <% } %>
 
@@ -307,7 +308,7 @@
                             <tr>
                               <% for(var k=0; k < CSVheaders.length; k++) { %>
                               <td id="<%=CSVheaders[k]%>">
-                                <font style='<%="color:"+CSVerrors.full[j][i].STYLE%>'>
+                                <font color='<%=CSVerrors.full[j][i].STYLE%>'>
                                     <%= CSVerrors.full[j][i][CSVheaders[k]] %>
                                 </font>
   
