@@ -6,7 +6,7 @@ module.exports = {
         TSFRE0: {
             id: "TSREF0",
             min: 0,
-            max: 40
+            max: 400
         },
         ZG0: {
             id: "ZG0",
