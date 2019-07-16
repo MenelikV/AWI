@@ -1,10 +1,10 @@
 module.exports = {
     Config: {
         PSFRE0: {
-            id: "PSFRE0"
+            id: "PSFREF0"
         },
         TSFRE0: {
-            id: "TSFRE0"
+            id: "TSFREF0"
         },
         ZG0: {
             id: "ZG0"
