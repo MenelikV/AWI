@@ -11,16 +11,22 @@ module.exports = {
           var aircraft = matches[0]
         }
         var config = AnemoChartConfig.Config
-        par = []
+        var par = []
+        var min = {}
+        var max = {}
         for(var i=0; i<Object.keys(config).length;i++){
             let k = Object.keys(config)[i]
             let p =  config[k].id
+            let mi = config[k].min
+            let ma = config[k].max
             if(typeof p!=="string"){
                 p[aircraft] ? par.push(p[aircraft]) : par.push("ZRA1_S")
             }
             else{
                 par.push(p)
             }
+            min[p] = mi
+            max[p] = ma
         } 
         await IDADataManager.OpenSessionSecured()
         await IDADataManager.OpenMR(mr)
@@ -33,7 +39,9 @@ module.exports = {
             data_res: data_res,
             text: text,
             annotations: [],
-            par: par
+            par: par,
+            max: max,
+            min: min
         }
         res.status(200)
         console.log("Data has been correctly send to browser")

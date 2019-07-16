@@ -1,16 +1,22 @@
 module.exports = {
     Config: {
         PSFRE0: {
-            id: "PSFRE0"
+            id: "PSREF0",
         },
         TSFRE0: {
-            id: "TSFRE0"
+            id: "TSREF0",
+            min: 0,
+            max: 40
         },
         ZG0: {
-            id: "ZG0"
+            id: "ZG0",
+            min: 0,
+            max: 400
         },
         PS0_TYPE_DETECT: {
-            id: "PS0_TYPE_DETECT"
+            id: "PS0_TYPE_DETECT",
+            min: 0,
+            max: 2
         },
         PS0_DETECT: {
             id: "PS0_DETECT"
