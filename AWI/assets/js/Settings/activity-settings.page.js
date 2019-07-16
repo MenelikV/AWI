@@ -123,5 +123,33 @@ $(document).ready(function () {
   $("#discipline_dir").on('click', function () {
     $('#change_discipline').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
   })
-
+  /**
+   * START Atole DIRECTORY LOGIC
+   */
+  //AJAX post on form submition for discipline directory and button CSS editing on success/error
+  $('#change_atole').on('click', function () {
+    var dir = $("#atole_dir").val();
+    var activityName = $("#change_atole").attr('name')
+    var setting = $("#atole_dir").attr('name')
+    var url = '/Settings/changeSettings'
+    data = {
+      activityName: activityName,
+      setting: setting,
+      directory: dir
+    }
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: data,
+      success: function success() {
+        $('#change_atole').removeClass("btn-primary").addClass("btn-success").html("Changes Saved")
+      },
+      error: function error() {
+        $('#change_atole').removeClass("btn-primary").addClass("btn-danger").html("Invalid Directory")
+      }
+    })
+  })
+  $("#atole_dir").on('click', function () {
+    $('#change_atole').removeClass("btn-success").removeClass("btn-danger").addClass("btn-primary").html("apply")
+  })
 })
