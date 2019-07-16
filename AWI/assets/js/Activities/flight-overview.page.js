@@ -285,54 +285,115 @@ $(document).ready(function () {
     }
     for (let p of data.par) {
       var color = dynamicColors()
-      var config = {
-        type: 'line',
-        data: {
-          datasets:[{
-            label: p,
-            data: data.data_res[p],
-            fill: false,
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 1,
-          }]
-        },
-        options: {
-          title: {
-            display: true,
-            text: data.text
-          },
-          scales: {
-            xAxes: [{
-              type: "time",
-              time: {
-                displayFormats: {
-                  second: "HH:mm:ss"
-                },
-                timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-                tooltipFormat: "HH:mm:ss.SSS"
-              }
+      if(data.min[p]===undefined){
+        var config = {
+          type: 'line',
+          data: {
+            datasets:[{
+              label: p,
+              data: data.data_res[p],
+              fill: false,
+              backgroundColor: color,
+              borderColor: color,
+              borderWidth: 1,
             }]
           },
-          // Container for pan options
-          pan: {
-            // Boolean to enable panning
-            enabled: true,
-  
-            // Panning directions. Remove the appropriate direction to disable 
-            // Eg. 'y' would only allow panning in the y direction
-            mode: 'xy'
+          options: {
+            title: {
+              display: true,
+              text: data.text
+            },
+            scales: {
+              xAxes: [{
+                type: "time",
+                time: {
+                  displayFormats: {
+                    second: "HH:mm:ss"
+                  },
+                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
+                  tooltipFormat: "HH:mm:ss.SSS"
+                }
+              }]
+            },
+            // Container for pan options
+            pan: {
+              // Boolean to enable panning
+              enabled: true,
+    
+              // Panning directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow panning in the y direction
+              mode: 'xy'
+            },
+    
+            // Container for zoom options
+            zoom: {
+              // Boolean to enable zooming
+              enabled: true,
+              drag: false,
+    
+              // Zooming directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow zooming in the y direction
+              mode: 'xy',
+            }
+          }
+        }
+      }
+      else{
+        var config = {
+          type: 'line',
+          data: {
+            datasets:[{
+              label: p,
+              data: data.data_res[p],
+              fill: false,
+              backgroundColor: color,
+              borderColor: color,
+              borderWidth: 1,
+            }]
           },
-  
-          // Container for zoom options
-          zoom: {
-            // Boolean to enable zooming
-            enabled: true,
-            drag: false,
-  
-            // Zooming directions. Remove the appropriate direction to disable 
-            // Eg. 'y' would only allow zooming in the y direction
-            mode: 'xy',
+          options: {
+            title: {
+              display: true,
+              text: data.text
+            },
+            scales: {
+              xAxes: [{
+                type: "time",
+                time: {
+                  displayFormats: {
+                    second: "HH:mm:ss"
+                  },
+                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
+                  tooltipFormat: "HH:mm:ss.SSS"
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  min: data.min[p],
+                  max: data.max[p]
+                }
+              }]
+            },
+            // Container for pan options
+            pan: {
+              // Boolean to enable panning
+              enabled: true,
+    
+              // Panning directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow panning in the y direction
+              mode: 'xy'
+            },
+    
+            // Container for zoom options
+            zoom: {
+              // Boolean to enable zooming
+              enabled: true,
+              drag: false,
+    
+              // Zooming directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow zooming in the y direction
+              mode: 'xy',
+            }
           }
         }
       }
