@@ -168,7 +168,13 @@ $(document).ready(function () {
       return $(d).text().trim()
     })
     values = dt.row(row).data()
-
+    // Remove font color tag (ANEMO)
+    try{
+      values = values.map(d=>$.parseHTML(d)[0].innerText.trim())
+    }
+    catch(error){
+      // Do nothing if it fails
+    }
     // Inspired from https://stackoverflow.com/questions/39127989/creating-a-javascript-object-from-two-arrays
     row_data = headers.reduce((o, k, i) => ({
       ...o,
