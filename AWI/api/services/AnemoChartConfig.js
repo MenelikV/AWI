@@ -1,7 +1,14 @@
 module.exports = {
     Config: {
+        PS0_TYPE_DETECT: {
+            id: "PS0_TYPE_DETECT",
+            min: 0,
+            max: 2
+        },
         PSFRE0: {
             id: "PSREF0",
+            min: 700,
+            max: 1500
         },
         TSFRE0: {
             id: "TSREF0",
@@ -12,11 +19,6 @@ module.exports = {
             id: "ZG0",
             min: 0,
             max: 400
-        },
-        PS0_TYPE_DETECT: {
-            id: "PS0_TYPE_DETECT",
-            min: 0,
-            max: 2
         },
         PS0_DETECT: {
             id: "PS0_DETECT"
