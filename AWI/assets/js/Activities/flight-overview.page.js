@@ -309,7 +309,7 @@ $(document).ready(function () {
           },
           options: {
             title: {
-              display: true,
+              display: false,
               text: data.text,
               layout:{
                 padding:{
@@ -368,7 +368,7 @@ $(document).ready(function () {
           },
           options: {
             title: {
-              display: true,
+              display: false,
               text: data.text,
               layout:{
                 padding:{
