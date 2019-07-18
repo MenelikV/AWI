@@ -302,6 +302,9 @@ $(document).ready(function () {
               backgroundColor: color,
               borderColor: color,
               borderWidth: 1,
+              responsive: false,
+              height: 300,
+              width: 500,
             }]
           },
           options: {
@@ -404,7 +407,7 @@ $(document).ready(function () {
         }
       }
       $(`#anemoChart_${p}`).remove()
-      $("#anemoChartContainer").append(`<canvas id="anemoChart_${p}"></canvas>`)
+      $(`#${p}`).append(`<canvas id="anemoChart_${p}"></canvas>`)
       var ctx = document.getElementById(`anemoChart_${p}`).getContext("2d")
       new Chart(ctx, config)
     }

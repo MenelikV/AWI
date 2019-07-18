@@ -24,7 +24,7 @@ $(document).ready(function(){
       success: function(res){
         console.log(res)
         $("#colorModalCenter").modal("hide")
-        window.location.reload()
+        window.location.href = `/Activities/${activity}/colorSettings`
       },
       error: function(res){
         alert(res)
