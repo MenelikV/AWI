@@ -310,7 +310,13 @@ $(document).ready(function () {
           options: {
             title: {
               display: true,
-              text: data.text
+              text: data.text,
+              layout:{
+                padding:{
+                  bottom:10,
+                  top:10
+                }
+              }
             },
             scales: {
               xAxes: [{
@@ -363,7 +369,13 @@ $(document).ready(function () {
           options: {
             title: {
               display: true,
-              text: data.text
+              text: data.text,
+              layout:{
+                padding:{
+                  bottom:10,
+                  top:10
+                }
+              }
             },
             scales: {
               xAxes: [{
