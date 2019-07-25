@@ -67,8 +67,13 @@ module.exports.routes = {
 
   'POST /deleteFilter/:id': 'FilterController.deleteFilter',
 
+  'POST /createColor/:id': 'ColorController.addColor',
+
+  'POST /deleteColor/:id': 'ColorController.deleteColor',
+
   'GET /Activities/:id/filterSettings': 'FilterController.getFilters',
   
+  'GET /Activities/:id/colorSettings':  'ColorController.getColors',
 
   'POST /Activities/:activity/search': 'SearchController.search',
 
@@ -81,6 +86,11 @@ module.exports.routes = {
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
+
+  'GET /Activities/Anemo/chart': {
+    controller: 'Activities/AnemoChartController',
+    action: 'plot'
+  },
 
 
   /***************************************************************************

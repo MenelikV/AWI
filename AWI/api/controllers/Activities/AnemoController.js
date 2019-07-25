@@ -98,6 +98,21 @@ module.exports = {
     }
     var GMTpvol = []
     var phasesFlightData = [];
+    var colors = await Color.find({activity: 'ANEMO', aircraft: aircraft}).populate("parameters")
+    var par_colors = {}
+    colors.forEach(color => {
+      color.parameters.forEach(paremeter => {
+        par_colors[paremeter.mr_id] = color.color
+      })
+    })
+    const black = "#000000"
+    var handler = {
+      get: function(target, name) {
+        return target.hasOwnProperty(name) ? target[name] : black;
+      }
+    };
+    
+    var color_mapper = new Proxy(par_colors, handler);
     if(content !== undefined){
       Papa.parse(content, {
         // Be sure that the header are uppercase
@@ -200,6 +215,7 @@ module.exports = {
               if (startcsv > startpvol && endcsv < endpvol) {
                 item.MAX = sails.helpers.numberFormat(item.MAX)
                 item.MIN = sails.helpers.numberFormat(item.MIN)
+                item["STYLE"] = color_mapper[item["PARAMETER"]]
                 Fullitems.push(item)
                 var type = item["TYPE"]
                 if(FullerrorMap[type] === undefined){
@@ -237,6 +253,7 @@ module.exports = {
                 if (endcsv > startpvol && startcsv < endpvol) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
+                  item["STYLE"] = color_mapper[item["PARAMETER"]]
                   items.push(item)
                   var type = item["TYPE"]
                   if(currentMap[type] === undefined){
@@ -289,7 +306,9 @@ module.exports = {
                 phases: errorMap,
                 full: FullerrorMap
               },
-              filterTrigger: filterTrigger
+              filterTrigger: filterTrigger,
+              colorHeader: colors.length? ["color", "filename"]: [],
+              colorType: colors
             })
           }
         })

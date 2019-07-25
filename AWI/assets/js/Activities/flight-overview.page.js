@@ -168,7 +168,13 @@ $(document).ready(function () {
       return $(d).text().trim()
     })
     values = dt.row(row).data()
-
+    // Remove font color tag (ANEMO)
+    try{
+      values = values.map(d=>$.parseHTML(d)[0].innerText.trim())
+    }
+    catch(error){
+      // Do nothing if it fails
+    }
     // Inspired from https://stackoverflow.com/questions/39127989/creating-a-javascript-object-from-two-arrays
     row_data = headers.reduce((o, k, i) => ({
       ...o,
@@ -273,7 +279,158 @@ $(document).ready(function () {
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
+  /**
+   * LOAD DATA (ANEMO)
+   */
+  var createAnemoChart = function (data, status) {
+    var dynamicColors = function () {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
+    }
+    for (let p of data.par) {
+      var color = dynamicColors()
+      if(data.min[p]===undefined){
+        var config = {
+          type: 'line',
+          data: {
+            datasets:[{
+              label: p,
+              data: data.data_res[p],
+              fill: false,
+              backgroundColor: color,
+              borderColor: color,
+              borderWidth: 1,
+              responsive: false,
+              height: 300,
+              width: 500,
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: data.text
+            },
+            scales: {
+              xAxes: [{
+                type: "time",
+                time: {
+                  displayFormats: {
+                    second: "HH:mm:ss"
+                  },
+                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
+                  tooltipFormat: "HH:mm:ss.SSS"
+                }
+              }]
+            },
+            // Container for pan options
+            pan: {
+              // Boolean to enable panning
+              enabled: true,
+    
+              // Panning directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow panning in the y direction
+              mode: 'xy'
+            },
+    
+            // Container for zoom options
+            zoom: {
+              // Boolean to enable zooming
+              enabled: true,
+              drag: false,
+    
+              // Zooming directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow zooming in the y direction
+              mode: 'xy',
+            }
+          }
+        }
+      }
+      else{
+        var config = {
+          type: 'line',
+          data: {
+            datasets:[{
+              label: p,
+              data: data.data_res[p],
+              fill: false,
+              backgroundColor: color,
+              borderColor: color,
+              borderWidth: 1,
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: data.text
+            },
+            scales: {
+              xAxes: [{
+                type: "time",
+                time: {
+                  displayFormats: {
+                    second: "HH:mm:ss"
+                  },
+                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
+                  tooltipFormat: "HH:mm:ss.SSS"
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  min: data.min[p],
+                  max: data.max[p]
+                }
+              }]
+            },
+            // Container for pan options
+            pan: {
+              // Boolean to enable panning
+              enabled: true,
+    
+              // Panning directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow panning in the y direction
+              mode: 'xy'
+            },
+    
+            // Container for zoom options
+            zoom: {
+              // Boolean to enable zooming
+              enabled: true,
+              drag: false,
+    
+              // Zooming directions. Remove the appropriate direction to disable 
+              // Eg. 'y' would only allow zooming in the y direction
+              mode: 'xy',
+            }
+          }
+        }
+      }
+      $(`#anemoChart_${p}`).remove()
+      $(`#${p}`).append(`<canvas id="anemoChart_${p}"></canvas>`)
+      var ctx = document.getElementById(`anemoChart_${p}`).getContext("2d")
+      new Chart(ctx, config)
+    }
 
+    $("#spinnerModal").modal("hide")
+
+  }
+  $("#load_data").click(function(){
+    var mr = $(this).data('mr')
+    $("#spinnerModal").modal("show");
+    $.ajax({
+      url: "/Activities/Anemo/chart",
+      data: {
+        mr: mr
+      },
+      type: "GET",
+      success: createAnemoChart,
+      error: function(){
+        alert("Error")
+        $("#spinnerModal").modal("hide")
+      }
+    })
+  })
 
   /**
    * START DATATABLES CONFIGURATIONS

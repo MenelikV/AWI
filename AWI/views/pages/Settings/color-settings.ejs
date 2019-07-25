@@ -1,0 +1,81 @@
+<div class="jumbotron jumbostyle">
+    <div class="container-fluid">
+      <!-- Title and Activity container-->
+      <div class="row">
+        <div class="col md-4"></div>
+        <div class="col md-4">
+          <h1 class="display 4 text-center" style="padding-top:2rem;"> <strong>
+              <%=activity%> Colors</strong> </h1>
+        </div>
+        <div class="col md-4">
+        </div>
+      </div>
+      <hr style="padding-bottom:2rem;">
+  
+      <div class="row">
+        <div class="col md-6">
+          <!-- Flight Overview container -->
+  
+          <% if(info.length) { %>
+          <div class="container-fluid" style="background-color:rgb(255, 255, 255); overflow:auto; padding:10px;">
+            <table id="colors-table" class="table table-striped text-left table-hover">
+              <thead>
+                <% for(var i=0; i < headers.length; i++) {%>
+                <th>
+                  <%= headers[i].toUpperCase() %>
+                </th>
+                <% } %>
+                <th class="text-center">
+                  DELETE COLOR
+                </th>
+              </thead>
+  
+              <tbody>
+                <% for(var i=0; i < info.length; i++) {%>
+                <tr id="<%= info[i]['id']%>" name="<%=activity%>">
+                  <% for(var j=0; j < headers.length; j++) {%>
+                  <td>
+                    <%if(headers[j].toUpperCase()==="COLOR"){%>
+                      <font color="<%= info[i][headers[j]] %>">
+                          <%= info[i][headers[j]] %>
+                      </font>
+                      <%}else{%>
+                        <%= info[i][headers[j]] %>
+                        <%}%>
+
+                    
+                  </td>
+                  <% } %>
+                  <td class="text-center">
+                    <button class=" btn-danger btn-sm " id="delete-color" style="cursor:pointer;">
+                      <i class="fa fa-trash fa-lg" title="Delete"></i>
+                    </button>
+                  </td>
+                  <% } %>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <hr/>
+          <a class="btn btn-lg btn-primary" href="javascript:history.back()">Go back</a>
+          <button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#colorModalCenter">Add Coloring Scheme</button>
+          <% } else { %>
+          <div class="container" style="background-color:rgba(255, 255, 255, 0.836); overflow:auto; padding:10px;">
+            <div style="padding:2rem">
+              <h2><strong style="color:#1D809F">No coloring scheme found</strong> </h2>
+              <hr /> 
+              <div class="help">
+                <h5>This activity has not been assigned any coloring scheme up to this moment.</h5><br>
+                <div class="text-center">
+                  <button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#colorModalCenter">Add Coloring Scheme</button>
+                  <a class="btn btn-lg btn-primary" href="javascript:history.back()">Go back</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%}%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include ..\color-modal.ejs %>
