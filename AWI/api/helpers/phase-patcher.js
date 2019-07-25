@@ -16,7 +16,7 @@ module.exports = {
     var new_list = []
     for (let [idx, p] of list.entries()) {
       new_list.push(p)
-      if (p["PHASE"] === "TG" || p["PHASE"] === "TO") {
+      if (p["PHASE"] === "TG" || p["PHASE"] === "TO" || p["PHASE"] == "GA") {
         if (list[idx + 1] !== undefined) {
           var patch = {}
           patch["END"] = list[idx + 1]["START"]
