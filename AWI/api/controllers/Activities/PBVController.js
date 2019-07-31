@@ -223,7 +223,27 @@ module.exports = {
                     filterTrigger = true;
                   }
                 })
-    
+                try{
+                  var AtoleCSVDirectory = await sails.helpers.getSettings('PBV', 'AtoleCSVDirectory');
+                  var pattern = `${req.param("id")}_Exploit_([ATTERISSAGE, RTO, DECOLLAGE])_Temps_et_Vars_\d.csv`
+                  var reg = new RegExp(pattern, 'g')
+                  var atoleFiles = glob.readdirSync(reg, {
+                    cwd: AtoleCSVDirectory
+                  })
+                  var testData = sails.helpers.extractTests(atoleFiles, AtoleCSVDirectory)
+                  if(atoleFiles.length){
+                    var chartChoice = PBVChartChoices.Config[testData[atoleFiles[0]].type] ? PBVChartChoices.Config[testData[atoleFiles[0]].type]: []
+                  }
+                  else{
+                    var chartChoice = []
+                  }
+                }
+                catch(err){
+                  console.error(err)
+                  var testData = {}
+                  var atoleFiles = []
+                  var chartChoice = []
+                }
                 return res.view("pages/Activities/PBV/flight-overview", {
                   activity: "PBV",
                   summary: summary,
@@ -237,6 +257,9 @@ module.exports = {
                   filterTrigger: filterTrigger,
                   errorMap: currentMap,
                   filterHeader: filterHeader,
+                  atoleFiles: atoleFiles,
+                  testData: testData,
+                  chartChoice: chartChoice
                 })
               }
             })
