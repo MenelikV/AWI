@@ -97,6 +97,9 @@
                     <%= headers[i] %>
                   </th>
                   <% } }%>
+                  <th>
+                    ACTIONS
+                  </th>
                 </tr>
               </thead>
 
@@ -153,6 +156,11 @@
                   <%}}%>
                   </td>
                   <% } }%>
+                  <td>
+                      <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" data-start="<%=data.phases[j]["START"]%>" data-end="<%=data.phases[j]["END"]%>" aria-hidden="true" data-id="see_cas">
+                        <i class="fa fa-line-chart fa-lg" style="color:black" title="See CAS/ZRA"></i>
+                    </button>
+                  </td>
                 </tr>
 
                 <!--Start collapse div-->
@@ -496,4 +504,5 @@
 <%- include ../../search-modal.ejs %>
 <%- include ../../filter-modal.ejs %>
 <%- include ../../plot-modal.ejs %>
+<%- include plot-modal.ejs %>
 <%- include ../../spinner-modal.ejs %>
