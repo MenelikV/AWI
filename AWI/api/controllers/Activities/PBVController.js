@@ -180,7 +180,7 @@ module.exports = {
               header: true,
               delimiter: ";",
               skipEmptyLines: true,
-              complete: function (results) {
+              complete: async function (results) {
                 /*For each period in PVOL, read the csv file and verify if the 
                 error is in the given period. If it is, add it to an array.*/
                 var items = [];
@@ -225,12 +225,11 @@ module.exports = {
                 })
                 try{
                   var AtoleCSVDirectory = await sails.helpers.getSettings('PBV', 'AtoleCSVDirectory');
-                  var pattern = `${req.param("id")}_Exploit_([ATTERISSAGE, RTO, DECOLLAGE])_Temps_et_Vars_\d.csv`
+                  // Template for regular expression
+                  var pattern = `${req.param("id")}_Exploit_(ATTERISSAGE|RTO|DECOLLAGE)_Temps_et_Vars_\\d.csv`
                   var reg = new RegExp(pattern, 'g')
-                  var atoleFiles = glob.readdirSync(reg, {
-                    cwd: AtoleCSVDirectory
-                  })
-                  var testData = sails.helpers.extractTests(atoleFiles, AtoleCSVDirectory)
+                  var atoleFiles = fs.readdirSync(AtoleCSVDirectory).filter(f=>f.match(reg))
+                  var testData = await sails.helpers.extractTests(atoleFiles, AtoleCSVDirectory)
                   if(atoleFiles.length){
                     var chartChoice = PBVChartChoices.Config[testData[atoleFiles[0]].type] ? PBVChartChoices.Config[testData[atoleFiles[0]].type]: []
                   }
