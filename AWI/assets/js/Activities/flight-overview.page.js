@@ -425,9 +425,51 @@ $(document).ready(function () {
   /**
    * Load Test CSV (PBV)
    */
-  $("#atole").change(function(){
-    var file = $(this).val()
-  })
+    // Set text and attributes of button on click
+    $("li[id*='choice']").on("click", function(){
+      var file = $(this).data("file")
+      var test = $(this).data("test")
+      var index = $(this).data("index")
+      var mr = $(this).data("mr")
+      var button = $("#dropdownMenuButton")
+      button.text(`${file}/${test}`)
+      button.data("file", file)
+      button.data("test", test)
+      button.data("index", index)
+      button.data('mr', mr)
+    })
+    $("li[id*='type'").on("click", function(){
+      var button = $("#dropdownChartButton")
+      var type = $(this).text() 
+      button.text(type)
+      button.data("type", type)
+    })
+    // Launch Request for the Chart on click
+    $("#pbv_load").on("click", function(){
+      var button = $("#dropdownMenuButton")
+      var file = button.data("file")
+      var index = button.data("index")
+      var mr = button.data("mr")
+      var type_button = $("#dropdownChartButton")
+      var type = type_button.data("type")
+      // TODO If either file or index is empty, remind the user he should select a least one entries in the menu
+      var test = window.SAILS_LOCALS["testData"][file][index]
+      $.ajax({
+        method: "GET",
+        url: "/Activities/PBV/testplot",
+        data: {
+          test: test,
+          mr : mr,
+          type: type
+        },
+        success: function(){
+          // TODO Creates the plot and the whole interface (sic)
+        },
+        error: function(){
+          alert("Failed")
+        }
+      })
+    })
 
   /**
    * START DATATABLES CONFIGURATIONS

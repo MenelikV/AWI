@@ -92,6 +92,11 @@ module.exports.routes = {
     action: 'plot'
   },
 
+  'GET /Activities/PBV/testplot': {
+    controller: 'Activities/PBVChartController',
+    action: 'plot'
+  }
+
 
   /***************************************************************************
    *                                                                          *

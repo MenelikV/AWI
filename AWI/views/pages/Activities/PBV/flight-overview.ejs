@@ -256,25 +256,52 @@
        <!-- BEGIN FOURTH TAB -->
        <div class="tab-pane fade" id="nav-charts" role="tabpanel" aria-labelledby="nav-charts-tab">
            <br>
-           <div class="col md-12">
-             <!-- Chart and selection container -->
-             <div id="pbvChartContainer" class="container-fluid" style="background-color:white; overflow:auto;">
-               <h4 style="padding-top:0.5rem;">
-               <div class="d-flex justify-content-center">
-                  <div>
-                      <select id="atole">
-                        <%for(let file of atoleFiles){%>
-                          <option value="<%=file%>"><%=file%></option>
-                          <%}%>
-                      </select>
+           <div class="row">
+             <div class="col">
+                <div class="d-flex justify-content-center">
+                    <div class="dropdown" id="#load_atole">
+                      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         Choose Test to Load
+                      </button>
+                      <ul class="dropdown-menu">
+                        <% var choice = 0 %>
+                        <% for(let file of atoleFiles){%>
+                              <li class="dropdown-item dropdown-submenu" >
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><%=file%></a>
+                                <ul class="dropdown-menu">
+                                    <% for(let [index, test] of testData[file].entries()){%>
+                                      <li id='<%="choice"+choice%>' class="dropdown-item" data-mr="<%=mr%>" data-file="<%=file%>" data-index="<%=index%>" data-test=<%=`${test.TDEB} - ${test.TFIN}`%>`>
+                                          <a href="#"><%=`${test.TDEB} - ${test.TFIN}`%></a>
+                                      </li>
+                                      <% choice = choice + 1%>
+                                    <%}%>
+                                </ul>
+                              </li>
+                        <%}%>
+                      </ul>
+                    </div>
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownChartButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Chart to Load
+                      </button>
+                      <ul class="dropdown-menu">
+                        <% for(let type of chartChoice){%>
+                          <li id='<%="type"+choice%>' class="dropdown-item">
+                            <a href="#"><%=type%></a>
+                          </li>
+                          <% choice = choice + 1 %>
+                        <%}%>
+                      </ul>
+                    </div>
+                   <button class="btn btn-primary btn-lg" type="button" id="pbv_load">Load Chart</button>
                   </div>
-                  <div>
-                      <select id="testCSV">
-                      </select>
-                  </div>
-                <button class="btn btn-primary btn-lg">Load Data</button>
-               </div>
              </div>
+             <div class="col md-12">
+                <!-- Chart and selection container -->
+                <div id="pbvChartContainer" class="container-fluid" style="background-color:white; overflow:auto;">
+                  <h4 style="padding-top:0.5rem;">
+                </div>
+              </div>
            </div>
        </div>   
        <!--END FOURTH TAB-->  
@@ -285,3 +312,4 @@
 <%- include ../../filter-modal.ejs %>
 <%- include ../../plot-modal.ejs %>
 <%- include ../../spinner-modal.ejs %>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

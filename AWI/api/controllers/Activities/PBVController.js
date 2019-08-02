@@ -231,7 +231,7 @@ module.exports = {
                   var atoleFiles = fs.readdirSync(AtoleCSVDirectory).filter(f=>f.match(reg))
                   var testData = await sails.helpers.extractTests(atoleFiles, AtoleCSVDirectory)
                   if(atoleFiles.length){
-                    var chartChoice = PBVChartChoices.Config[testData[atoleFiles[0]].type] ? PBVChartChoices.Config[testData[atoleFiles[0]].type]: []
+                    var chartChoice = PBVChartChoices.Config[testData[atoleFiles[0]][0].type] ? PBVChartChoices.Config[testData[atoleFiles[0]][0].type]: []
                   }
                   else{
                     var chartChoice = []
