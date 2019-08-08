@@ -1,5 +1,7 @@
 const IDA_format = "HH:mm:ss.SSS"
 const IDADataManager = new IDA()
+const moment = require("moment")
+const atole_format = "DDD-HH:mm:ss"
 module.exports = {
     plot: async function(req, res){
         console.log(req)
@@ -14,6 +16,9 @@ module.exports = {
           var aircraft = matches[0]
         }
         var config = PBVChartConfig
+        var cursors_config = PBVCursorConfig
+        var keys = _.pick(cursors_config[testtype], config[testtype][charttype].cursors)
+        var times = _.pick(test, Object.values(keys))
         var par = Object.values(config[testtype][charttype].pars[aircraft])
         await IDADataManager.OpenSessionSecured()
         await IDADataManager.OpenMR(mr)

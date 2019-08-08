@@ -271,7 +271,7 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     for(let [index, par] of params.entries()){
       final_res[par] = list.map(function(d){return{
         x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
-        y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
+        y: d.listParamSamples.listParamSample[index].objValue.dblValueType
       }
       })
     } 

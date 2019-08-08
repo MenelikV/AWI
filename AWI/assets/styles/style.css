@@ -331,7 +331,7 @@ a:active {
 
   max-height: 0;
   display: block;
-  overflow: show;
+  overflow: auto;
   opacity: 0;
 }
 
