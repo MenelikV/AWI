@@ -200,77 +200,47 @@ module.exports = {
         await IDADataManager.OpenMR(mr)
         var startt = new moment(data.START, internal_format).format(IDA_format)
         var endt = new moment(data.END, internal_format).format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
-        var dynamicColors = function () {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            return "rgb(" + r + "," + g + "," + b + ")";
-          }
-          plot_config = {}
-          for(let p of Object.keys(config)){
-              color = dynamicColors()
-              text = `${p} from ${startt} to ${endt}`
-            var plot_base_config = {
-                type: 'line',
-                data: {
-                  datasets:[{
-                    label: p,
-                    data: data_res[mnemo[p]],
-                    fill: false,
-                    backgroundColor: color,
-                    borderColor: color,
-                    borderWidth: 1,
-                    responsive: false,
-                    height: 500,
-                    width: 700,
-                  }]
-                },
-                options: {
-                  title: {
-                    display: true,
-                    text: text
-                  },
-                  scales: {
-                    xAxes: [{
-                      type: "time",
-                      time: {
-                        displayFormats: {
-                          second: "HH:mm:ss"
-                        },
-                        timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-                        tooltipFormat: "HH:mm:ss.SSS"
-                      }
-                    }]
-                  },
-                  // Container for pan options
-                  pan: {
-                    // Boolean to enable panning
-                    enabled: true,
-          
-                    // Panning directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'xy'
-                  },
-          
-                  // Container for zoom options
-                  zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-                    drag: false,
-          
-                    // Zooming directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow zooming in the y direction
-                    mode: 'xy',
-                  }
-                }
-              }
-              plot_config[p] = plot_base_config
-          }
-          
-          res.status(200)
-
-          return res.send(plot_config)
+        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, true)
+        var traces = []
+        for(let [i, p] of Object.keys(config).entries()){
+          traces.push({
+              x: data_res[mnemo[p]].x,
+              y: data_res[mnemo[p]].y,
+              type: "scatter",
+              mode: "lines",
+              name: `${p}`,
+              xaxis: `x${i+1}`,
+              yaxis: `y${i+1}`
+          })
+        }
+        var layout = {
+          title : `${Object.keys(config).join(" \ ")} from ${startt} to ${endt}`,
+          dragmode: "pan",
+          xaxis:{
+            domain: [0, 0.45],
+            anchor: 'y1',
+            tickformat: '%H %M'
+          },
+          yaxis:{
+            domain: [0, 1],
+            anchor: 'x1',
+          },
+          xaxis2:{
+            domain: [0.55, 1],
+            anchor: 'y2',
+            tickformat: '%H %M'
+          },
+          yaxis2:{
+            domain: [0, 1],
+            anchor: 'x2',
+          },
+        }
+        data = {
+          trace: traces,
+          layout: layout
+        }
+        res.status(200)
+        return res.send(data)
         }
 
 }
