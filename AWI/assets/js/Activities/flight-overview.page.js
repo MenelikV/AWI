@@ -309,11 +309,6 @@ $(document).ready(function () {
    * See CAS/ZRA (Anemo)
    */
   $("table[id*='pvol']").on("click", 'button[data-id="see_cas"]', function () {
-    // Show Modal (Clear context before showing anything)
-    var ctx = document.getElementById("ZRA_canvas").getContext("2d")
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    var ctx = document.getElementById("CAS_canvas").getContext("2d")
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     row_data = {}
     row_data["MR"] = ($(this).data("mr"))
     let format = "DDD-HH:mm:ss-SSS"
@@ -337,14 +332,7 @@ $(document).ready(function () {
   var createCasPlot = function (data, status) {
     // Config is given by the server this time around
     $("#spinnerModal").modal("hide")
-    $("#ZRA_canvas").remove()
-    $("#ZRA_canvas_container").append('<canvas id="ZRA_canvas" style="width: 700px; height: 500px"></canvas>')
-    var ctx = document.getElementById("ZRA_canvas").getContext("2d")
-    new Chart(ctx, data["ZRA"])
-    $("#CAS_canvas").remove()
-    $("#CAS_canvas_container").append('<canvas id="CAS_canvas" style="width: 700px; height: 500px"></canvas>')
-    var ctx = document.getElementById("CAS_canvas").getContext("2d")
-    new Chart(ctx, data["CAS"])
+    Plotly.newPlot('AnemoCAS', data.trace, data.layout, {scrollZoom: true})
     $("#plotAnemoModal").modal("show")
     $("#plotAnemoModal").modal("handleUpdate")
   }
