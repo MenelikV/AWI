@@ -89,6 +89,7 @@ var jsFilesToInject = [
   'dependencies/datetime-moment.js',
   'dependencies/tempusdominus-bootstrap-4.min.js',
   'dependencies/bootstrap-colorpicker.js',
+  'dependencies/plotly.js'
 ];
 
 

@@ -245,8 +245,9 @@ IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
 IDADataManager.prototype.validate = function (res) {
   return _.get(res, 'length', 0)
 }
-IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params) {
+IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, plotly) {
   // TODO Cache it ?
+  plotly = (typeof plotly === 'undefined') ? false : plotly;
   let data = []
   let rate = 1
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
@@ -268,14 +269,29 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     return final_res
   }
   else{
-    for(let [index, par] of params.entries()){
-      final_res[par] = list.map(function(d){return{
-        x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
-        y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
+    if(plotly === false){
+      for(let [index, par] of params.entries()){
+        final_res[par] = list.map(function(d){return{
+          x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
+          y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
+        }
+        })
+      } 
+      return final_res
+    }
+    else{
+      for(let [index, par] of params.entries()){
+        var i = 0;
+        final_res[par] = {x: new Array(list.length), y: new Array(list.length)};
+        while(i<list.length){
+          final_res[par].x[i] = moment.unix((list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1)
+          final_res[par].y[i] = list[i].listParamSamples.listParamSample[index].objValue.dblValueType
+          i++;
+        }
       }
-      })
-    } 
-    return final_res
+      return final_res
+
+    }
 }
 }
 IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type, refs){
