@@ -135,9 +135,16 @@ IDADataManager.prototype.GetParamsInfo = async function (mr_adress, params) {
 }
 IDADataManager.prototype.GetMRTimes = async function(mr_adress, format){
   if(this.times_register[mr_adress] !== undefined){
-    // Fetch Dat From Cache
-    if(format !== undefined){return this.times_register[mr_adress].map(d => d.format(format))}
-    return this.times_register[mr_adress].map(d=>d.clone())
+    if(this.times_register[mr_adress].length == 2){
+      // Fetch Dat From Cache
+      if(format !== undefined){return this.times_register[mr_adress].map(d => d.format(format))}
+      return this.times_register[mr_adress].map(d=>d.clone())
+    }
+    else{
+      // Invalid Cache, force update
+      this.times_register[mr_adress] = undefined
+      return await this.GetMRTimes(mr_adress, format)
+    }
   }
   let mr_id = await this.getMRID(mr_adress)
   let res = await this.doRequest({

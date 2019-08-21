@@ -284,8 +284,13 @@ $(document).ready(function () {
    */
   var createAnemoChart = function (data, status) {
     Plotly.newPlot('anemoChartContainergroup', data.group.traces, data.group.layout, {scrollZoom: true, modeBarButtonsToRemove: ['autoScale2d']})
-    Plotly.newPlot('ZRA', data.zra.trace, data.zra.layout, {scrollZoom: true})
-    Plotly.newPlot('PS0', data.ps.trace, data.ps.layout, {scrollZoom: true})
+    for(let k of Object.keys(data)){
+      if(k !== "group"){
+        Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
+        Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
+      }
+    }
+
     $("#spinnerModal").modal("hide")
 
   }
