@@ -283,147 +283,9 @@ $(document).ready(function () {
    * LOAD DATA (ANEMO)
    */
   var createAnemoChart = function (data, status) {
-    var dynamicColors = function () {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
-    }
-    for (let p of data.par) {
-      var color = dynamicColors()
-      if(data.min[p]===undefined){
-        var config = {
-          type: 'line',
-          data: {
-            datasets:[{
-              label: p,
-              data: data.data_res[p],
-              fill: false,
-              backgroundColor: color,
-              borderColor: color,
-              borderWidth: 1,
-              responsive: false,
-              height: 300,
-              width: 500,
-            }]
-          },
-          options: {
-            title: {
-              display: false,
-              text: data.text,
-              layout:{
-                padding:{
-                  bottom:10,
-                  top:10
-                }
-              }
-            },
-            scales: {
-              xAxes: [{
-                type: "time",
-                time: {
-                  displayFormats: {
-                    second: "HH:mm:ss"
-                  },
-                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-                  tooltipFormat: "HH:mm:ss.SSS"
-                }
-              }]
-            },
-            // Container for pan options
-            pan: {
-              // Boolean to enable panning
-              enabled: true,
-    
-              // Panning directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow panning in the y direction
-              mode: 'xy'
-            },
-    
-            // Container for zoom options
-            zoom: {
-              // Boolean to enable zooming
-              enabled: true,
-              drag: false,
-    
-              // Zooming directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow zooming in the y direction
-              mode: 'xy',
-            }
-          }
-        }
-      }
-      else{
-        var config = {
-          type: 'line',
-          data: {
-            datasets:[{
-              label: p,
-              data: data.data_res[p],
-              fill: false,
-              backgroundColor: color,
-              borderColor: color,
-              borderWidth: 1,
-            }]
-          },
-          options: {
-            title: {
-              display: false,
-              text: data.text,
-              layout:{
-                padding:{
-                  bottom:10,
-                  top:10
-                }
-              }
-            },
-            scales: {
-              xAxes: [{
-                type: "time",
-                time: {
-                  displayFormats: {
-                    second: "HH:mm:ss"
-                  },
-                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-                  tooltipFormat: "HH:mm:ss.SSS"
-                }
-              }],
-              yAxes: [{
-                ticks: {
-                  min: data.min[p],
-                  max: data.max[p]
-                }
-              }]
-            },
-            // Container for pan options
-            pan: {
-              // Boolean to enable panning
-              enabled: true,
-    
-              // Panning directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow panning in the y direction
-              mode: 'xy'
-            },
-    
-            // Container for zoom options
-            zoom: {
-              // Boolean to enable zooming
-              enabled: true,
-              drag: false,
-    
-              // Zooming directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow zooming in the y direction
-              mode: 'xy',
-            }
-          }
-        }
-      }
-      $(`#anemoChart_${p}`).remove()
-      $(`#${p}`).append(`<canvas id="anemoChart_${p}"></canvas>`)
-      var ctx = document.getElementById(`anemoChart_${p}`).getContext("2d")
-      new Chart(ctx, config)
-    }
-
+    Plotly.newPlot('anemoChartContainergroup', data.group.traces, data.group.layout, {scrollZoom: true, modeBarButtonsToRemove: ['autoScale2d']})
+    Plotly.newPlot('ZRA', data.zra.trace, data.zra.layout, {scrollZoom: true})
+    Plotly.newPlot('PS0', data.ps.trace, data.ps.layout, {scrollZoom: true})
     $("#spinnerModal").modal("hide")
 
   }
@@ -443,6 +305,37 @@ $(document).ready(function () {
       }
     })
   })
+  /**
+   * See CAS/ZRA (Anemo)
+   */
+  $("table[id*='pvol']").on("click", 'button[data-id="see_cas"]', function () {
+    row_data = {}
+    row_data["MR"] = ($(this).data("mr"))
+    let format = "DDD-HH:mm:ss-SSS"
+    row_data["START"] = new moment($(this).data("start"),format).format(format)
+    row_data["END"] = new moment($(this).data("end"), format).format(format)
+    $("#spinnerModal").modal("show")
+    $.ajax({
+      //datatype: "json",
+      url: "/Activities/Anemo/caschart",
+      data: {
+        row: row_data
+      },
+      type: "GET",
+      success: createCasPlot,
+      error: function () {
+        $("#spinnerModal").modal("hide")
+        alert("Fetching Data Failed")
+      }
+    })
+  })
+  var createCasPlot = function (data, status) {
+    // Config is given by the server this time around
+    $("#spinnerModal").modal("hide")
+    Plotly.newPlot('AnemoCAS', data.trace, data.layout, {scrollZoom: true})
+    $("#plotAnemoModal").modal("show")
+    $("#plotAnemoModal").modal("handleUpdate")
+  }
 
   /**
    * START DATATABLES CONFIGURATIONS

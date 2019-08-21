@@ -97,6 +97,9 @@
                     <%= headers[i] %>
                   </th>
                   <% } }%>
+                  <th>
+                    ACTIONS
+                  </th>
                 </tr>
               </thead>
 
@@ -153,6 +156,11 @@
                   <%}}%>
                   </td>
                   <% } }%>
+                  <td>
+                      <button type="button" class=" btn-light btn-sm" data-mr="<%=mr%>" data-start="<%=data.phases[j]["START"]%>" data-end="<%=data.phases[j]["END"]%>" aria-hidden="true" data-id="see_cas">
+                        <i class="fa fa-line-chart fa-lg" style="color:black" title="See CAS/ZRA"></i>
+                    </button>
+                  </td>
                 </tr>
 
                 <!--Start collapse div-->
@@ -460,35 +468,17 @@
       <div class="tab-pane fade" id="nav-chart" role="tabpanel" aria-labelledby="nav-chart-tab">
           <br>
           <div class="col md-12">
-            <!-- Chart container -->
-            <div id="anemoChartContainer" class="container-fluid" style="background-color:white; overflow:auto;">
-              <h4 style="padding-top:0.5rem;">
               <div class="d-flex justify-content-center">
-                  <button type="button" class="btn btn-primary btn-lg" id="load_data" data-mr="<%=mr%>">Load Data</button>
+                <button type="button" class="btn btn-primary btn-lg" id="load_data" data-mr="<%=mr%>">Load Data</button>
               </div>
-              <div class="row" style="padding-bottom: 50px">
-                <div class="col-sm" id="PS0_TYPE_DETECT" style="width:500px; height:300px">
-                </div>
-                <div class="col-sm" id="PS0_DETECT" style="width:500px; height:300px">
-                </div>
-              </div>
-              <div class="row" style="padding-bottom: 50px">
-                <div class="col-sm" id="TSREF0" style="width:500px; height:300px">
-                </div>
-                <div class="col-sm" id="ZG0" style="width:500px; height:300px">
-                </div>
-              </div>
-              <div class="row" style="padding-bottom: 50px">
-                <div class="col-sm" id="ZRA">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm" id="PSREF">
-                </div>
-              </div>
-            </div>
+           </div>
+          <!-- Chart container -->
+          <div id="anemoChartContainergroup" style="width:100%">
           </div>
-      </div>   
+          <div id="ZRA"></div>
+          <div id="PS0"></div>
+      </div>
+   
       <!--END FIFTH TAB-->
   </div>
 </div>
@@ -496,4 +486,5 @@
 <%- include ../../search-modal.ejs %>
 <%- include ../../filter-modal.ejs %>
 <%- include ../../plot-modal.ejs %>
+<%- include plot-modal.ejs %>
 <%- include ../../spinner-modal.ejs %>
