@@ -29,10 +29,29 @@ module.exports = {
                     max[p] = ma
                     break
                 case Array:
-                    par = par.concat(p)
-                    break
+                  for(let l of p){
+                    if(par.indexOf(l)===-1){
+                      if(config[l]===undefined){
+                        par.push(l)
+                      }
+                      else{
+                        let _p = config[l].id
+                        switch(_p.constructor){
+                          case String:
+                            par.push(_p)
+                          case Object:
+                              var temp = _p[aircraft] ? _p[aircraft]: _p["U1824"]
+                              par.push(temp)
+                              plotted_par.push(temp)
+                              mnemo[temp] = k
+                        }
+                      }
+                    }
+                  
+                  }
+                  break;
                 case Object:
-                    var temp = p[aircraft] ? p[aircraft]: "ZRA1_S"
+                    var temp = p[aircraft] ? p[aircraft]: p["U1824"]
                     par.push(temp)
                     plotted_par.push(temp)
                     mnemo[temp] = k
@@ -50,6 +69,9 @@ module.exports = {
         var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, true)
         // TODO Move It to a service ? 
         // Will other Activities benefit from such a feature ?
+        for(let k of Object.keys(mnemo)){
+          data_res[mnemo[k]] = data_res[k]
+        }
         for(var i=0; i<Object.keys(config).length;i++){
             let k = Object.keys(config)[i]
             if(config[k].formula !== undefined){
@@ -72,14 +94,10 @@ module.exports = {
         par = Object.keys(config)
         min = _.pick(min, par)
         max = _.pick(max, par)
-        for(let k of Object.keys(mnemo)){
-            data_res[mnemo[k]] = data_res[k]
-        }
         res.status(200)
-            // TODO
         obj = {}
         traces = []
-        for(let [i, p] of par.slice(0, 4).entries()){
+        for(let [i, p] of ["TSREF0", "ZG0", "TS", "H_PTAN_M", "EPRN_MEAN", "SPEED_NORM"].entries()){
           try{
             var trace = {
               x: data_res[p].x,
@@ -96,19 +114,45 @@ module.exports = {
             console.error(error)
           }
         }
-        var trace_ps = {
-          x: data_res["PSREF"].x,
-          y: data_res["PSREF"].y,
-          type: "scatter",
-          name: "PSREF",
-          mode: "lines",
-        }
-        var trace_zra = {
-          x: data_res["ZRA"].x,
-          y: data_res["ZRA"].y,
-          type: "scatter",
-          mode: "lines",
-          name: "ZRA",
+        var lone_pars = ["PS0_TYPE_DETECT", "PSREF", "PS", "ZRA"]
+        data_to_send = {}
+        for(i=0;i<lone_pars.length;i++){
+          var pa = lone_pars[i]
+          var trace = {
+            x: data_res[pa].x,
+            y: data_res[pa].y,
+            type: "scatter",
+            name: pa,
+            mode: "lines",
+          }
+          if(min[pa] === undefined){
+            plot= {
+              trace: [trace],
+              layout: {
+                title: `${pa} from ${startt} to ${endt}`,
+                dragmode: "pan",
+                xaxis:{
+                  tickformat: '%H %M'
+                }
+              }
+            }
+          }
+          else{
+            plot = {
+              trace: [trace],
+              layout: {
+                title: `${pa} from ${startt} to ${endt}`,
+                dragmode: "pan",
+                xaxis:{
+                  tickformat: '%H %M'
+                },
+                yaxis:{
+                  range:[min[pa], max[pa]]
+                }
+              }             
+            }
+          }
+          data_to_send[pa] = plot
         }
       var layout = {
         dragmode: "pan",
@@ -118,9 +162,9 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis:{
-          domain: [0.55, 1],
+          domain: [0.68, 1],
           anchor: 'x1',
-          range: [min["PS0_TYPE_DETECT"], max["PS0_TYPE_DETECT"]]
+          range: [min["TSREF0"], max["TSREF0"]]
         },
         xaxis2:{
           domain: [0.55, 1],
@@ -128,9 +172,9 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis2:{
-          domain: [0.55, 1],
+          domain: [0.68, 1],
           anchor: 'x2',
-          range: [min["TSREF0"], max["TSREF0"]]
+          range: [min["ZG0"], max["ZG0"]]
         },
         xaxis3:{
             domain: [0.55, 1],
@@ -138,9 +182,8 @@ module.exports = {
             tickformat: '%H %M'
           },
         yaxis3:{
-          domain: [0, 0.45],
+          domain: [0.34, 0.65],
           anchor: 'x3',
-          range: [min["ZG0"], max["ZG0"]]
         },
         xaxis4:{
           domain: [0, 0.45],
@@ -148,37 +191,34 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis4:{
-          domain: [0, 0.45],
+          domain: [0.34, 0.65],
           anchor: 'x4'
+        },
+        xaxis5: {
+          domain: [0, 0.45],
+          anchor: 'y5',
+          tickformat: '%H %M'
+        },
+        yaxis5: {
+          domain: [0, 0.31],
+          anchor: 'x5'
+        },
+        xaxis6:{
+          domain: [0.55, 1],
+          anchor: 'y6',
+          tickformat: '%H %M'
+        },
+        yaxis6: {
+          domain: [0, 0.31],
+          anchor: 'x6'
         }
       };
+      data_to_send["group"] = {
+        "traces": traces,
+        "layout": layout
+      }
         console.log("Data has been correctly send to browser")
-        return res.send({
-          group: {
-            traces: traces,
-            layout: layout
-          },
-          zra: {
-            trace: [trace_zra],
-            layout: {
-              title: `ZRA from ${startt} to ${endt}`,
-              dragmode: "pan",
-              xaxis:{
-                tickformat: '%H %M'
-              }
-            }
-          },
-          ps: {
-            trace: [trace_ps],
-            layout: {
-              title: `PSREF from ${startt} to ${endt}`,
-              dragmode: "pan",
-              xaxis: {
-                tickformat: '%H %M'
-              }
-            }
-          }
-        })
+        return res.send(data_to_send)
     },
 
     plotcas: async function(req, res){
