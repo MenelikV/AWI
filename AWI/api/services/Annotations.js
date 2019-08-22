@@ -20,7 +20,7 @@ module.exports = {
   OUT_OF_BOUNDS: [{
       type: "line",
       xref: "paper",
-      x0: 1,
+      x0: 0,
       y0: 0,
       x1: 1,
       y1: 1,
@@ -32,7 +32,7 @@ module.exports = {
     {
       type: "line",
       xref: "paper",
-      x0: 1,
+      x0: 0,
       y0: 0,
       x1: 1,
       y1: 1,
@@ -45,7 +45,7 @@ module.exports = {
   CONSTANT_VALUE: [{
     type: "line",
     xref: "paper",
-    x0: 1,
+    x0: 0,
     y0: 2,
     x1: 1,
     y1: 2,

@@ -38,6 +38,7 @@ module.exports = {
       layout: {
         title: text,
         shapes: annotations,
+        dragmode: "pan",
         xaxis: {
           tickformat: "%H:%m"
         }
