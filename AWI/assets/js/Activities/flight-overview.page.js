@@ -160,10 +160,6 @@ $(document).ready(function () {
     var row = $(this).parents('tr')[0]
     var table = $(this).parents('table')[0]
     dt = $(table).DataTable()
-
-    // Show Modal (Clear context before showing anything)
-    var ctx = document.getElementById("canvas").getContext("2d")
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     headers = dt.columns().header().map(function (d) {
       return $(d).text().trim()
     })
@@ -196,86 +192,9 @@ $(document).ready(function () {
       }
     })
   })
-  var patch_annotations = function (list) {
-    return list.map(function (d) {
-      if (d.mode === "vertical") {
-        d.value = new Date(d.value)
-      }
-      return d
-    })
-  }
   var createPlot = function (data, status) {
-    var dynamicColors = function () {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
-    }
-    var datasets = []
-    for (let p of data.par) {
-      var color = dynamicColors()
-      datasets.push({
-        label: p,
-        data: data.data_res[p],
-        fill: false,
-        backgroundColor: color,
-        borderColor: color,
-        borderWidth: 1,
-      })
-    }
-    var config = {
-      type: 'line',
-      data: {
-        datasets: datasets
-      },
-      options: {
-        annotation: {
-          events: ["click"],
-          annotations: patch_annotations(data.annotations)
-        },
-        title: {
-          display: true,
-          text: data.text
-        },
-        scales: {
-          xAxes: [{
-            type: "time",
-            time: {
-              displayFormats: {
-                second: "HH:mm:ss"
-              },
-              timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-              tooltipFormat: "HH:mm:ss.SSS"
-            }
-          }]
-        },
-        // Container for pan options
-        pan: {
-          // Boolean to enable panning
-          enabled: true,
-
-          // Panning directions. Remove the appropriate direction to disable 
-          // Eg. 'y' would only allow panning in the y direction
-          mode: 'xy'
-        },
-
-        // Container for zoom options
-        zoom: {
-          // Boolean to enable zooming
-          enabled: true,
-          drag: false,
-
-          // Zooming directions. Remove the appropriate direction to disable 
-          // Eg. 'y' would only allow zooming in the y direction
-          mode: 'xy',
-        }
-      }
-    }
     $("#spinnerModal").modal("hide")
-    $("#canvas").remove()
-    $("#canvasContainer").append('<canvas id="canvas"></canvas>')
-    var ctx = document.getElementById("canvas").getContext("2d")
-    new Chart(ctx, config)
+    Plotly.newPlot('PlotModalContainer', data.traces, data.layout, {scrollZoom: true})
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
@@ -286,7 +205,6 @@ $(document).ready(function () {
     Plotly.newPlot('anemoChartContainergroup', data.group.traces, data.group.layout, {scrollZoom: true, modeBarButtonsToRemove: ['autoScale2d']})
     for(let k of Object.keys(data)){
       if(k !== "group"){
-        Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
         Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
       }
     }

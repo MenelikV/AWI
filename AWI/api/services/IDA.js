@@ -271,35 +271,22 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     // No Valid Data
     console.log("No valid Data!")
     for(let key of params){
-      final_res[key] = [{x: null, y: null}]
+      final_res[key] = [{x: [], y: []}]
     }
     return final_res
   }
   else{
-    if(plotly === false){
-      for(let [index, par] of params.entries()){
-        final_res[par] = list.map(function(d){return{
-          x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
-          y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
-        }
-        })
-      } 
-      return final_res
-    }
-    else{
       for(let [index, par] of params.entries()){
         var i = 0;
         final_res[par] = {x: new Array(list.length), y: new Array(list.length)};
         while(i<list.length){
-          final_res[par].x[i] = moment.unix((list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1)
+          final_res[par].x[i] = new Date(list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/1000)
           final_res[par].y[i] = list[i].listParamSamples.listParamSample[index].objValue.dblValueType
           i++;
         }
       }
       return final_res
-
-    }
-}
+  }
 }
 IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type, refs){
   var type = type || []
