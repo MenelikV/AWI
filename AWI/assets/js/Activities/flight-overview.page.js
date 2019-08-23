@@ -160,10 +160,6 @@ $(document).ready(function () {
     var row = $(this).parents('tr')[0]
     var table = $(this).parents('table')[0]
     dt = $(table).DataTable()
-
-    // Show Modal (Clear context before showing anything)
-    var ctx = document.getElementById("canvas").getContext("2d")
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     headers = dt.columns().header().map(function (d) {
       return $(d).text().trim()
     })
@@ -196,86 +192,9 @@ $(document).ready(function () {
       }
     })
   })
-  var patch_annotations = function (list) {
-    return list.map(function (d) {
-      if (d.mode === "vertical") {
-        d.value = new Date(d.value)
-      }
-      return d
-    })
-  }
   var createPlot = function (data, status) {
-    var dynamicColors = function () {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
-    }
-    var datasets = []
-    for (let p of data.par) {
-      var color = dynamicColors()
-      datasets.push({
-        label: p,
-        data: data.data_res[p],
-        fill: false,
-        backgroundColor: color,
-        borderColor: color,
-        borderWidth: 1,
-      })
-    }
-    var config = {
-      type: 'line',
-      data: {
-        datasets: datasets
-      },
-      options: {
-        annotation: {
-          events: ["click"],
-          annotations: patch_annotations(data.annotations)
-        },
-        title: {
-          display: true,
-          text: data.text
-        },
-        scales: {
-          xAxes: [{
-            type: "time",
-            time: {
-              displayFormats: {
-                second: "HH:mm:ss"
-              },
-              timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-              tooltipFormat: "HH:mm:ss.SSS"
-            }
-          }]
-        },
-        // Container for pan options
-        pan: {
-          // Boolean to enable panning
-          enabled: true,
-
-          // Panning directions. Remove the appropriate direction to disable 
-          // Eg. 'y' would only allow panning in the y direction
-          mode: 'xy'
-        },
-
-        // Container for zoom options
-        zoom: {
-          // Boolean to enable zooming
-          enabled: true,
-          drag: false,
-
-          // Zooming directions. Remove the appropriate direction to disable 
-          // Eg. 'y' would only allow zooming in the y direction
-          mode: 'xy',
-        }
-      }
-    }
     $("#spinnerModal").modal("hide")
-    $("#canvas").remove()
-    $("#canvasContainer").append('<canvas id="canvas"></canvas>')
-    var ctx = document.getElementById("canvas").getContext("2d")
-    new Chart(ctx, config)
+    Plotly.newPlot('PlotModalContainer', data.traces, data.layout, {scrollZoom: true})
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
@@ -283,130 +202,11 @@ $(document).ready(function () {
    * LOAD DATA (ANEMO)
    */
   var createAnemoChart = function (data, status) {
-    var dynamicColors = function () {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
-    }
-    for (let p of data.par) {
-      var color = dynamicColors()
-      if(data.min[p]===undefined){
-        var config = {
-          type: 'line',
-          data: {
-            datasets:[{
-              label: p,
-              data: data.data_res[p],
-              fill: false,
-              backgroundColor: color,
-              borderColor: color,
-              borderWidth: 1,
-            }]
-          },
-          options: {
-            title: {
-              display: true,
-              text: data.text
-            },
-            scales: {
-              xAxes: [{
-                type: "time",
-                time: {
-                  displayFormats: {
-                    second: "HH:mm:ss"
-                  },
-                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-                  tooltipFormat: "HH:mm:ss.SSS"
-                }
-              }]
-            },
-            // Container for pan options
-            pan: {
-              // Boolean to enable panning
-              enabled: true,
-    
-              // Panning directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow panning in the y direction
-              mode: 'xy'
-            },
-    
-            // Container for zoom options
-            zoom: {
-              // Boolean to enable zooming
-              enabled: true,
-              drag: false,
-    
-              // Zooming directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow zooming in the y direction
-              mode: 'xy',
-            }
-          }
-        }
+    Plotly.newPlot('anemoChartContainergroup', data.group.traces, data.group.layout, {scrollZoom: true, modeBarButtonsToRemove: ['autoScale2d']})
+    for(let k of Object.keys(data)){
+      if(k !== "group"){
+        Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
       }
-      else{
-        var config = {
-          type: 'line',
-          data: {
-            datasets:[{
-              label: p,
-              data: data.data_res[p],
-              fill: false,
-              backgroundColor: color,
-              borderColor: color,
-              borderWidth: 1,
-            }]
-          },
-          options: {
-            title: {
-              display: true,
-              text: data.text
-            },
-            scales: {
-              xAxes: [{
-                type: "time",
-                time: {
-                  displayFormats: {
-                    second: "HH:mm:ss"
-                  },
-                  timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-                  tooltipFormat: "HH:mm:ss.SSS"
-                }
-              }],
-              yAxes: [{
-                ticks: {
-                  min: data.min[p],
-                  max: data.max[p]
-                }
-              }]
-            },
-            // Container for pan options
-            pan: {
-              // Boolean to enable panning
-              enabled: true,
-    
-              // Panning directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow panning in the y direction
-              mode: 'xy'
-            },
-    
-            // Container for zoom options
-            zoom: {
-              // Boolean to enable zooming
-              enabled: true,
-              drag: false,
-    
-              // Zooming directions. Remove the appropriate direction to disable 
-              // Eg. 'y' would only allow zooming in the y direction
-              mode: 'xy',
-            }
-          }
-        }
-      }
-      $(`#anemoChart_${p}`).remove()
-      $("#anemoChartContainer").append(`<canvas id="anemoChart_${p}"></canvas>`)
-      var ctx = document.getElementById(`anemoChart_${p}`).getContext("2d")
-      new Chart(ctx, config)
     }
 
     $("#spinnerModal").modal("hide")
@@ -476,6 +276,37 @@ $(document).ready(function () {
         }
       })
     })
+   /*
+   * See CAS/ZRA (Anemo)
+   */
+  $("table[id*='pvol']").on("click", 'button[data-id="see_cas"]', function () {
+    row_data = {}
+    row_data["MR"] = ($(this).data("mr"))
+    let format = "DDD-HH:mm:ss-SSS"
+    row_data["START"] = new moment($(this).data("start"),format).format(format)
+    row_data["END"] = new moment($(this).data("end"), format).format(format)
+    $("#spinnerModal").modal("show")
+    $.ajax({
+      //datatype: "json",
+      url: "/Activities/Anemo/caschart",
+      data: {
+        row: row_data
+      },
+      type: "GET",
+      success: createCasPlot,
+      error: function () {
+        $("#spinnerModal").modal("hide")
+        alert("Fetching Data Failed")
+      }
+    })
+  })
+  var createCasPlot = function (data, status) {
+    // Config is given by the server this time around
+    $("#spinnerModal").modal("hide")
+    Plotly.newPlot('AnemoCAS', data.trace, data.layout, {scrollZoom: true})
+    $("#plotAnemoModal").modal("show")
+    $("#plotAnemoModal").modal("handleUpdate")
+  }
 
   /**
    * START DATATABLES CONFIGURATIONS

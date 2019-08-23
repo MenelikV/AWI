@@ -85,8 +85,6 @@ module.exports.routes = {
 
   'GET /Activities/flightOverview/plot': 'PlotController.plot',
 
-  'GET /Activities/flightOverview/plot': 'PlotController.plot',
-
   'GET /Activities/Anemo/chart': {
     controller: 'Activities/AnemoChartController',
     action: 'plot'
@@ -95,8 +93,12 @@ module.exports.routes = {
   'GET /Activities/PBV/testplot': {
     controller: 'Activities/PBVChartController',
     action: 'plot'
-  }
+  },
 
+  'GET /Activities/Anemo/caschart': {
+    controller: 'Activities/AnemoChartController',
+    action: 'plotcas'
+  }
 
   /***************************************************************************
    *                                                                          *

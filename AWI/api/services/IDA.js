@@ -135,9 +135,16 @@ IDADataManager.prototype.GetParamsInfo = async function (mr_adress, params) {
 }
 IDADataManager.prototype.GetMRTimes = async function(mr_adress, format){
   if(this.times_register[mr_adress] !== undefined){
-    // Fetch Dat From Cache
-    if(format !== undefined){return this.times_register[mr_adress].map(d => d.format(format))}
-    return this.times_register[mr_adress].map(d=>d.clone())
+    if(this.times_register[mr_adress].length == 2){
+      // Fetch Dat From Cache
+      if(format !== undefined){return this.times_register[mr_adress].map(d => d.format(format))}
+      return this.times_register[mr_adress].map(d=>d.clone())
+    }
+    else{
+      // Invalid Cache, force update
+      this.times_register[mr_adress] = undefined
+      return await this.GetMRTimes(mr_adress, format)
+    }
   }
   let mr_id = await this.getMRID(mr_adress)
   let res = await this.doRequest({
@@ -245,8 +252,9 @@ IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
 IDADataManager.prototype.validate = function (res) {
   return _.get(res, 'length', 0)
 }
-IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params) {
+IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, plotly) {
   // TODO Cache it ?
+  plotly = (typeof plotly === 'undefined') ? false : plotly;
   let data = []
   let rate = 1
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
@@ -263,20 +271,22 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     // No Valid Data
     console.log("No valid Data!")
     for(let key of params){
-      final_res[key] = [{x: null, y: null}]
+      final_res[key] = [{x: [], y: []}]
     }
     return final_res
   }
   else{
-    for(let [index, par] of params.entries()){
-      final_res[par] = list.map(function(d){return{
-        x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
-        y: d.listParamSamples.listParamSample[index].objValue.dblValueType
+      for(let [index, par] of params.entries()){
+        var i = 0;
+        final_res[par] = {x: new Array(list.length), y: new Array(list.length)};
+        while(i<list.length){
+          final_res[par].x[i] = new Date(list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/1000)
+          final_res[par].y[i] = list[i].listParamSamples.listParamSample[index].objValue.dblValueType
+          i++;
+        }
       }
-      })
-    } 
-    return final_res
-}
+      return final_res
+  }
 }
 IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type, refs){
   var type = type || []
