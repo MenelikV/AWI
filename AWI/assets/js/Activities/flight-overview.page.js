@@ -253,6 +253,7 @@ $(document).ready(function () {
     // Launch Request for the Chart on click
     $("#pbv_load").on("click", function(){
       var button = $("#dropdownMenuButton")
+      $("#spinnerModal").modal("show")
       var file = button.data("file")
       var index = button.data("index")
       var mr = button.data("mr")
@@ -268,14 +269,21 @@ $(document).ready(function () {
           mr : mr,
           type: type
         },
-        success: function(){
-          // TODO Creates the plot and the whole interface (sic)
-        },
+        success: createPBVPlot,
         error: function(){
-          alert("Failed")
+          alert("Failed");
+          $("#spinnerModal").modal("hide");
         }
       })
     })
+    /*
+    * Plot Data PBV
+    */
+   var createPBVPlot = function(data, status){
+     Plotly.newPlot("PBVPlotContainer", data.traces, data.layout);
+     $("#spinnerModal").modal("hide");
+   }
+
    /*
    * See CAS/ZRA (Anemo)
    */

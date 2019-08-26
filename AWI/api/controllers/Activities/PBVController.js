@@ -88,7 +88,6 @@ module.exports = {
         })
         var resLength = activityFiles.length
         var flightData = {}
-        var errorMap = []
         if (resLength === 1) {
           var activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
           var discipline = await sails.helpers.getSettings('PBV', 'discipline')
@@ -126,7 +125,7 @@ module.exports = {
               var type = "LDG"
             }
             else{
-              res.serverError("Type could not be determined")
+              return res.serverError("Type could not be determined")
             }
           }
           else{

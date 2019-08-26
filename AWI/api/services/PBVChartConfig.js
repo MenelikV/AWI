@@ -539,6 +539,20 @@ module.exports = {
                     "WS7": "3221N2601-",
                     "WS8": "3221N2701-"
                 },
+                P1888: {
+                    "50LX203-DF":"50LX203-DF",
+                    "50LX303-DF":"50LX303-DF",
+                    "MAIN_DOOR": "MAIN_DOOR",
+                    "WOW":"WOW",
+                    "WS1":"3221N2001-",
+                    "WS2": "3221N2101-",
+                    "WS3":"3221N2201-",
+                    "WS4": "3221N2301-",
+                    "WS5": "3221N2401-",
+                    "WS6": "3221N2501-",
+                    "WS7": "3221N2601-",
+                    "WS8": "3221N2701-"
+                },
                 U1824: {
                     "50LX203-DF":"50LX203-DF",
                     "50LX303-DF":"50LX303-DF",
@@ -636,49 +650,49 @@ module.exports = {
             pars: {
                 N6464:{
                     DDM1: "27E130502-",
-                    DDM2: "27E130602-",
+                    DDM2: "27E130601-",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
                 M6101: {
                     DDM1: "27E130502-",
-                    DDM2: "27E130602-",
+                    DDM2: "27E130601-",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret" 
                 },
                 M6673:{
                     DDM1: "27E130502-",
-                    DDM2: "27E130602-",
+                    DDM2: "27E130601-",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
                 M6839:{
                     DDM1: "27E130502-",
-                    DDM2: "27E130602-",
+                    DDM2: "27E130601-",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
                 P1795: {
-                    DDM1: "27P130506-",
-                    DDM2: "27P130606-",
+                    DDM1: "27P130506C",
+                    DDM2: "27P130606C",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
                 P1813:{
-                    DDM1: "27P130506-",
-                    DDM2: "27P130606-",
+                    DDM1: "27P130506C",
+                    DDM2: "27P130606C",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
                 P1888:{
-                    DDM1: "27P130506-",
-                    DDM2: "27P130606-",
+                    DDM1: "27P130506C",
+                    DDM2: "27P130606C",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
                 U1824:{
-                    DDM1: "27P130506-",
-                    DDM2: "27P130606-",
+                    DDM1: "27P130506C",
+                    DDM2: "27P130606C",
                     TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret"
                 },
@@ -701,207 +715,207 @@ module.exports = {
             cursors: [],
             axis: {
                 N6464:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 M6101:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 M6673:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 M6839:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 P1795:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 P1813:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 P1888:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 U1824:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 P1795:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 P1813:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 P1888:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 V0001:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 },
                 V0059:{
-                    0:["CASre1", "VC_dec"],
+                    0:["CASret1", "VC_dec"],
                     1: ["VWH_dec"],
                     2: ["CAP"],
-                    3: ["341117601-", "341117701-", "PS_att"],
-                    4: ["341124201-", "PP_att"]
+                    3: ["341117601-", "341117701-", "PS_dec"],
+                    4: ["341124201-", "PP_dec"]
                 }
             },
             pars:{
                 N6464:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 M6101:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 M6673: {
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 M6839:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 P1795:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 P1813:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 P1888:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 U1824:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 V0001:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 },
                 V0059:{
                     CASret1:"CASret1",
                     VC_dec:"VC_dec",
-                    VWH_dec:"WVH_dec",
+                    VWH_dec:"VWH_dec",
                     CAP: "011031401-",
                     "341117601-": "341117601-",
                     "341117701-": "341117701-",
-                    "PS_att": "PS_att",
+                    "PS_dec": "PS_dec",
                     "341124201-": "341124201-",
-                    "PP_att": "PP_att"
+                    "PP_dec": "PP_dec"
                 }
             }
         }
@@ -1122,7 +1136,7 @@ module.exports = {
             P1795:{
                 TRA1_C: "TRA1_C",
                 TRA2_C: "TRA2_C",
-                DDM1: "27P130506-",
+                DDM1: "27P130506C",
                 DDM2 : "27P130606-",
                 VC_dec: "VC_dec",
                 VKH_dec: "VKH_dec",
@@ -1156,7 +1170,7 @@ module.exports = {
             P1813:{
                 TRA1_C: "TRA1_C",
                 TRA2_C: "TRA2_C",
-                DDM1: "27P130506-",
+                DDM1: "27P130506C",
                 DDM2 : "27P130606-",
                 VC_dec: "VC_dec",
                 VKH_dec: "VKH_dec",
@@ -1190,7 +1204,7 @@ module.exports = {
             P1888: {
                 TRA1_C: "TRA1_C",
                 TRA2_C: "TRA2_C",
-                DDM1: "27P130506-",
+                DDM1: "27P130506C",
                 DDM2 : "27P130606-",
                 VC_dec: "VC_dec",
                 VKH_dec: "VKH_dec",
@@ -1224,7 +1238,7 @@ module.exports = {
             U1824:{
                 TRA1_C: "TRA1_C",
                 TRA2_C: "TRA2_C",
-                DDM1: "27P130506-",
+                DDM1: "27P130506C",
                 DDM2 : "27P130606-",
                 VC_dec: "VC_dec",
                 VKH_dec: "VKH_dec",
@@ -1579,7 +1593,7 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130602-",
+                        DDM2: "27E130601-",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
@@ -1589,7 +1603,7 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130602-",
+                        DDM2: "27E130601-",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
@@ -1599,7 +1613,7 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130602-",
+                        DDM2: "27E130601-",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
@@ -1609,7 +1623,7 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130602-",
+                        DDM2: "27E130601-",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
@@ -1618,8 +1632,8 @@ module.exports = {
                         TRA2_C: "TRA2_C",
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
-                        DDM1: "27P130506-",
-                        DDM2: "27P130606-",
+                        DDM1: "27P130506C",
+                        DDM2: "27P130606C",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
@@ -1628,8 +1642,8 @@ module.exports = {
                         TRA2_C: "TRA2_C",
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
-                        DDM1: "27P130506-",
-                        DDM2: "27P130606-",
+                        DDM1: "27P130506C",
+                        DDM2: "27P130606C",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
@@ -1638,8 +1652,8 @@ module.exports = {
                         TRA2_C: "TRA2_C",
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
-                        DDM1: "27P130506-",
-                        DDM2: "27P130606-",
+                        DDM1: "27P130506C",
+                        DDM2: "27P130606C",
                         TETA1ret: "TETA1ret",
                         "342132401-": "342132401-"
                     },
