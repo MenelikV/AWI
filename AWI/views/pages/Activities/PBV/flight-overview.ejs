@@ -299,13 +299,31 @@
                   <button class="btn btn-primary btn-lg" type="button" id="pbv_load">Load Chart</button>
               </div>
              </div>
-           </div>
+           <div class="row" style="min-height:20px"></div>
            <div class="row">
-             <div class="col">
+             <div class="col-10">
                 <div id="PBVPlotContainer"></div>
              </div>
+             <div class="col-2">
+              <div class="dropdown" style="display: none" id="cursorChoice">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="cursorButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Choose Cursor
+                </button>
+                <ul class="dropdown-menu" id="cursorMenu">
+                </ul>
+             </div>
+             <table id="cursorTable" class="table table-striped" style="display: none;padding-top:10px">
+               <thead>
+                 <th>Parameter</th>
+                 <th>Value</th>
+               </thead>
+               <tbody>
+                 <tr></tr>
+               </tbody>
+             </table>
            </div>
-       </div>   
+          </div> 
+        </div>  
        <!--END FOURTH TAB-->  
   </div>
 </div>

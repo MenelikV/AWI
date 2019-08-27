@@ -1,5 +1,17 @@
 $(document).ready(function () {
-
+  /**
+   * Change Reference for Moment
+   */
+    moment.now = function () {
+      return moment.unix(0)
+    };
+  /**
+   * Cursor Name (Global Varibale)
+   * 
+   */
+  cursor = undefined;
+  cursor_id = undefined;
+  times = {};
   /**
    * START OVERVIEW LAYOUT LOGIC
    */
@@ -244,7 +256,7 @@ $(document).ready(function () {
       button.data("index", index)
       button.data('mr', mr)
     })
-    $("li[id*='type'").on("click", function(){
+    $("li[id*='type']").on("click", function(){
       var button = $("#dropdownChartButton")
       var type = $(this).text() 
       button.text(type)
@@ -279,9 +291,60 @@ $(document).ready(function () {
     /*
     * Plot Data PBV
     */
+   var buildDataReader = function(data){
+     if(cursor === undefined){
+       return
+     }
+     // Make sure the table is visible (it is hidden on load)
+     $("#cursorTable").css("display", "block");
+     gd = document.getElementById("PBVPlotContainer")
+     var data = gd.data
+     var x = gd.layout.shapes[cursor_id].x0
+     // Clean table
+     $('#cursorTable tr').not(':first').not(':last').remove();
+     // Find index of x in the timeline, then take all parameters on that timeline
+     var index = 0
+     res = []
+     var pars = Object.keys(data)
+     if(pars.length === 0){
+       return
+     }
+     res.push({
+       "Parameter": "GMT",
+       "Value": data[pars[0]].x[index]
+     })
+     for(let p of pars){
+        res.push({
+          "Parameter": p,
+          "Value": data[p].y[index]
+        })
+     }
+      var html = '';
+      for(var i = 0; i < res.length; i++)
+                html += '<tr><td>' + res[i].Parameter + 
+                        '</td><td>' + res[i].Value + '</td></tr>';
+      $('#cursorTable tr').first().after(html);
+     // TODO Create and update the reader table
+   }
    var createPBVPlot = function(data, status){
-     Plotly.newPlot("PBVPlotContainer", data.traces, data.layout);
+     Plotly.newPlot("PBVPlotContainer", data.traces, data.layout, {scrollZoom: true, edits: {shapePosition: true}});
+     pbv_plot = document.getElementById("PBVPlotContainer")
+     pbv_plot.on('plotly_afterplot', buildDataReader);
      $("#spinnerModal").modal("hide");
+     $("#cursorChoice").css("display", "block");
+     var node = ""
+     $("#cursorMenu").empty()
+     Object.keys(data.times).forEach(function (d){
+       var template = `<li data-id="cursor_${d}" class="dropdown-item"><a href="#">${d}</a></li>`
+       node = node + template;
+      $("#cursorMenu").html(node);
+    });
+    times = data.times;
+    $("li[data-id*='cursor']").on("click", function(){
+      $("#cursorButton").text($(this).text())
+      cursor = $(this).text()
+      cursor_id = Object.keys(times).indexOf($(this).text())
+    })
    }
 
    /*

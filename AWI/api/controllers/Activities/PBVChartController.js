@@ -31,6 +31,7 @@ module.exports = {
         await IDADataManager.OpenMR(mr)
         var start = moment(test.TDEB, atole_format)
         var end = moment(test.TFIN, atole_format)
+        var day = start.dayOfYear()
         var startt = start.format(IDA_format)
         var endt = end.format(IDA_format)
         var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
@@ -45,10 +46,34 @@ module.exports = {
         }
         var text = `${par.join("/")}, from ${startt} to ${endt}`
         //var annotations = Annotations.generate()
+        var shapes = [];
+        for(let t of Object.keys(times)){
+          if(times[t]!=="99.99.99.999"){
+            // Day has to be set (otherwise we have a shifting)
+            var x = new moment.utc(times[t], "HH:mm:ss.SSS").dayOfYear(day).toISOString()
+          }
+          else{
+            var x = new moment.utc(startt, IDA_format).toISOString()
+          }
+          var shape = {}
+          shape.opacity = 0.5
+          shape.type = "line";
+          shape.yref = "paper";
+          shape.y0 = -10;
+          shape.y1 = 10;
+          shape.x0 = x;
+          shape.x1 = x;
+          // Create new color on the fly ?
+          shape.line = {
+            width: 1,
+            color: "rgba(138, 244, 176, 1)"
+          }
+          shapes.push(shape)
+        }
         var traces = []
         var data_layout = {
           title: text,
-          shapes: [],
+          shapes: shapes,
           dragmode: "pan",
         }
         if(shift!==undefined){
@@ -76,7 +101,7 @@ module.exports = {
               data_layout["xaxis"] = {
                 anchor: 'y1',
                 domain: [0, 1],
-                tickformat: "%H:%M:%S"
+                tickformat: tickformat
               }
               data_layout["yaxis"] = {
                 anchor: "x1",
@@ -87,7 +112,7 @@ module.exports = {
               data_layout[`xaxis${l+1}`] = {
                 anchor: `y${l+1}`,
                 domain: [0, 1],
-                tickformat: "%H:%M:%S"
+                tickformat: tickformat
               }
               data_layout[`yaxis${l+1}`] = {
                 anchor: `x${l+1}`,
