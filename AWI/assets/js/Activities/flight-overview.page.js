@@ -307,7 +307,9 @@ $(document).ready(function () {
     * Plot Data PBV
     */
    var buildDataReader = function(data){
-     if(cursor === undefined){
+     if(cursor === undefined || Object.keys(times).indexOf(cursor) === -1){
+       // If Data is invalid, hide the table 
+       $("#cursorTable").css("display", "none");
        return
      }
      // Make sure the table is visible (it is hidden on load)
@@ -355,12 +357,14 @@ $(document).ready(function () {
        var template = `<li data-id="cursor_${d}" class="dropdown-item"><a href="#">${d}</a></li>`
        node = node + template;
       $("#cursorMenu").html(node);
+      $("#cursorButton").text("Choose Cursor");
     });
     times = data.times;
     $("li[data-id*='cursor']").on("click", function(){
       $("#cursorButton").text($(this).text())
       cursor = $(this).text()
       cursor_id = Object.keys(times).indexOf($(this).text())
+      buildDataReader();
     })
    }
 

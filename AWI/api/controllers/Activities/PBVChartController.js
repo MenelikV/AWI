@@ -53,13 +53,14 @@ module.exports = {
           var b = Math.floor(Math.random() * 255);
           return "rgba(" + r + "," + g + "," + b + "," + "1" + ")";
         }
+        // TODO If shift is not undefined, this behavior is incorrect
         for(let t of Object.keys(times)){
           if(times[t]!=="99.99.99.999"){
             // Day has to be set (otherwise we have a shifting)
             var x = new moment.utc(times[t], "HH:mm:ss.SSS").dayOfYear(day).toISOString()
           }
           else{
-            var x = new moment.utc(startt, IDA_format).toISOString()
+            var x = new moment.utc(startt, IDA_format).dayOfYear(day).toISOString()
           }
           var shape = {}
           shape.opacity = 0.5
@@ -96,7 +97,6 @@ module.exports = {
           }
         }
         for(let k of Object.keys(axis_config)){
-          var l = parseInt(k)
           for(let p of axis_config[k]){
             traces.push({
               type: "scatter",
