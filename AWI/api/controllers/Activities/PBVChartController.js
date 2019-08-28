@@ -4,13 +4,13 @@ const moment = require("moment")
 const atole_format = "DDD-HH:mm:ss"
 module.exports = {
     plot: async function(req, res){
-        console.log(req)
+        //console.log(req)
         var mr = req.query["mr"]
         var test = req.query["test"]
         var charttype = req.query["type"].trim()
         var testtype = test.type
         // TODO Use test for creating the annotations
-        console.log(test)
+        //console.log(test)
         var matches = mr.match(/[A-Z]\d{4,5}/gm)
         if (matches.length === 2) {
           var aircraft = matches[0]
@@ -47,6 +47,12 @@ module.exports = {
         var text = `${par.join("/")}, from ${startt} to ${endt}`
         //var annotations = Annotations.generate()
         var shapes = [];
+        var dynamicColors = function () {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + "," + "1" + ")";
+        }
         for(let t of Object.keys(times)){
           if(times[t]!=="99.99.99.999"){
             // Day has to be set (otherwise we have a shifting)
@@ -66,24 +72,29 @@ module.exports = {
           // Create new color on the fly ?
           shape.line = {
             width: 1,
-            color: "rgba(138, 244, 176, 1)"
+            color: dynamicColors()
           }
           shapes.push(shape)
         }
         var traces = []
-        var data_layout = {
-          title: text,
-          shapes: shapes,
-          dragmode: "pan",
-        }
         if(shift!==undefined){
           var tickformat = undefined
         }
         else{
           var tickformat = "%H:%M:%S"
         }
-        var n = Object.keys(axis_config).length
-        var span = 1/n - 5/100
+        var data_layout = {
+          title: text,
+          shapes: shapes,
+          dragmode: "pan",
+          xaxis: {
+            tickformat: tickformat
+          },
+          grid: {
+            rows: Object.keys(axis_config).length,
+            columns: 1
+          }
+        }
         for(let k of Object.keys(axis_config)){
           var l = parseInt(k)
           for(let p of axis_config[k]){
@@ -93,33 +104,9 @@ module.exports = {
               x: data_res[p].x,
               y: data_res[p].y,
               name: p,
-              //hovertemplate:`<i>%{x}</i> - ${p}: %{y:.6f}`
-              xaxis:`x${l+1}`,
-              yaxis:`y${l+1}`
+              xaxis:"x",
+              yaxis:`y${k}`
             })
-            if(l===0){
-              data_layout["xaxis"] = {
-                anchor: 'y1',
-                domain: [0, 1],
-                tickformat: tickformat
-              }
-              data_layout["yaxis"] = {
-                anchor: "x1",
-                domain: [0, span]
-              }
-            }
-            else{
-              data_layout[`xaxis${l+1}`] = {
-                anchor: `y${l+1}`,
-                domain: [0, 1],
-                tickformat: tickformat
-              }
-              data_layout[`yaxis${l+1}`] = {
-                anchor: `x${l+1}`,
-                domain: [l*(span + 5/100), l*(span+5/100)+span],
-              }
-            }
-
           }
 
         }

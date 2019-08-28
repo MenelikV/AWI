@@ -13,6 +13,21 @@ $(document).ready(function () {
   cursor_id = undefined;
   times = {};
   /**
+   * Bisect Right Function
+   */
+  function bisect_right ( a , x , lo, hi) {
+    if(lo===undefined){lo = 0;}
+    if(hi===undefined){hi = a.length;}
+    if ( lo < 0 ) throw new ValueError( "lo must be non-negative" ) ;
+    while ( lo < hi ) {
+        const mid = ( lo + hi ) / 2 | 0 ;
+        if ( x < a[mid] ) hi = mid ;
+        else lo = mid + 1 ;
+    }
+    return lo ;
+
+}
+  /**
    * START OVERVIEW LAYOUT LOGIC
    */
 
@@ -303,19 +318,20 @@ $(document).ready(function () {
      // Clean table
      $('#cursorTable tr').not(':first').not(':last').remove();
      // Find index of x in the timeline, then take all parameters on that timeline
-     var index = 0
      res = []
      var pars = Object.keys(data)
      if(pars.length === 0){
        return
      }
+     var converted_x = new moment.utc(x).toISOString()
+     var index = bisect_right(data[0].x, converted_x);
      res.push({
        "Parameter": "GMT",
-       "Value": data[pars[0]].x[index]
+       "Value": new moment.utc(data[pars[0]].x[index]).format("HH:mm:ss.SSS")
      })
      for(let p of pars){
         res.push({
-          "Parameter": p,
+          "Parameter": data[p].name,
           "Value": data[p].y[index]
         })
      }
@@ -324,7 +340,6 @@ $(document).ready(function () {
                 html += '<tr><td>' + res[i].Parameter + 
                         '</td><td>' + res[i].Value + '</td></tr>';
       $('#cursorTable tr').first().after(html);
-     // TODO Create and update the reader table
    }
    var createPBVPlot = function(data, status){
      Plotly.newPlot("PBVPlotContainer", data.traces, data.layout, {scrollZoom: true, edits: {shapePosition: true}});
@@ -332,6 +347,8 @@ $(document).ready(function () {
      pbv_plot.on('plotly_afterplot', buildDataReader);
      $("#spinnerModal").modal("hide");
      $("#cursorChoice").css("display", "block");
+     var pxFresser = function(data){return parseInt(data.replace(/px/gm))}
+     $("#cursorTable").css("height", $("#PBVPlotContainer").height() - $("#cursorChoice").height() -pxFresser($("#cursorTable").css("margin-top")))
      var node = ""
      $("#cursorMenu").empty()
      Object.keys(data.times).forEach(function (d){
