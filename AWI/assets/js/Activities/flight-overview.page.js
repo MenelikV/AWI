@@ -12,6 +12,7 @@ $(document).ready(function () {
   cursor = undefined;
   cursor_id = undefined;
   times = {};
+  shift = undefined;
   /**
    * Bisect Right Function
    */
@@ -325,12 +326,25 @@ $(document).ready(function () {
      if(pars.length === 0){
        return
      }
-     var converted_x = new moment.utc(x).toISOString()
+     if(shift===undefined){
+      var converted_x = new moment.utc(x).toISOString()
+     }
+     else{
+       var converted_x = x
+     }
      var index = bisect_right(data[0].x, converted_x);
-     res.push({
-       "Parameter": "GMT",
-       "Value": new moment.utc(data[pars[0]].x[index]).format("HH:mm:ss.SSS")
-     })
+     if(shift===undefined){
+      res.push({
+        "Parameter": "GMT",
+        "Value": new moment.utc(data[pars[0]].x[index]).format("HH:mm:ss.SSS")
+      })
+     }
+     else{
+       res.push({
+         "Parameter": "GMT",
+         "Value": data[pars[0]].x[index]
+       })
+     }
      for(let p of pars){
         res.push({
           "Parameter": data[p].name,
@@ -360,6 +374,7 @@ $(document).ready(function () {
       $("#cursorButton").text("Choose Cursor");
     });
     times = data.times;
+    shift = data.shift;
     $("li[data-id*='cursor']").on("click", function(){
       $("#cursorButton").text($(this).text())
       cursor = $(this).text()

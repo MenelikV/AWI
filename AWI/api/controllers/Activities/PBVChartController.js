@@ -4,13 +4,10 @@ const moment = require("moment")
 const atole_format = "DDD-HH:mm:ss"
 module.exports = {
     plot: async function(req, res){
-        //console.log(req)
         var mr = req.query["mr"]
         var test = req.query["test"]
         var charttype = req.query["type"].trim()
         var testtype = test.type
-        // TODO Use test for creating the annotations
-        //console.log(test)
         var matches = mr.match(/[A-Z]\d{4,5}/gm)
         if (matches.length === 2) {
           var aircraft = matches[0]
@@ -54,28 +51,46 @@ module.exports = {
           return "rgba(" + r + "," + g + "," + b + "," + "1" + ")";
         }
         // TODO If shift is not undefined, this behavior is incorrect
-        for(let t of Object.keys(times)){
-          if(times[t]!=="99.99.99.999"){
-            // Day has to be set (otherwise we have a shifting)
-            var x = new moment.utc(times[t], "HH:mm:ss.SSS").dayOfYear(day).toISOString()
-          }
-          else{
-            var x = new moment.utc(startt, IDA_format).dayOfYear(day).toISOString()
-          }
-          var shape = {}
-          shape.opacity = 0.5
-          shape.type = "line";
-          shape.yref = "paper";
-          shape.y0 = -10;
-          shape.y1 = 10;
-          shape.x0 = x;
-          shape.x1 = x;
-          // Create new color on the fly ?
-          shape.line = {
-            width: 1,
-            color: dynamicColors()
-          }
-          shapes.push(shape)
+          for(let t of Object.keys(times)){
+            if(shift===undefined){
+              if(times[t]!=="99.99.99.999"){
+                // Day has to be set (otherwise we have a shifting)
+                var x = new moment.utc(times[t], "HH:mm:ss.SSS").dayOfYear(day).toISOString()
+              }
+              else{
+                var x = new moment.utc(startt, IDA_format).dayOfYear(day).toISOString()
+              }
+            }
+            else{
+              var t_dec = PBVCursorConfig[testtype][shift]
+              if(times[t_dec]!="99.99.99.99"){
+                if(times[t]!=="99.99.99.999"){
+                  // Day has to be set (otherwise we have a shifting)
+                  var x = (new moment.utc(times[t], "HH:mm:ss.SSS")).diff(new moment.utc(test[t_dec], "HH:mm:ss.SSS"), 'seconds')
+                }
+                else{
+                  var x = (new moment.utc(startt, IDA_format)).diff(new moment.utc(test[t_dec], "HH:mm:ss.SSS"), 'seconds')
+                }
+              }
+              else{
+                // No reference was given
+                var x = 0;
+              }
+            }
+            var shape = {}
+            shape.opacity = 0.5
+            shape.type = "line";
+            shape.yref = "paper";
+            shape.y0 = -10;
+            shape.y1 = 10;
+            shape.x0 = x;
+            shape.x1 = x;
+            // Create new color on the fly ?
+            shape.line = {
+              width: 1,
+              color: dynamicColors()
+            }
+            shapes.push(shape)
         }
         var traces = []
         if(shift!==undefined){
@@ -115,7 +130,8 @@ module.exports = {
         var data = {
           traces: traces,
           layout: data_layout,
-          times: times
+          times: times,
+          shift: shift
         }
         return res.send(data)
     }
