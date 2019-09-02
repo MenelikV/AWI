@@ -41,7 +41,7 @@ module.exports = {
                 "V0059": "EPRN1_S",
                 "V0001": "EPRN1_S",
                 "N6464": "EPRN1_S",
-                "F6101": "EPRN1_S",
+                "F6101": "EPRN1_computed",
                 "M6673": "EPRN1_S",
                 "M6839": "EPRN1_S"
             }
@@ -55,7 +55,7 @@ module.exports = {
                 "V0059": "EPRN2_S",
                 "V0001": "EPRN2_s",
                 "N6464": "EPRN2_S",
-                "F6101": "EPRN2_S",
+                "F6101": "EPRN2_ computed",
                 "M6673": "EPRN2_S",
                 "M6839": "EPRN2_S"
             }
@@ -111,6 +111,7 @@ module.exports = {
                 "M6673": "341124601-",
                 "M6839": "341124601-",
                 "F6101": "341124601-",
+                "U1824": "341124601-",
                 "V0001": "34110006A-",
                 "V0059": "34110006A-"
             }
@@ -125,7 +126,7 @@ module.exports = {
         EPRN_MEAN: {
             id: ["EPRN1", "EPRN2"],
             formula: {
-                expr: 'return (d["EPRN1"]+d["EPRN2])/2)',
+                expr: 'return ((d["EPRN1"]+d["EPRN2"])/2)',
 
             }
         },
