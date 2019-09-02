@@ -43,7 +43,7 @@ module.exports = {
                               var temp = _p[aircraft] ? _p[aircraft]: _p["U1824"]
                               par.push(temp)
                               plotted_par.push(temp)
-                              mnemo[temp] = k
+                              mnemo[temp] = l
                         }
                       }
                     }
@@ -79,9 +79,9 @@ module.exports = {
                 var data = _.pick(data_res, config[k].id)
                 l = data[config[k].id[0]].x.length
                 var array = Array.from(Array(l), Object);
-                for(var i = 0; i<l; i++){
+                for(var z = 0; z<l; z++){
                 for(let k of Object.keys(data)){
-                    array[i][k] = data[k].y[i]
+                    array[z][k] = data[k].y[z]
                 }
                 }
                 var f = new Function('d', config[k].formula.expr)
@@ -162,7 +162,7 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis:{
-          domain: [0.68, 1],
+          domain: [0.70, 1],
           anchor: 'x1',
           range: [min["TSREF0"], max["TSREF0"]]
         },
@@ -172,7 +172,7 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis2:{
-          domain: [0.68, 1],
+          domain: [0.70, 1],
           anchor: 'x2',
           range: [min["ZG0"], max["ZG0"]]
         },
@@ -182,7 +182,7 @@ module.exports = {
             tickformat: '%H %M'
           },
         yaxis3:{
-          domain: [0.34, 0.65],
+          domain: [0.35, 0.65],
           anchor: 'x3',
         },
         xaxis4:{
@@ -191,7 +191,7 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis4:{
-          domain: [0.34, 0.65],
+          domain: [0.35, 0.65],
           anchor: 'x4'
         },
         xaxis5: {
@@ -209,7 +209,7 @@ module.exports = {
           tickformat: '%H %M'
         },
         yaxis6: {
-          domain: [0, 0.31],
+          domain: [0, 0.30],
           anchor: 'x6'
         }
       };
