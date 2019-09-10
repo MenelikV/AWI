@@ -252,11 +252,10 @@ IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
 IDADataManager.prototype.validate = function (res) {
   return _.get(res, 'length', 0)
 }
-IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, plotly) {
+IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, rate) {
   // TODO Cache it ?
-  plotly = (typeof plotly === 'undefined') ? false : plotly;
+  rate = (typeof rate === 'undefined') ? 1 : rate;
   let data = []
-  let rate = 1
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
   while (this.validate(res)) {
     data.push(res)

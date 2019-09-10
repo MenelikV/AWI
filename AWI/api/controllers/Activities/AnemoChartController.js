@@ -66,7 +66,7 @@ module.exports = {
         var times = await IDADataManager.GetMRTimes(mr)
         var startt = times[0].format(IDA_format)
         var endt = times[1].format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, true)
+        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
         // TODO Move It to a service ? 
         // Will other Activities benefit from such a feature ?
         for(let k of Object.keys(mnemo)){
@@ -240,7 +240,7 @@ module.exports = {
         await IDADataManager.OpenMR(mr)
         var startt = new moment(data.START, internal_format).format(IDA_format)
         var endt = new moment(data.END, internal_format).format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, true)
+        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
         var traces = []
         for(let [i, p] of Object.keys(config).entries()){
           traces.push({

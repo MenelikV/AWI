@@ -31,7 +31,7 @@ module.exports = {
         var day = start.dayOfYear()
         var startt = start.format(IDA_format)
         var endt = end.format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
+        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, 8)
         for(let p of par){
           data_res[inverse_map[p]] = data_res[p]
         }
