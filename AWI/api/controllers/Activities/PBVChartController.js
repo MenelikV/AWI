@@ -41,7 +41,7 @@ module.exports = {
             data_res[p].x = data_res[shift].y
           }
         }
-        var text = `${par.join("/")}, from ${startt} to ${endt}`
+        var text = `${charttype}, from ${startt} to ${endt}`
         //var annotations = Annotations.generate()
         var shapes = [];
         var dynamicColors = function () {
