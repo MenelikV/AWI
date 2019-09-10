@@ -131,7 +131,8 @@ module.exports = {
           traces: traces,
           layout: data_layout,
           times: times,
-          shift: shift
+          shift: shift,
+          height: 100*traces.length
         }
         return res.send(data)
     }

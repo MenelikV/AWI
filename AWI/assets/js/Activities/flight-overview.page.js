@@ -358,6 +358,7 @@ $(document).ready(function () {
       $('#cursorTable tr').first().after(html);
    }
    var createPBVPlot = function(data, status){
+     $("#PBVPlotContainer").height(data.height)
      Plotly.newPlot("PBVPlotContainer", data.traces, data.layout, {scrollZoom: true, edits: {shapePosition: true}});
      pbv_plot = document.getElementById("PBVPlotContainer")
      pbv_plot.on('plotly_afterplot', buildDataReader);
