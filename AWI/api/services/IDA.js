@@ -455,13 +455,19 @@ IDADataManager.prototype.FetchParametersOverridenTime = async function(mr_adress
     }
   return config_res
 }
-IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn, type) {
-  var times = await this.GetMRTimes(mr_adress)
-  var startt = times[0]
-  var conf_plus = config
+IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn, type, start, end) {
   var internal_format = "HH:mm:ss"
-  var _s = startt.clone().format(internal_format)
-  var later_start = startt.clone().add({hours: 1}).format(internal_format)
+  var conf_plus = config
+  if(start === undefined & end == undefined){
+    var times = await this.GetMRTimes(mr_adress)
+    var startt = times[0]
+    var _s = startt.clone().format(internal_format)
+    var later_start = startt.clone().add({hours: 1}).format(internal_format)
+  }
+  else{
+    var _s = start
+    var later_start = end
+  }
   var id_plus = []
   var type_plus = []
   var ref_plus;

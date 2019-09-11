@@ -358,6 +358,20 @@ $(document).ready(function () {
       $('#cursorTable tr').first().after(html);
    }
    var createPBVPlot = function(data, status){
+     var summary = data.summary
+     $("#summary_flex_header").empty()
+     $("#summary_flex_body").empty()
+     header = '<thead><tr>'
+     body = '<tbody><tr>'
+     for(let k of Object.keys(summary)){
+      header += '<th>'+k+'</th>'
+      body += '<td>'+summary[k]+'</td>'
+     }
+     header +='</tr>'
+     body += '</tr>'
+     $("#summary_flex_header").append(header)
+     $("#summary_flex_body").append(body)
+     $("#summary_flex").css("display", "block")
      $("#PBVPlotContainer").height(data.height)
      Plotly.newPlot("PBVPlotContainer", data.traces, data.layout, {scrollZoom: true, edits: {shapePosition: true}});
      pbv_plot = document.getElementById("PBVPlotContainer")

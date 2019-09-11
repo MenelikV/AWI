@@ -12,6 +12,23 @@ module.exports = {
         if (matches.length === 2) {
           var aircraft = matches[0]
         }
+        var test_type = /([A-Z]\d{4,5}){2}([A-Z]*)/gm.exec(mr)
+        if(test_type.length === 3){
+          var suffix = test_type[2]
+          if(suffix.includes("RTO") || suffix.includes("BRK")){
+            var type = "RTO"
+          }
+          else if(suffix.includes("TO")){
+            var type = "TO"
+          }
+          else if(suffix.includes('LDG'))
+          {
+            var type = "LDG"
+          }
+          else{
+            return res.serverError("Type could not be determined")
+          }
+        }
         var config = PBVChartConfig
         var cursors_config = PBVCursorConfig
         var keys = _.pick(cursors_config[testtype], config[testtype][charttype].cursors)
@@ -32,6 +49,7 @@ module.exports = {
         var startt = start.format(IDA_format)
         var endt = end.format(IDA_format)
         var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, 8)
+        var data_summary = await IDADataManager.FetchParametersPBV(mr, PBVConfig.DATA, aircraft.substring(1), type, startt, endt)
         for(let p of par){
           data_res[inverse_map[p]] = data_res[p]
         }
@@ -132,7 +150,8 @@ module.exports = {
           layout: data_layout,
           times: times,
           shift: shift,
-          height: 100*traces.length
+          height: 100*traces.length,
+          summary: data_summary
         }
         return res.send(data)
     }
