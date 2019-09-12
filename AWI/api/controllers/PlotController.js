@@ -40,7 +40,7 @@ module.exports = {
         shapes: annotations,
         dragmode: "pan",
         xaxis: {
-          tickformat: "%H:%m"
+          tickformat: "%H:%M:%S"
         }
       }
     }

@@ -144,7 +144,7 @@ module.exports = {
                 title: `${pa} from ${startt} to ${endt}`,
                 dragmode: "pan",
                 xaxis:{
-                  tickformat: '%H %M'
+                  tickformat: '%H:%M:%S'
                 },
                 yaxis:{
                   range:[min[pa], max[pa]]
@@ -268,7 +268,7 @@ module.exports = {
           xaxis2:{
             domain: [0.55, 1],
             anchor: 'y2',
-            tickformat: '%H %M'
+            tickformat: '%H:%M:%S'
           },
           yaxis2:{
             domain: [0, 1],
