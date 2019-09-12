@@ -361,8 +361,8 @@ $(document).ready(function () {
      var summary = data.summary
      $("#summary_flex_header").empty()
      $("#summary_flex_body").empty()
-     header = '<thead><tr>'
-     body = '<tbody><tr>'
+     header = '<tr>'
+     body = '<tr>'
      for(let k of Object.keys(summary)){
       header += '<th>'+k+'</th>'
       body += '<td>'+summary[k]+'</td>'
@@ -382,8 +382,9 @@ $(document).ready(function () {
      $("#cursorTable").css("height", $("#PBVPlotContainer").height() - $("#cursorChoice").height() -pxFresser($("#cursorTable").css("margin-top")))
      var node = ""
      $("#cursorMenu").empty()
+     var cursors_color = data.cursors_color
      Object.keys(data.times).forEach(function (d){
-       var template = `<li data-id="cursor_${d}" class="dropdown-item"><a href="#">${d}</a></li>`
+       var template = `<li data-id="cursor_${d}" class="dropdown-item"><div style="display: flex; align-items: center; max-width: 100px"><a href="#">${d}</a><hr width="20" style="border-top:3px solid ${cursors_color[d]}" size="3"></div></li>`
        node = node + template;
       $("#cursorMenu").html(node);
       $("#cursorButton").text("Choose Cursor");

@@ -69,6 +69,7 @@ module.exports = {
           return "rgba(" + r + "," + g + "," + b + "," + "1" + ")";
         }
         // TODO If shift is not undefined, this behavior is incorrect
+        var cursors_color = {}
           for(let t of Object.keys(times)){
             if(shift===undefined){
               if(times[t]!=="99.99.99.999"){
@@ -96,6 +97,7 @@ module.exports = {
               }
             }
             var shape = {}
+            var color = dynamicColors()
             shape.opacity = 0.5
             shape.type = "line";
             shape.yref = "paper";
@@ -103,11 +105,11 @@ module.exports = {
             shape.y1 = 10;
             shape.x0 = x;
             shape.x1 = x;
-            // Create new color on the fly ?
             shape.line = {
               width: 1,
-              color: dynamicColors()
+              color: color
             }
+            cursors_color[t] = color
             shapes.push(shape)
         }
         var traces = []
@@ -151,7 +153,8 @@ module.exports = {
           times: times,
           shift: shift,
           height: 100*traces.length,
-          summary: data_summary
+          summary: data_summary,
+          cursors_color: cursors_color
         }
         return res.send(data)
     }
