@@ -132,7 +132,7 @@ module.exports = {
                 title: `${pa} from ${startt} to ${endt}`,
                 dragmode: "pan",
                 xaxis:{
-                  tickformat: '%H %M'
+                  tickformat: '%H:%M:%S'
                 }
               }
             }
@@ -159,7 +159,7 @@ module.exports = {
         xaxis:{
           domain: [0, 0.45],
           anchor: 'y1',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis:{
           domain: [0.70, 1],
@@ -169,7 +169,7 @@ module.exports = {
         xaxis2:{
           domain: [0.55, 1],
           anchor: 'y2',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis2:{
           domain: [0.70, 1],
@@ -179,7 +179,7 @@ module.exports = {
         xaxis3:{
             domain: [0.55, 1],
             anchor: 'y3',
-            tickformat: '%H %M'
+            tickformat: '%H:%M:%S'
           },
         yaxis3:{
           domain: [0.35, 0.65],
@@ -188,7 +188,7 @@ module.exports = {
         xaxis4:{
           domain: [0, 0.45],
           anchor: 'y4',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis4:{
           domain: [0.35, 0.65],
@@ -197,7 +197,7 @@ module.exports = {
         xaxis5: {
           domain: [0, 0.45],
           anchor: 'y5',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis5: {
           domain: [0, 0.31],
@@ -206,7 +206,7 @@ module.exports = {
         xaxis6:{
           domain: [0.55, 1],
           anchor: 'y6',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis6: {
           domain: [0, 0.30],
@@ -259,7 +259,7 @@ module.exports = {
           xaxis:{
             domain: [0, 0.45],
             anchor: 'y1',
-            tickformat: '%H %M'
+            tickformat: '%H:%M:%S'
           },
           yaxis:{
             domain: [0, 1],
