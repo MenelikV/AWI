@@ -32,6 +32,10 @@ module.exports = {
 
     discipline: {
       type: 'string'
+    },
+
+    AtoleCSVDirectory: {
+      type: 'string'
     }
 
   },

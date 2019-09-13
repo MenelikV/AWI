@@ -252,11 +252,10 @@ IDADataManager.prototype.ReadParamsSamplesNext = async function (mr_adress) {
 IDADataManager.prototype.validate = function (res) {
   return _.get(res, 'length', 0)
 }
-IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, plotly) {
+IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, rate) {
   // TODO Cache it ?
-  plotly = (typeof plotly === 'undefined') ? false : plotly;
+  rate = (typeof rate === 'undefined') ? 1 : rate;
   let data = []
-  let rate = 1
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
   while (this.validate(res)) {
     data.push(res)
@@ -271,35 +270,22 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     // No Valid Data
     console.log("No valid Data!")
     for(let key of params){
-      final_res[key] = [{x: null, y: null}]
+      final_res[key] = [{x: [], y: []}]
     }
     return final_res
   }
   else{
-    if(plotly === false){
-      for(let [index, par] of params.entries()){
-        final_res[par] = list.map(function(d){return{
-          x: moment.unix((d.listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1),
-          y: sails.helpers.numberFormat(d.listParamSamples.listParamSample[index].objValue.dblValueType)
-        }
-        })
-      } 
-      return final_res
-    }
-    else{
       for(let [index, par] of params.entries()){
         var i = 0;
         final_res[par] = {x: new Array(list.length), y: new Array(list.length)};
         while(i<list.length){
-          final_res[par].x[i] = moment.unix((list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/M)%DAY).toISOString().slice(0, -1)
+          final_res[par].x[i] = new Date(list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/1000)
           final_res[par].y[i] = list[i].listParamSamples.listParamSample[index].objValue.dblValueType
           i++;
         }
       }
       return final_res
-
-    }
-}
+  }
 }
 IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type, refs){
   var type = type || []
@@ -469,13 +455,19 @@ IDADataManager.prototype.FetchParametersOverridenTime = async function(mr_adress
     }
   return config_res
 }
-IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn, type) {
-  var times = await this.GetMRTimes(mr_adress)
-  var startt = times[0]
-  var conf_plus = config
+IDADataManager.prototype.FetchParametersPBV = async function(mr_adress, config, msn, type, start, end) {
   var internal_format = "HH:mm:ss"
-  var _s = startt.clone().format(internal_format)
-  var later_start = startt.clone().add({hours: 1}).format(internal_format)
+  var conf_plus = config
+  if(start === undefined & end == undefined){
+    var times = await this.GetMRTimes(mr_adress)
+    var startt = times[0]
+    var _s = startt.clone().format(internal_format)
+    var later_start = startt.clone().add({hours: 1}).format(internal_format)
+  }
+  else{
+    var _s = start
+    var later_start = end
+  }
   var id_plus = []
   var type_plus = []
   var ref_plus;

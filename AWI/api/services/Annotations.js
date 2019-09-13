@@ -1,64 +1,87 @@
 const moment = require("moment")
-const internal_format = "HH:mm:ss.SSS"
+const internal_format = "DDD-HH:mm:ss.SSS"
+// IDA does not give a year info for parameters
 moment.now = function () {
   return moment.unix(0)
 }
 module.exports = {
   _TIME: {
     type: "line",
-    mode: "vertical",
-    scaleID: "x-axis-0",
-    value: 0,
-    borderColor: "red",
-    borderWidth: 0.5,
+    yref: "paper",
+    x0: 1,
+    y0: 0,
+    x1: 1,
+    y1: 1,
+    line: {
+      color: "rgb(255, 0, 0)",
+      width: 1
+    }
   },
   OUT_OF_BOUNDS: [{
       type: "line",
-      mode: "horizontal",
-      scaleID: "y-axis-0",
-      value: 0,
-      borderColor: "blue",
-      borderWidth: 0.5,
+      xref: "paper",
+      x0: 0,
+      y0: 0,
+      x1: 1,
+      y1: 1,
+      line: {
+        color: "rgb(0, 0, 255)",
+        width: 1
+      }
     },
     {
       type: "line",
-      mode: "horizontal",
-      scaleID: "y-axis-0",
-      value: 0,
-      borderColor: "blue",
-      borderWidth: 0.5,
+      xref: "paper",
+      x0: 0,
+      y0: 0,
+      x1: 1,
+      y1: 1,
+      line: {
+        color: "rgb(0, 0, 255)",
+        width: 1
+      }
     }
   ],
   CONSTANT_VALUE: [{
     type: "line",
-    mode: "horizontal",
-    scaleID: "y-axis-0",
-    value: 0,
-    borderColor: "blue",
-    borderWidth: 0.5,
+    xref: "paper",
+    x0: 0,
+    y0: 2,
+    x1: 1,
+    y1: 2,
+    line: {
+      color: "rgb(0, 0, 255)",
+      width: 1
+    }
   }],
   generate: function (type, values, times) {
     switch (type) {
       case "OUT_OF_BOUNDS":
         var options = JSON.parse(JSON.stringify(this.OUT_OF_BOUNDS))
         if (values[0] !== values[1]) {
-          options[0].value = parseFloat(values[0])
-          options[1].value = parseFloat(values[1])
+          options[0].y0 = parseFloat(values[0])
+          options[0].y1 = options[0].y0
+          options[1].y0 = parseFloat(values[1])
+          options[1].y1 = options[1].y0
         }
         break;
       case "CONSTANT_VALUE":
         var options = JSON.parse(JSON.stringify(this.CONSTANT_VALUE))
-        options.value = parseFloat(value[0])
+        options.y0 = parseFloat(value[0])
+        options.y1 = options.y0
         break;
       default:
         var options = []
     }
     if (times !== undefined) {
       if (times.length == 2) {
+        // Special Trickery to avoid timezone shifts
         var start = JSON.parse(JSON.stringify(this._TIME))
-        start.value = new moment(times[0].format(internal_format), internal_format).toISOString()
+        start.x0 = new moment.utc(times[0].format(internal_format), internal_format).toISOString()
+        start.x1 = start.x0
         var end = JSON.parse(JSON.stringify(this._TIME))
-        end.value = new moment(times[1].format(internal_format), internal_format).toISOString()
+        end.x0 = new moment.utc(times[1].format(internal_format), internal_format).toISOString()
+        end.x1 = end.x0
         options.push(start)
         options.push(end)
       }

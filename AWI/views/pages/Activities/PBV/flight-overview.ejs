@@ -7,6 +7,8 @@
         role="tab" aria-controls="nav-profile" aria-selected="false">Output</a>
       <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-filters-tab" data-toggle="tab" href="#nav-filters"
         role="tab" aria-controls="nav-filters" aria-selected="false">Filters</a>
+      <a style="font-size:1.2rem" class="nav-item nav-link" id="nav-charts-tab" data-toggle="tab" href="#nav-charts"
+        role="tab" aria-controls="nav-charts" aria-selected="false">PBV Charts</a>
     </div>
   </nav>
 
@@ -250,7 +252,85 @@
          </div>
          <%}%>
        </div>
-       <!-- END THIRD TAB -->  
+       <!-- END THIRD TAB -->
+       <!-- BEGIN FOURTH TAB -->
+       <div class="tab-pane fade" id="nav-charts" role="tabpanel" aria-labelledby="nav-charts-tab">
+           <br>
+           <div class="row">
+             <div class="col">
+                <div class="dropdown" id="#load_atole" style="overflow: show">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Choose Test to Load
+                  </button>
+                  <ul class="dropdown-menu" style="overflow: visible">
+                    <% var choice = 0 %>
+                    <% for(let file of atoleFiles){%>
+                          <li class="dropdown-item dropdown-submenu" >
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle"><%=file%></a>
+                            <ul class="dropdown-menu">
+                                <% for(let [index, test] of testData[file].entries()){%>
+                                  <li id='<%="choice"+choice%>' class="dropdown-item" data-mr="<%=mr%>" data-file="<%=file%>" data-index="<%=index%>" data-test=<%=`${test.TDEB} - ${test.TFIN}`%>`>
+                                      <a href="#"><%=`${test.TDEB} - ${test.TFIN}`%></a>
+                                  </li>
+                                  <% choice = choice + 1%>
+                                <%}%>
+                            </ul>
+                          </li>
+                    <%}%>
+                  </ul>
+                </div>
+              </div>
+              <div class="col">
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownChartButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Choose Chart to Load
+                  </button>
+                  <ul class="dropdown-menu">
+                    <% for(let type of chartChoice){%>
+                      <li id='<%="type"+choice%>' class="dropdown-item">
+                        <a href="#"><%=type%></a>
+                      </li>
+                      <% choice = choice + 1 %>
+                    <%}%>
+                  </ul>
+                </div>
+              </div>
+              <div class="col">
+                  <button class="btn btn-primary btn-lg" type="button" id="pbv_load">Load Chart</button>
+              </div>
+              <div class="col" style="min-height: 40px">
+                <table id="summary_flex" class="table table-light" style="display: none">
+                  <thead id="summary_flex_header"></thead>
+                  <tbody id="summary_flex_body"></tbody>
+                </table>
+              </div>
+             </div>
+           <div class="row" style="min-height:20px"></div>
+           <div class="row">
+             <div class="col-10">
+                <div id="PBVPlotContainer"></div>
+             </div>
+             <div class="col-2">
+              <div class="dropdown" style="display: none" id="cursorChoice">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="cursorButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Choose Cursor
+                </button>
+                <ul class="dropdown-menu" id="cursorMenu">
+                </ul>
+             </div>
+             <table id="cursorTable" class="table table-striped table-light table-hover" style="display: none;margin-top:10px;">
+               <thead>
+                 <th>Parameter</th>
+                 <th>Value</th>
+               </thead>
+               <tbody>
+                 <tr></tr>
+               </tbody>
+             </table>
+           </div>
+          </div> 
+        </div>  
+       <!--END FOURTH TAB-->  
   </div>
 </div>
 <!--MODALS-->
@@ -258,3 +338,4 @@
 <%- include ../../filter-modal.ejs %>
 <%- include ../../plot-modal.ejs %>
 <%- include ../../spinner-modal.ejs %>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

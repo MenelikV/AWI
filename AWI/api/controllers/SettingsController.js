@@ -67,6 +67,14 @@ module.exports = {
           discipline: directory
         })
         return res.status(200).send()
+      
+        case 'AtoleCSVDirectory':
+          await ActivityModel.update({
+            activityName: activityName
+          }).set({
+            AtoleCSVDirectory: directory
+          })
+          return res.status(200).send()
     }
   },
 

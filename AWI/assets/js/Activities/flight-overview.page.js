@@ -1,5 +1,33 @@
 $(document).ready(function () {
+  /**
+   * Change Reference for Moment
+   */
+    moment.now = function () {
+      return moment.unix(0)
+    };
+  /**
+   * Cursor Name (Global Varibale)
+   * 
+   */
+  cursor = undefined;
+  cursor_id = undefined;
+  times = {};
+  shift = undefined;
+  /**
+   * Bisect Right Function
+   */
+  function bisect_right ( a , x , lo, hi) {
+    if(lo===undefined){lo = 0;}
+    if(hi===undefined){hi = a.length;}
+    if ( lo < 0 ) throw new ValueError( "lo must be non-negative" ) ;
+    while ( lo < hi ) {
+        const mid = ( lo + hi ) / 2 | 0 ;
+        if ( x < a[mid] ) hi = mid ;
+        else lo = mid + 1 ;
+    }
+    return lo ;
 
+}
   /**
    * START OVERVIEW LAYOUT LOGIC
    */
@@ -160,10 +188,6 @@ $(document).ready(function () {
     var row = $(this).parents('tr')[0]
     var table = $(this).parents('table')[0]
     dt = $(table).DataTable()
-
-    // Show Modal (Clear context before showing anything)
-    var ctx = document.getElementById("canvas").getContext("2d")
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     headers = dt.columns().header().map(function (d) {
       return $(d).text().trim()
     })
@@ -196,86 +220,9 @@ $(document).ready(function () {
       }
     })
   })
-  var patch_annotations = function (list) {
-    return list.map(function (d) {
-      if (d.mode === "vertical") {
-        d.value = new Date(d.value)
-      }
-      return d
-    })
-  }
   var createPlot = function (data, status) {
-    var dynamicColors = function () {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
-    }
-    var datasets = []
-    for (let p of data.par) {
-      var color = dynamicColors()
-      datasets.push({
-        label: p,
-        data: data.data_res[p],
-        fill: false,
-        backgroundColor: color,
-        borderColor: color,
-        borderWidth: 1,
-      })
-    }
-    var config = {
-      type: 'line',
-      data: {
-        datasets: datasets
-      },
-      options: {
-        annotation: {
-          events: ["click"],
-          annotations: patch_annotations(data.annotations)
-        },
-        title: {
-          display: true,
-          text: data.text
-        },
-        scales: {
-          xAxes: [{
-            type: "time",
-            time: {
-              displayFormats: {
-                second: "HH:mm:ss"
-              },
-              timeFormat: 'YYYYY-MM-DD[T]HH:mm:ss.SSS',
-              tooltipFormat: "HH:mm:ss.SSS"
-            }
-          }]
-        },
-        // Container for pan options
-        pan: {
-          // Boolean to enable panning
-          enabled: true,
-
-          // Panning directions. Remove the appropriate direction to disable 
-          // Eg. 'y' would only allow panning in the y direction
-          mode: 'xy'
-        },
-
-        // Container for zoom options
-        zoom: {
-          // Boolean to enable zooming
-          enabled: true,
-          drag: false,
-
-          // Zooming directions. Remove the appropriate direction to disable 
-          // Eg. 'y' would only allow zooming in the y direction
-          mode: 'xy',
-        }
-      }
-    }
     $("#spinnerModal").modal("hide")
-    $("#canvas").remove()
-    $("#canvasContainer").append('<canvas id="canvas"></canvas>')
-    var ctx = document.getElementById("canvas").getContext("2d")
-    new Chart(ctx, config)
+    Plotly.newPlot('PlotModalContainer', data.traces, data.layout, {scrollZoom: true})
     $("#plotModal").modal("show")
     $("#plotModal").modal("handleUpdate")
   }
@@ -286,7 +233,6 @@ $(document).ready(function () {
     Plotly.newPlot('anemoChartContainergroup', data.group.traces, data.group.layout, {scrollZoom: true, modeBarButtonsToRemove: ['autoScale2d']})
     for(let k of Object.keys(data)){
       if(k !== "group"){
-        Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
         Plotly.newPlot(k, data[k].trace, data[k].layout, {scrollZoom: true})
       }
     }
@@ -310,6 +256,149 @@ $(document).ready(function () {
     })
   })
   /**
+   * Load Test CSV (PBV)
+   */
+    // Set text and attributes of button on click
+    $("li[id*='choice']").on("click", function(){
+      var file = $(this).data("file")
+      var test = $(this).data("test")
+      var index = $(this).data("index")
+      var mr = $(this).data("mr")
+      var button = $("#dropdownMenuButton")
+      button.text(`${file}/${test}`)
+      button.data("file", file)
+      button.data("test", test)
+      button.data("index", index)
+      button.data('mr', mr)
+    })
+    $("li[id*='type']").on("click", function(){
+      var button = $("#dropdownChartButton")
+      var type = $(this).text() 
+      button.text(type)
+      button.data("type", type)
+    })
+    // Launch Request for the Chart on click
+    $("#pbv_load").on("click", function(){
+      var button = $("#dropdownMenuButton")
+      $("#spinnerModal").modal("show")
+      var file = button.data("file")
+      var index = button.data("index")
+      var mr = button.data("mr")
+      var type_button = $("#dropdownChartButton")
+      var type = type_button.data("type")
+      // TODO If either file or index is empty, remind the user he should select a least one entries in the menu
+      var test = window.SAILS_LOCALS["testData"][file][index]
+      $.ajax({
+        method: "GET",
+        url: "/Activities/PBV/testplot",
+        data: {
+          test: test,
+          mr : mr,
+          type: type
+        },
+        success: createPBVPlot,
+        error: function(){
+          alert("Failed");
+          $("#spinnerModal").modal("hide");
+        }
+      })
+    })
+    /*
+    * Plot Data PBV
+    */
+   var buildDataReader = function(data){
+     if(cursor === undefined || Object.keys(times).indexOf(cursor) === -1){
+       // If Data is invalid, hide the table 
+       $("#cursorTable").css("display", "none");
+       return
+     }
+     // Make sure the table is visible (it is hidden on load)
+     $("#cursorTable").css("display", "block");
+     gd = document.getElementById("PBVPlotContainer")
+     var data = gd.data
+     var x = gd.layout.shapes[cursor_id].x0
+     // Clean table
+     $('#cursorTable tr').not(':first').not(':last').remove();
+     // Find index of x in the timeline, then take all parameters on that timeline
+     res = []
+     var pars = Object.keys(data)
+     if(pars.length === 0){
+       return
+     }
+     if(shift===undefined){
+      var converted_x = new moment.utc(x).toISOString()
+     }
+     else{
+       var converted_x = x
+     }
+     var index = bisect_right(data[0].x, converted_x);
+     if(shift===undefined){
+      res.push({
+        "Parameter": "GMT",
+        "Value": new moment.utc(data[pars[0]].x[index]).format("HH:mm:ss.SSS")
+      })
+     }
+     else{
+       res.push({
+         "Parameter": "GMT",
+         "Value": data[pars[0]].x[index]
+       })
+     }
+     for(let p of pars){
+        res.push({
+          "Parameter": data[p].name,
+          "Value": data[p].y[index]
+        })
+     }
+      var html = '';
+      for(var i = 0; i < res.length; i++)
+                html += '<tr><td>' + res[i].Parameter + 
+                        '</td><td>' + res[i].Value + '</td></tr>';
+      $('#cursorTable tr').first().after(html);
+   }
+   var createPBVPlot = function(data, status){
+     var summary = data.summary
+     $("#summary_flex_header").empty()
+     $("#summary_flex_body").empty()
+     header = '<tr>'
+     body = '<tr>'
+     for(let k of Object.keys(summary)){
+      header += '<th>'+k+'</th>'
+      body += '<td>'+summary[k]+'</td>'
+     }
+     header +='</tr>'
+     body += '</tr>'
+     $("#summary_flex_header").append(header)
+     $("#summary_flex_body").append(body)
+     $("#summary_flex").css("display", "block")
+     $("#PBVPlotContainer").height(data.height)
+     Plotly.newPlot("PBVPlotContainer", data.traces, data.layout, {scrollZoom: true, edits: {shapePosition: true}});
+     pbv_plot = document.getElementById("PBVPlotContainer")
+     pbv_plot.on('plotly_afterplot', buildDataReader);
+     $("#spinnerModal").modal("hide");
+     $("#cursorChoice").css("display", "block");
+     var pxFresser = function(data){return parseInt(data.replace(/px/gm))}
+     $("#cursorTable").css("height", $("#PBVPlotContainer").height() - $("#cursorChoice").height() -pxFresser($("#cursorTable").css("margin-top")))
+     var node = ""
+     $("#cursorMenu").empty()
+     var cursors_color = data.cursors_color
+     Object.keys(data.times).forEach(function (d){
+       var template = `<li data-id="cursor_${d}" class="dropdown-item"><div style="display: flex; align-items: center; max-width: 100px"><a href="#">${d}</a><hr width="20" style="border-top:3px solid ${cursors_color[d]}" size="3"></div></li>`
+       node = node + template;
+      $("#cursorMenu").html(node);
+      $("#cursorButton").text("Choose Cursor");
+    });
+    times = data.times;
+    shift = data.shift;
+    $("li[data-id*='cursor']").on("click", function(){
+      $("#cursorButton").text($(this).text())
+      cursor = $(this).text()
+      cursor_id = Object.keys(times).indexOf($(this).text())
+      buildDataReader();
+    })
+   }
+
+   /*
    * See CAS/ZRA (Anemo)
    */
   $("table[id*='pvol']").on("click", 'button[data-id="see_cas"]', function () {

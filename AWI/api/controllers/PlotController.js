@@ -22,11 +22,27 @@ module.exports = {
     //await IDADataManager.CloseSession()
     var annotations = Annotations.generate(type, [min, max], [start, end])
     var text = `${data.PARAMETER}, from ${startt} to ${endt}`
+    traces = []
+    for(let p of par){
+      traces.push({
+        type: "scatter",
+        mode: "lines+markers",
+        x: data_res[p].x,
+        y: data_res[p].y,
+        name: p,
+        //hovertemplate:`<i>%{x}</i> - ${p}: %{y:.6f}`
+      })
+    }
     var data = {
-      text: text,
-      annotations: annotations,
-      data_res: data_res,
-      par: par
+      traces: traces,
+      layout: {
+        title: text,
+        shapes: annotations,
+        dragmode: "pan",
+        xaxis: {
+          tickformat: "%H:%M:%S"
+        }
+      }
     }
 
     res.status(200)

@@ -73,9 +73,6 @@ var jsFilesToInject = [
   'dependencies/jquery.dataTables.min.js',
   'dependencies/dataTables.bootstrap4.min.js',
   'dependencies/hammer.js',
-  'dependencies/Chart.bundle.min.js',
-  'dependencies/chartjs-plugin-annotation.min.js',
-  'dependencies/chartjs-plugin-zoom.js',
   // Load `sails.io` before everything else.
   'dependencies/sails.io.js',
   'dependencies/bootstrap-4/bootstrap-4.bundle.js',

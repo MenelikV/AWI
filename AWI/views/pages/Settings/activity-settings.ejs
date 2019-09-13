@@ -88,6 +88,31 @@
       <br>
       <br>
       <%}%>
+      <% if(activity === 'PBV') {%> 
+        <div class="row">
+          <div class="col-3">
+            <h5>Atole Files</h5>
+          </div>
+          <div class="col">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" style="background-color:rgb(184, 222, 243);">
+                  <i style="color:rgb(20, 83, 134);"> <strong>Directory</strong> </i>
+                </span>
+              </div>
+              <textarea id="atole_dir" name="AtoleCSVDirectory" class="form-control" aria-label="With textarea"><%=activitySettings["AtoleCSVDirectory"]%></textarea>
+            </div>
+          </div>
+  
+          <div class="col">
+            <span class="float-sm-right">
+              <button type="button" id="change_atole" name="<%=activity%>" class="btn btn-sm btn-primary account-settings-button">Apply</button>
+            </span>
+          </div>
+        </div>
+        <br>
+        <br>
+        <%}%>
 
       <div class="row">
         <div class="col-3">

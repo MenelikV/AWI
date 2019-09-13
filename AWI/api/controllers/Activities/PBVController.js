@@ -88,7 +88,6 @@ module.exports = {
         })
         var resLength = activityFiles.length
         var flightData = {}
-        var errorMap = []
         if (resLength === 1) {
           var activityfilePath = path.join(AutovalCSVDirectory, activityFiles[0])
           var discipline = await sails.helpers.getSettings('PBV', 'discipline')
@@ -126,7 +125,7 @@ module.exports = {
               var type = "LDG"
             }
             else{
-              res.serverError("Type could not be determined")
+              return res.serverError("Type could not be determined")
             }
           }
           else{
@@ -180,7 +179,7 @@ module.exports = {
               header: true,
               delimiter: ";",
               skipEmptyLines: true,
-              complete: function (results) {
+              complete: async function (results) {
                 /*For each period in PVOL, read the csv file and verify if the 
                 error is in the given period. If it is, add it to an array.*/
                 var items = [];
@@ -223,7 +222,26 @@ module.exports = {
                     filterTrigger = true;
                   }
                 })
-    
+                try{
+                  var AtoleCSVDirectory = await sails.helpers.getSettings('PBV', 'AtoleCSVDirectory');
+                  // Template for regular expression
+                  var pattern = `${req.param("id")}_Exploit_(ATTERISSAGE|RTO|DECOLLAGE)_Temps_et_Vars_\\d.csv`
+                  var reg = new RegExp(pattern, 'g')
+                  var atoleFiles = fs.readdirSync(AtoleCSVDirectory).filter(f=>f.match(reg))
+                  var testData = await sails.helpers.extractTests(atoleFiles, AtoleCSVDirectory)
+                  if(atoleFiles.length){
+                    var chartChoice = PBVChartChoices.Config[testData[atoleFiles[0]][0].type] ? PBVChartChoices.Config[testData[atoleFiles[0]][0].type]: []
+                  }
+                  else{
+                    var chartChoice = []
+                  }
+                }
+                catch(err){
+                  console.error(err)
+                  var testData = {}
+                  var atoleFiles = []
+                  var chartChoice = []
+                }
                 return res.view("pages/Activities/PBV/flight-overview", {
                   activity: "PBV",
                   summary: summary,
@@ -237,6 +255,9 @@ module.exports = {
                   filterTrigger: filterTrigger,
                   errorMap: currentMap,
                   filterHeader: filterHeader,
+                  atoleFiles: atoleFiles,
+                  testData: testData,
+                  chartChoice: chartChoice
                 })
               }
             })

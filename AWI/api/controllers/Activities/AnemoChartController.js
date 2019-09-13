@@ -66,7 +66,7 @@ module.exports = {
         var times = await IDADataManager.GetMRTimes(mr)
         var startt = times[0].format(IDA_format)
         var endt = times[1].format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, true)
+        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
         // TODO Move It to a service ? 
         // Will other Activities benefit from such a feature ?
         for(let k of Object.keys(mnemo)){
@@ -132,7 +132,7 @@ module.exports = {
                 title: `${pa} from ${startt} to ${endt}`,
                 dragmode: "pan",
                 xaxis:{
-                  tickformat: '%H %M'
+                  tickformat: '%H:%M:%S'
                 }
               }
             }
@@ -144,7 +144,7 @@ module.exports = {
                 title: `${pa} from ${startt} to ${endt}`,
                 dragmode: "pan",
                 xaxis:{
-                  tickformat: '%H %M'
+                  tickformat: '%H:%M:%S'
                 },
                 yaxis:{
                   range:[min[pa], max[pa]]
@@ -159,7 +159,7 @@ module.exports = {
         xaxis:{
           domain: [0, 0.45],
           anchor: 'y1',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis:{
           domain: [0.70, 1],
@@ -169,7 +169,7 @@ module.exports = {
         xaxis2:{
           domain: [0.55, 1],
           anchor: 'y2',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis2:{
           domain: [0.70, 1],
@@ -179,7 +179,7 @@ module.exports = {
         xaxis3:{
             domain: [0.55, 1],
             anchor: 'y3',
-            tickformat: '%H %M'
+            tickformat: '%H:%M:%S'
           },
         yaxis3:{
           domain: [0.35, 0.65],
@@ -188,7 +188,7 @@ module.exports = {
         xaxis4:{
           domain: [0, 0.45],
           anchor: 'y4',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis4:{
           domain: [0.35, 0.65],
@@ -197,7 +197,7 @@ module.exports = {
         xaxis5: {
           domain: [0, 0.45],
           anchor: 'y5',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis5: {
           domain: [0, 0.31],
@@ -206,7 +206,7 @@ module.exports = {
         xaxis6:{
           domain: [0.55, 1],
           anchor: 'y6',
-          tickformat: '%H %M'
+          tickformat: '%H:%M:%S'
         },
         yaxis6: {
           domain: [0, 0.30],
@@ -240,7 +240,7 @@ module.exports = {
         await IDADataManager.OpenMR(mr)
         var startt = new moment(data.START, internal_format).format(IDA_format)
         var endt = new moment(data.END, internal_format).format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, true)
+        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par)
         var traces = []
         for(let [i, p] of Object.keys(config).entries()){
           traces.push({
@@ -259,7 +259,7 @@ module.exports = {
           xaxis:{
             domain: [0, 0.45],
             anchor: 'y1',
-            tickformat: '%H %M'
+            tickformat: '%H:%M:%S'
           },
           yaxis:{
             domain: [0, 1],
@@ -268,7 +268,7 @@ module.exports = {
           xaxis2:{
             domain: [0.55, 1],
             anchor: 'y2',
-            tickformat: '%H %M'
+            tickformat: '%H:%M:%S'
           },
           yaxis2:{
             domain: [0, 1],

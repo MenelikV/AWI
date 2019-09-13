@@ -90,6 +90,11 @@ module.exports.routes = {
     action: 'plot'
   },
 
+  'GET /Activities/PBV/testplot': {
+    controller: 'Activities/PBVChartController',
+    action: 'plot'
+  },
+
   'GET /Activities/Anemo/caschart': {
     controller: 'Activities/AnemoChartController',
     action: 'plotcas'
