@@ -22,7 +22,7 @@ $(document).ready(function () {
     if ( lo < 0 ) throw new ValueError( "lo must be non-negative" ) ;
     while ( lo < hi ) {
         const mid = ( lo + hi ) / 2 | 0 ;
-        if ( x < a[mid] ) hi = mid ;
+        if ( x <= a[mid] ) hi = mid ;
         else lo = mid + 1 ;
     }
     return lo ;
@@ -386,9 +386,9 @@ $(document).ready(function () {
      Object.keys(data.times).forEach(function (d){
        var template = `<li data-id="cursor_${d}" class="dropdown-item"><div style="display: flex; align-items: center; max-width: 100px"><a href="#">${d}</a><hr width="20" style="border-top:3px solid ${cursors_color[d]}" size="3"></div></li>`
        node = node + template;
-      $("#cursorMenu").html(node);
-      $("#cursorButton").text("Choose Cursor");
     });
+    $("#cursorMenu").html(node);
+    $("#cursorButton").text("Choose Cursor");
     times = data.times;
     shift = data.shift;
     $("li[data-id*='cursor']").on("click", function(){
