@@ -34,7 +34,7 @@ module.exports = {
           var test = new PBVTest()
           var content = fs.readFileSync(f).toString('utf-8');
           var tests = []
-          var lines  = content.split("\n");
+          var lines  = content.split(/\r\n|\r|\n/);
           for(let line of lines){
               if(line.indexOf("Type essai") === 0){
                 if(test.isEmpty() === false){
@@ -44,6 +44,11 @@ module.exports = {
                 test.type = line.split(";")[1]
               }
               else{
+                if(line.length === 0){
+                  if(test.isEmpty() === false){
+                    tests.push(test)
+                  }
+                }
               // Filter out empty fields by default
               var line_data = line.split(";").filter(d=>d.trim().length > 0);
               if(line_data.length%2 !== 0){
