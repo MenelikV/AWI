@@ -74,7 +74,7 @@ module.exports = {
             if(shift===undefined){
               if(times[t]!=="99.99.99.999"){
                 // Day has to be set (otherwise we have a shifting)
-                var x = new moment.utc(times[t], "HH:mm:ss.SSS").dayOfYear(day).toISOString()
+                var x = new moment.utc(times[t], "HH:mm:ss-SSS").dayOfYear(day).toISOString()
               }
               else{
                 var x = new moment.utc(startt, IDA_format).dayOfYear(day).toISOString()
@@ -85,10 +85,10 @@ module.exports = {
               if(times[t_dec]!="99.99.99.99"){
                 if(times[t]!=="99.99.99.999"){
                   // Day has to be set (otherwise we have a shifting)
-                  var x = (new moment.utc(times[t], "HH:mm:ss.SSS")).diff(new moment.utc(test[t_dec], "HH:mm:ss.SSS"), 'seconds')
+                  var x = (new moment.utc(times[t], "HH:mm:ss-SSS")).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'seconds')
                 }
                 else{
-                  var x = (new moment.utc(startt, IDA_format)).diff(new moment.utc(test[t_dec], "HH:mm:ss.SSS"), 'seconds')
+                  var x = (new moment.utc(startt, IDA_format)).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'seconds')
                 }
               }
               else{

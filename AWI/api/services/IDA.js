@@ -279,7 +279,7 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
         var i = 0;
         final_res[par] = {x: new Array(list.length), y: new Array(list.length)};
         while(i<list.length){
-          final_res[par].x[i] = new Date(list[i].listParamSamples.listParamSample[index].objGmt.longGmtDate/1000)
+          final_res[par].x[i] = new Date(list[i].objGmt.longGmtDate/1000)
           final_res[par].y[i] = list[i].listParamSamples.listParamSample[index].objValue.dblValueType
           i++;
         }
