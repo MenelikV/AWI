@@ -76,7 +76,6 @@ module.exports = {
           if ( lo < 0 ) throw new ValueError( "lo must be non-negative" ) ;
           while ( lo < hi ) {
               const mid = ( lo + hi ) / 2 | 0 ;
-              console.log(`testing interval ${lo} - ${hi}, ${a[mid]} versus ${x}`)
               if ( x <= a[mid] ) hi = mid ;
               else lo = mid + 1 ;
           }
