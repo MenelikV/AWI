@@ -32,6 +32,8 @@ module.exports = {
         var config = PBVChartConfig
         var cursors_config = PBVCursorConfig
         var keys = _.pick(cursors_config[testtype], config[testtype][charttype].cursors)
+        // Some cursors have to be determined by hand
+        var rest = config[testtype][charttype].cursors.filter(d => Object.keys(keys).indexOf(d) < 0)
         var times = _.pick(test, Object.values(keys))
         var par = Object.values(config[testtype][charttype].pars[aircraft])
         var mnemo = Object.keys(config[testtype][charttype].pars[aircraft])
@@ -61,7 +63,6 @@ module.exports = {
           }
         }
         var text = `${charttype}, from ${startt} to ${endt}`
-        //var annotations = Annotations.generate()
         var shapes = [];
         var dynamicColors = function () {
           var r = Math.floor(Math.random() * 255);
@@ -69,7 +70,18 @@ module.exports = {
           var b = Math.floor(Math.random() * 255);
           return "rgba(" + r + "," + g + "," + b + "," + "1" + ")";
         }
-        // TODO If shift is not undefined, this behavior is incorrect
+        var bisect_right = function( a , x , lo, hi) {
+          if(lo===undefined){lo = 0;}
+          if(hi===undefined){hi = a.length - 1;}
+          if ( lo < 0 ) throw new ValueError( "lo must be non-negative" ) ;
+          while ( lo < hi ) {
+              const mid = ( lo + hi ) / 2 | 0 ;
+              if ( x <= a[mid] ) hi = mid ;
+              else lo = mid + 1 ;
+          }
+          return lo ;
+      
+        }
         var cursors_color = {}
           for(let t of Object.keys(times)){
             if(shift===undefined){
@@ -97,6 +109,8 @@ module.exports = {
                 var x = 0;
               }
             }
+            // Creating Shape
+            // TODO Refractor and put that in a separate function
             var shape = {}
             var color = dynamicColors()
             shape.opacity = 0.5
@@ -112,6 +126,51 @@ module.exports = {
             }
             cursors_color[t] = color
             shapes.push(shape)
+        }
+        try{
+          for(let r of rest){
+            if(type === "TO"){
+              var p = "H_dec"
+            }
+            else{
+              var p = "H_att"
+            }
+            var h = parseInt(r.replace("ft", ""))
+            if(isNaN(h) === false){
+              if(p === "H_dec"){
+                var idx = bisect_right(data_res[p].y, h)
+              }
+              else{
+                var copied_array = Array.from(data_res[p].y).reverse();
+                var idx = bisect_right(copied_array, h)
+                var idx = copied_array.length - 1 - idx
+              }
+              var x = data_res[p].x[idx]
+              // Creating Shape
+              if(x instanceof Date){
+                x = new moment.utc(x).dayOfYear(day).toISOString();
+              }
+              var shape = {}
+              var color = dynamicColors()
+              shape.opacity = 0.5
+              shape.type = "line";
+              shape.yref = "paper";
+              shape.y0 = -10;
+              shape.y1 = 10;
+              shape.x0 = x;
+              shape.x1 = x;
+              shape.line = {
+                width: 1,
+                color: color
+              }
+              cursors_color[r] = color
+              times[r] = x
+              shapes.push(shape)
+            }
+          }
+        }
+        catch(error){
+          console.error(error)
         }
         var traces = []
         if(shift!==undefined){
