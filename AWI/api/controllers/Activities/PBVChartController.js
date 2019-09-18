@@ -40,6 +40,7 @@ module.exports = {
         var shift = config[testtype][charttype].shift
         if(shift !==undefined){
           par.push(shift)
+          inverse_map[shift] = shift
         }
         await IDADataManager.OpenSessionSecured()
         await IDADataManager.OpenMR(mr)
