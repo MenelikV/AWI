@@ -311,6 +311,7 @@ module.exports = {
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
                     CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"
                 },
                 M6101:{
                     TLA1_C:"TLA1_C",
@@ -320,6 +321,7 @@ module.exports = {
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
                     CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"
                 },
                 M6673:{
                     TLA1_C:"TLA1_C",
@@ -329,6 +331,7 @@ module.exports = {
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
                     CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"
                 },
                 M6839:{
                     TLA1_C:"TLA1_C",
@@ -338,6 +341,7 @@ module.exports = {
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
                     CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"
                 },
                 P1795:{
                     TRA1_C:"TRA1_C",
@@ -346,7 +350,8 @@ module.exports = {
                     N12_IND_C:"N12_IND_C",
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
-                    CAPEVret:"CAPEVret",   
+                    CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"   
                 },
                 P1813:{
                     TRA1_C:"TRA1_C",
@@ -355,7 +360,8 @@ module.exports = {
                     N12_IND_C:"N12_IND_C",
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
-                    CAPEVret:"CAPEVret",  
+                    CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"  
                 },
                 P1888:{
                     TRA1_C:"TRA1_C",
@@ -364,7 +370,8 @@ module.exports = {
                     N12_IND_C:"N12_IND_C",
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
-                    CAPEVret:"CAPEVret",  
+                    CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"  
                 },
                 U1824:{
                     TRA1_C:"TRA1_C",
@@ -373,7 +380,8 @@ module.exports = {
                     N12_IND_C:"N12_IND_C",
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
-                    CAPEVret:"CAPEVret",  
+                    CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"  
                 },
                 V0001:{
                     TSA1_C:"TSA1_C",
@@ -382,7 +390,8 @@ module.exports = {
                     N12_IND_C:"N12_IND_C",
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
-                    CAPEVret:"CAPEVret",  
+                    CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"  
                 },
                 V0059:{
                     TSA1_C:"TSA1_C",
@@ -391,7 +400,8 @@ module.exports = {
                     N12_IND_C:"N12_IND_C",
                     MAIN_DOOR:"MAIN_DOOR",
                     JXEVret:"JXEVret",
-                    CAPEVret:"CAPEVret",  
+                    CAPEVret:"CAPEVret",
+                    H_dec: "H_dec"  
                 }
 
             }
@@ -1406,7 +1416,8 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 M6101: {
                     "ZTPG DF": "50LX203-DF",
@@ -1415,7 +1426,8 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW"                        
+                    WOW: "WOW",
+                    H_att: "H_att"                        
                 },
                 M6673: {
                     "ZTPG DF": "50LX203-DF",
@@ -1424,7 +1436,8 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 M6839: {
                     "ZTPG DF": "50LX203-DF",
@@ -1433,7 +1446,8 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 P1795: {
                     "ZTPG DF": "50LX203-DF",
@@ -1446,7 +1460,8 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 P1813: {
                     "ZTPG DF": "50LX203-DF",
@@ -1459,7 +1474,8 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 P1888:{
                     "ZTPG DF": "50LX203-DF",
@@ -1472,7 +1488,8 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 U1824: {
                     "ZTPG DF": "50LX203-DF",
@@ -1485,7 +1502,8 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 V0001: {
                     "ZTPG DF": "50LX203-DF",
@@ -1502,7 +1520,8 @@ module.exports = {
                     WS10: "322F0036F1",
                     WS11: "322F0037F1",
                     WS12: "322F0038F1",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 },
                 V0059: {
                     "ZTPG DF": "50LX203-DF",
@@ -1519,7 +1538,8 @@ module.exports = {
                     WS10: "322F0036F1",
                     WS11: "322F0037F1",
                     WS12: "322F0038F1",
-                    WOW: "WOW"
+                    WOW: "WOW",
+                    H_att: "H_att"
                 }
             }},
             "Time-engine + tvr-flare": {
