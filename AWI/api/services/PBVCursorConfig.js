@@ -19,7 +19,8 @@ module.exports = {
         PLTSPL_att: "TDAF",
         PLTDREV_att: "TDSREV",
         PLTFAF_att: "TFAF",
-        PLTFREV_att: "TFRREV"
+        PLTFREV_att: "TFRREV",
+        DT_att: "TIMPTP"
     },
     RTO: {
 
