@@ -51,7 +51,9 @@ module.exports = {
         var day = start.dayOfYear()
         var startt = start.format(IDA_format)
         var endt = end.format(IDA_format)
-        var data_res = await IDADataManager.ReadPlotData(mr, startt, endt, par, 8)
+        // This had to be changed because of some parameter [WOW/32U0GRND--] is not in a double format ....
+        var par_types = config[testtype][charttype].types
+        var data_res = await IDADataManager.ReadPlotDataWithTypes(mr, startt, endt, par, 8, par_types)
         var data_summary = await IDADataManager.FetchParametersPBV(mr, PBVConfig.DATA, aircraft.substring(1), type, startt, endt)
         for(let p of par){
           data_res[inverse_map[p]] = data_res[p]
@@ -98,10 +100,10 @@ module.exports = {
               if(times[t_dec]!="99.99.99.99"){
                 if(times[t]!=="99.99.99.999"){
                   // Day has to be set (otherwise we have a shifting)
-                  var x = (new moment.utc(times[t], "HH:mm:ss-SSS")).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'seconds')
+                  var x = (new moment.utc(times[t], "HH:mm:ss-SSS")).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'milleseconds')/1000
                 }
                 else{
-                  var x = (new moment.utc(startt, IDA_format)).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'seconds')
+                  var x = (new moment.utc(startt, IDA_format)).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'milleseconds')/1000
                 }
               }
               else{

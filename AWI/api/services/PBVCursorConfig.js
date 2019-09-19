@@ -13,14 +13,15 @@ module.exports = {
         PLTDRM_att: "TDRM",
         PLTFLARE_att: "TFLARE",
         PLTIMPTP_att: "TIMPTP",
-        PLTIMPTPB_att: "TIMPTP/B",
+        PLTIMPTPB_att: "TIMPTPB",
         PLTIMPTA_att: "TIMPTA",
-        PLTIMPTPA_att: "TIMPTA/B",
-        PLTSPL_att: "TDAF",
+        PLTIMPTAB_att: "TIMPTAB",
+        PLTSPL_att: "TDSPOIL",
         PLTDREV_att: "TDSREV",
         PLTFAF_att: "TFAF",
-        PLTFREV_att: "TFRREV",
-        DT_att: "TIMPTP"
+        PLTFRREV_att: "TFRREV",
+        DT_att: "TIMPTP",
+        PLTDAF_att: "TDAF",
     },
     RTO: {
 
