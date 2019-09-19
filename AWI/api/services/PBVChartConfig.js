@@ -2,7 +2,7 @@ module.exports = {
     DECOLLAGE: {
         110:{
             shift: "DT_dec",
-            cursors:["PLTDMPD_dec","PLTVR_dec","PLTVLOF_dec", "35ft"],
+            cursors:["PLTDMPD_dec","PLTVR_dec","PLTVLOF_dec", "PLTVLOFB_dec", "35ft"],
             axis:{
                 N6464:{
                     1: ["TLA1_C", "TLA2_C"],
@@ -408,6 +408,9 @@ module.exports = {
         },
         loff:{
             cursors: ["PLTVLOF_dec", "PLTVLOFB_dec"],
+            types: {
+                "32U0GRND--":"long"
+            },
             axis:{
                 N6464:{
                     1:["ZTPD TD", "ZTPG TD"],
@@ -1032,7 +1035,7 @@ module.exports = {
                     9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13", "SPL14"]
                 }
             },
-            cursors:["PLTDRM_att", "PLTIMPTP_att", "PLTDAF_att", "PLTSTOP_att", "PLTSPL_att", "50ft", "300ft"],
+            cursors:["PLTDRM_att", "PLTIMPTP_att", "PLTIMPTA_att", "PLTIMPTAB_att", "PLTIMPTPB_att",  "PLTDAF_att", "PLTSTOP_att", "PLTSPL_att", "50ft", "300ft"],
             pars: {
                 N6464: {
                     TLA1_C: "TLA1_C",
@@ -1543,7 +1546,7 @@ module.exports = {
                 }
             }},
             "Time-engine + tvr-flare": {
-                cursors: ["PLTFLARE_att", "PLTDRM_att", "PLTREV_att", "PLTFAF_att","PLTFRREV_att"],
+                cursors: ["PLTFLARE_att", "PLTDRM_att", "PLTDREV_att", "PLTFAF_att","PLTFRREV_att"],
                 axis:{
                     N6464:{
                         1:["TLA1_C", "TLA2_C"],

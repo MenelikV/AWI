@@ -253,7 +253,6 @@ IDADataManager.prototype.validate = function (res) {
   return _.get(res, 'length', 0)
 }
 IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt, params, rate) {
-  // TODO Cache it ?
   rate = (typeof rate === 'undefined') ? 1 : rate;
   let data = []
   var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
@@ -262,7 +261,6 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
     var res = await this.ReadParamsSamplesNext(mr_adress)
   }
   data = Buffer.concat(data)
-  // TODO Protobuf Decoding of the data
   var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
   var list = res.listParamSamplesPerGmtDate
   var final_res = {}
@@ -285,6 +283,64 @@ IDADataManager.prototype.ReadPlotData = async function (mr_adress, startt, endt,
         }
       }
       return final_res
+  }
+}
+IDADataManager.prototype.ReadPlotDataWithTypes = async function(mr_adress, startt, endt, params, rate, types){
+  var type = types || {}
+  if(type !== {}){
+    rate = (typeof rate === 'undefined') ? 1 : rate;
+    let data = []
+    var res = await this.ReadParamsSamplesSampling(mr_adress, startt, endt, params, rate)
+    while (this.validate(res)) {
+      data.push(res)
+      var res = await this.ReadParamsSamplesNext(mr_adress)
+    }
+    data = Buffer.concat(data)
+    var res = Proto.MULTI_PARAM_SAMPLES_PERGMT_DATE.decode(data)
+    var list = res.listParamSamplesPerGmtDate
+    var final_res = {}
+    if(!list.length){
+      // No Valid Data
+      console.log("No valid Data!")
+      for(let key of params){
+        final_res[key] = [{x: [], y: []}]
+      }
+      return final_res
+    }
+    else{
+        for(let [index, par] of params.entries()){
+          switch(type[par]){
+            case "string":
+              var key = "bufValueType"
+              var post = d => d.toString("utf8")
+              break;
+            case "float":
+              var key = "dblValueType"
+              var post = d => d
+              break;
+            case "long":
+              var key = "longValueType"
+              var post = d => d.toInt()
+              break;
+            default:
+              var key = "dblValueType"
+              var post = d => d
+              break;
+          }
+          var i = 0;
+          final_res[par] = {x: new Array(list.length), y: new Array(list.length)};
+          while(i<list.length){
+            final_res[par].x[i] = new Date(list[i].objGmt.longGmtDate/1000)
+            final_res[par].y[i] = post(list[i].listParamSamples.listParamSample[index].objValue[key])
+            i++;
+          }
+        }
+        return final_res
+    }
+  }
+  else{
+    res = await this.ReadPlotData(mr_adress, startt, endt, params, rate)
+    return res
   }
 }
 IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, endt, params, type, refs){
@@ -331,6 +387,10 @@ IDADataManager.prototype.ReadSummaryData = async function (mr_adress, startt, en
           case "float":
             var key = "dblValueType"
             var post = d => d
+            break;
+          case "long":
+            var key = "longValueType"
+            var post = d => d.toInt()
             break;
           default:
             var key = "dblValueType"
