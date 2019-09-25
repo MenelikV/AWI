@@ -969,7 +969,7 @@ module.exports = {
                     9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10"]
                 },
                 P1795:{
-                    1: ["TLA1_C", "TLA2_C"],
+                    1: ["TRA1_C", "TRA2_C"],
                     2: ["DDM1", "DDM2"],
                     3: ["VC_att", "VKH_att"],
                     4: ["H_att"],
@@ -980,7 +980,7 @@ module.exports = {
                     9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
                 },
                 P1813:{
-                    1: ["TLA1_C", "TLA2_C"],
+                    1: ["TRA1_C", "TRA2_C"],
                     2: ["DDM1", "DDM2"],
                     3: ["VC_att", "VKH_att"],
                     4: ["H_att"],
@@ -991,7 +991,7 @@ module.exports = {
                     9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
                 },
                 P1888:{
-                    0: ["TLA1_C", "TLA2_C"],
+                    0: ["TRA1_C", "TRA2_C"],
                     1: ["DDM1", "DDM2"],
                     2: ["VC_att", "VKH_att"],
                     3: ["H_att"],
@@ -1002,7 +1002,7 @@ module.exports = {
                     8: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
                 },
                 U1824:{
-                    1: ["TLA1_C", "TLA2_C"],
+                    1: ["TRA1_C", "TRA2_C"],
                     2: ["DDM1", "DDM2"],
                     3: ["VC_att", "VKH_att"],
                     4: ["H_att"],
@@ -1049,10 +1049,10 @@ module.exports = {
                     TETA1ret: "TETA1ret",
                     PEDD: "322133004-",
                     PEDG: "322133104-",
-                    WP1: "322111404-",
-                    WP2: "322111504-",
-                    WP3: "322111604-",
-                    WP4: "322111704-",
+                    WP1: "322130004-",
+                    WP2: "322130104-",
+                    WP3: "322130204-",
+                    WP4: "322130304-",
                     SPL1: "27S107001-",
                     SPL2: "27S107101-",
                     SPL3: "27S107201-",
@@ -1076,10 +1076,10 @@ module.exports = {
                     TETA1ret: "TETA1ret",
                     PEDD: "322133004-",
                     PEDG: "322133104-",
-                    WP1: "322111404-",
-                    WP2: "322111504-",
-                    WP3: "322111604-",
-                    WP4: "322111704-",
+                    WP1: "322130004-",
+                    WP2: "322130104-",
+                    WP3: "322130204-",
+                    WP4: "322130304-",
                     SPL1: "27S107001-",
                     SPL2: "27S107101-",
                     SPL3: "27S107201-",
@@ -1103,10 +1103,10 @@ module.exports = {
                     TETA1ret: "TETA1ret",
                     PEDD: "322133004-",
                     PEDG: "322133104-",
-                    WP1: "322111404-",
-                    WP2: "322111504-",
-                    WP3: "322111604-",
-                    WP4: "322111704-",
+                    WP1: "322130004-",
+                    WP2: "322130104-",
+                    WP3: "322130204-",
+                    WP4: "322130304-",
                     SPL1: "27S107001-",
                     SPL2: "27S107101-",
                     SPL3: "27S107201-",
@@ -1130,10 +1130,10 @@ module.exports = {
                     TETA1ret: "TETA1ret",
                     PEDD: "322133004-",
                     PEDG: "322133104-",
-                    WP1: "322111404-",
-                    WP2: "322111504-",
-                    WP3: "322111604-",
-                    WP4: "322111704-",
+                    WP1: "322130004-",
+                    WP2: "322130104-",
+                    WP3: "322130204-",
+                    WP4: "322130304-",
                     SPL1: "27S107001-",
                     SPL2: "27S107101-",
                     SPL3: "27S107201-",
@@ -1164,7 +1164,7 @@ module.exports = {
                     WP5: "3221N0401-",
                     WP6: "3221N0501-",
                     WP7: "3221N0601-",
-                    WP8: "3221N0701",
+                    WP8: "3221N0701-",
                     SPL1: "27D134007E",
                     SPL2: "27D136107E",
                     SPL3: "27D136207E",
@@ -1198,7 +1198,7 @@ module.exports = {
                     WP5: "3221N0401-",
                     WP6: "3221N0501-",
                     WP7: "3221N0601-",
-                    WP8: "3221N0701",
+                    WP8: "3221N0701-",
                     SPL1: "27D134007E",
                     SPL2: "27D136107E",
                     SPL3: "27D136207E",
@@ -1232,7 +1232,7 @@ module.exports = {
                     WP5: "3221N0401-",
                     WP6: "3221N0501-",
                     WP7: "3221N0601-",
-                    WP8: "3221N0701",
+                    WP8: "3221N0701-",
                     SPL1: "27D134007E",
                     SPL2: "27D136107E",
                     SPL3: "27D136207E",
@@ -1266,7 +1266,7 @@ module.exports = {
                     WP5: "3221N0401-",
                     WP6: "3221N0501-",
                     WP7: "3221N0601-",
-                    WP8: "3221N0701",
+                    WP8: "3221N0701-",
                     SPL1: "27D134007E",
                     SPL2: "27D136107E",
                     SPL3: "27D136207E",
@@ -1359,56 +1359,69 @@ module.exports = {
         },
         impact: {
             cursors: ["PLTIMPTA_att", "PLTIMPTAB_att", "PLTIMPTP_att", "PLTIMPTPB_att", "300ft"],
+            types: {
+                "32U0GRND--": "long"
+            },
             axis:{
                 N6464:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 M6101:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 M6673:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 M6839:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 P1795:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 P1813:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 P1888:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["ZTAV TD"]
                 },
                 U1824:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["50LRN23-DF", "50LRN13-DF"]
                 },
                 V0001:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8", "WS9", "WS10", "WS11", "WS12"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["50LRN23-DF", "50LRN13-DF"]
                 },
                 V0059:{
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8", "WS9", "WS10", "WS11", "WS12"],
-                    3: ["WOW"]
+                    3: ["WOW"],
+                    4: ["50LRN23-DF", "50LRN13-DF"]
                 }
             },
             pars:{
@@ -1419,8 +1432,9 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"
                 },
                 M6101: {
                     "ZTPG DF": "50LX203-DF",
@@ -1429,8 +1443,9 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW",
-                    H_att: "H_att"                        
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"                        
                 },
                 M6673: {
                     "ZTPG DF": "50LX203-DF",
@@ -1439,8 +1454,9 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"
                 },
                 M6839: {
                     "ZTPG DF": "50LX203-DF",
@@ -1449,8 +1465,9 @@ module.exports = {
                     WS2: "322132104-",
                     WS3: "322132204-",
                     WS4: "322132304-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"
                 },
                 P1795: {
                     "ZTPG DF": "50LX203-DF",
@@ -1463,8 +1480,9 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"
                 },
                 P1813: {
                     "ZTPG DF": "50LX203-DF",
@@ -1477,8 +1495,9 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"
                 },
                 P1888:{
                     "ZTPG DF": "50LX203-DF",
@@ -1491,12 +1510,15 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "ZTAV TD": "50LR103-DF"
                 },
                 U1824: {
-                    "ZTPG DF": "50LX203-DF",
-                    "ZTPD DF": "50LX303-DF",
+                    "ZTPG DF": "50LRD63-DF",
+                    "ZTPG DF_1": "50LRD73-DF",
+                    "ZTPD DF": "50LRJ63-DF",
+                    "ZTPD DF_1": "50LRJ73-DF",
                     WS1: "3221N2001-",
                     WS2: "3221N2101-",
                     WS3: "3221N2201-",
@@ -1505,8 +1527,10 @@ module.exports = {
                     WS6: "3221N2501-",
                     WS7: "3221N2601-",
                     WS8: "3221N2701-",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "50LRN23-DF": "50LRN23-DF",
+                    "50LRN13-DF": "50LRN13-DF"
                 },
                 V0001: {
                     "ZTPG DF": "50LX203-DF",
@@ -1523,8 +1547,10 @@ module.exports = {
                     WS10: "322F0036F1",
                     WS11: "322F0037F1",
                     WS12: "322F0038F1",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "50LRN23-DF": "50LRN23-DF",
+                    "50LRN13-DF": "50LRN13-DF"
                 },
                 V0059: {
                     "ZTPG DF": "50LX203-DF",
@@ -1541,8 +1567,10 @@ module.exports = {
                     WS10: "322F0036F1",
                     WS11: "322F0037F1",
                     WS12: "322F0038F1",
-                    WOW: "WOW",
-                    H_att: "H_att"
+                    WOW: "32U0GRND--",
+                    H_att: "H_att",
+                    "50LRN23-DF": "50LRN23-DF",
+                    "50LRN13-DF": "50LRN13-DF"
                 }
             }},
             "Time-engine + tvr-flare": {
@@ -1552,61 +1580,71 @@ module.exports = {
                         1:["TLA1_C", "TLA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     M6101:{
                         1:["TLA1_C", "TLA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     M6673:{
                         1:["TLA1_C", "TLA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     M6839:{
                         1:["TLA1_C", "TLA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     P1795:{
                         1:["TRA1_C", "TRA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     P1813:{
                         1:["TRA1_C", "TRA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     P1888:{
                         1:["TRA1_C", "TRA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     U1824:{
                         1:["TRA1_C", "TRA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "342132401-"]
+                        4:["TETA1ret", "342132401-"],
+                        5: ["ZRA"]
                     },
                     V0001:{
                         1:["TSA1_C", "TSA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "34210001P-"]
+                        4:["TETA1ret", "34210001P-"],
+                        5: ["ZRA"]
                     },
                     V0059:{
                         1:["TSA1_C", "TSA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "34210001P-"] 
+                        4:["TETA1ret", "34210001P-"],
+                        5:["ZRA"] 
                     }
                 },
                 pars:{
@@ -1616,9 +1654,10 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130601-",
+                        DDM2: "27E130602-",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     M6101: {
                         TLA1_C: "TLA1_C",
@@ -1626,9 +1665,10 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130601-",
+                        DDM2: "27E130602-",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     M6839: {
                         TLA1_C: "TLA1_C",
@@ -1636,9 +1676,10 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130601-",
+                        DDM2: "27E130602-",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     M6673: {
                         TLA1_C: "TLA1_C",
@@ -1646,9 +1687,10 @@ module.exports = {
                         N11_IND_C: "N11_IND_C",
                         N12_IND_C: "N12_IND_C",
                         DDM1: "27E130502-",
-                        DDM2: "27E130601-",
+                        DDM2: "27E130602-",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     P1795: {
                         TRA1_C: "TRA1_C",
@@ -1658,7 +1700,8 @@ module.exports = {
                         DDM1: "27P130506C",
                         DDM2: "27P130606C",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     P1813:{
                         TRA1_C: "TRA1_C",
@@ -1668,7 +1711,8 @@ module.exports = {
                         DDM1: "27P130506C",
                         DDM2: "27P130606C",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     P1888: {
                         TRA1_C: "TRA1_C",
@@ -1678,7 +1722,19 @@ module.exports = {
                         DDM1: "27P130506C",
                         DDM2: "27P130606C",
                         TETA1ret: "TETA1ret",
-                        "342132401-": "342132401-"
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
+                    },
+                    U1824: {
+                        TRA1_C: "TRA1_C",
+                        TRA2_C: "TRA2_C",
+                        N11_IND_C: "N11_IND_C",
+                        N12_IND_C: "N12_IND_C",
+                        DDM1: "27P130506C",
+                        DDM2: "27P130606C",
+                        TETA1ret: "TETA1ret",
+                        "342132401-": "342132401-",
+                        "ZRA": "346116401-"
                     },
                     V0001:{
                         TSA1_C: "TSA1_C",
@@ -1688,7 +1744,8 @@ module.exports = {
                         DDM1: "27U-M021--",
                         DDM2: "27U-M025--",
                         TETA1ret: "TETA1ret",
-                        "34210001P-": "34210001P-"
+                        "34210001P-": "34210001P-",
+                        "ZRA": "346100011-"
                     },
                     V0059:{
                         TSA1_C: "TSA1_C",
@@ -1698,7 +1755,8 @@ module.exports = {
                         DDM1: "27U-M021--",
                         DDM2: "27U-M025--",
                         TETA1ret: "TETA1ret",
-                        "34210001P-": "34210001P-"
+                        "34210001P-": "34210001P-",
+                        "ZRA": "346100011-"
                     }
                 }
             },
@@ -1747,6 +1805,12 @@ module.exports = {
                         3:["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", 'SPL6', "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"],
                         4:["AB LOW", "AB MED", "AB MAX"]
                     },
+                    U1824:{
+                        1:["PEDD", "PEDG"],
+                        2:["WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7", "WP8"],
+                        3:["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", 'SPL6', "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"],
+                        4:["AB LOW", "AB MED", "AB MAX"]
+                    },
                     V0001:{
                         1:["PEDD", "PEDG"],
                         2:["WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7", "WP8", "WP9", "WP10", "WP11", "WP12"],
@@ -1764,10 +1828,10 @@ module.exports = {
                     N6464:{
                         PEDD: "322133004-",
                         PEDG: "322133104-",
-                        WP1: "322111404-",
-                        WP2: "322111504-",
-                        WP3: "322111604-",
-                        WP4: "322111704-",
+                        WP1: "322130004-",
+                        WP2: "322130104-",
+                        WP3: "322130204-",
+                        WP4: "322130304-",
                         SPL1: "27S107001-",
                         SPL2: "27S107101-",
                         SPL3: "27S107201-",
@@ -1785,10 +1849,10 @@ module.exports = {
                     M6101:{
                         PEDD: "322133004-",
                         PEDG: "322133104-",
-                        WP1: "322111404-",
-                        WP2: "322111504-",
-                        WP3: "322111604-",
-                        WP4: "322111704-",
+                        WP1: "322130004-",
+                        WP2: "322130104-",
+                        WP3: "322130204-",
+                        WP4: "322130304-",
                         SPL1: "27S107001-",
                         SPL2: "27S107101-",
                         SPL3: "27S107201-",
@@ -1806,10 +1870,10 @@ module.exports = {
                     M6673:{
                         PEDD: "322133004-",
                         PEDG: "322133104-",
-                        WP1: "322111404-",
-                        WP2: "322111504-",
-                        WP3: "322111604-",
-                        WP4: "322111704-",
+                        WP1: "322130004-",
+                        WP2: "322130104-",
+                        WP3: "322130204-",
+                        WP4: "322130304-",
                         SPL1: "27S107001-",
                         SPL2: "27S107101-",
                         SPL3: "27S107201-",
@@ -1827,10 +1891,10 @@ module.exports = {
                     M6839:{
                         PEDD: "322133004-",
                         PEDG: "322133104-",
-                        WP1: "322111404-",
-                        WP2: "322111504-",
-                        WP3: "322111604-",
-                        WP4: "322111704-",
+                        WP1: "322130004-",
+                        WP2: "322130104-",
+                        WP3: "322130204-",
+                        WP4: "322130304-",
                         SPL1: "27S107001-",
                         SPL2: "27S107101-",
                         SPL3: "27S107201-",
