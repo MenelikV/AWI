@@ -1551,10 +1551,8 @@ module.exports = {
                     "ZTAV TD": "50LR103-DF"
                 },
                 U1824: {
-                    "ZTPG DF": "50LRD63-DF",
-                    "ZTPG DF_1": "50LRD73-DF",
-                    "ZTPD DF": "50LRJ63-DF",
-                    "ZTPD DF_1": "50LRJ73-DF",
+                    "ZTPG DF": "50LMJ030DF",
+                    "ZTPD DF": "50LMD030DF",
                     WS1: "3221N2001-",
                     WS2: "3221N2101-",
                     WS3: "3221N2201-",
