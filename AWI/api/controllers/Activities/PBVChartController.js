@@ -196,7 +196,7 @@ module.exports = {
         for(let k of Object.keys(axis_config)){
           for(let p of axis_config[k]){
             traces.push({
-              type: "scatter",
+              type: "scattergl",
               mode: "lines+markers",
               x: data_res[p].x,
               y: data_res[p].y,
