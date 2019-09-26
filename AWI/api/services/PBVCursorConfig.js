@@ -4,7 +4,7 @@ module.exports = {
         PLTVR_dec: "TVR",
         PLTDMP_dec: "TDMP",
         PLTVLOF_dec: "TVLOF",
-        PLTVOLFB_dec: "TVLOFB",
+        PLTVOLOFB_dec: "TVLOFB",
         PLTDRT_dec: "TDRT",
         PLTFRT_dec: "TFRT",
         PLTVEF_dec: "TVEF"
