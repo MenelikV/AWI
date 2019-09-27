@@ -12,22 +12,18 @@ module.exports = {
         if (matches.length === 2) {
           var aircraft = matches[0]
         }
-        var test_type = /([A-Z]\d{4,5}){2}([A-Z]*)/gm.exec(mr)
-        if(test_type.length === 3){
-          var suffix = test_type[2]
-          if(suffix.includes("RTO") || suffix.includes("BRK")){
-            var type = "RTO"
-          }
-          else if(suffix.includes("TO")){
-            var type = "TO"
-          }
-          else if(suffix.includes('LDG'))
-          {
-            var type = "LDG"
-          }
-          else{
-            return res.serverError("Type could not be determined")
-          }
+        if(testtype.includes("RTO")){
+          var type = "RTO"
+        }
+        else if(testtype.includes("DECOLLAGE")){
+          var type = "TO"
+        }
+        else if(testtype.includes("ATTERRISSAGE"))
+        {
+          var type = "LDG"
+        }
+        else{
+          return res.serverError("Type could not be determined")
         }
         var config = PBVChartConfig
         var cursors_config = PBVCursorConfig
@@ -97,7 +93,7 @@ module.exports = {
             }
             else{
               var t_dec = PBVCursorConfig[testtype][shift]
-              if(times[t_dec]!=="99.99.99.99" & times[t_dec]!==undefined){
+              if(test[t_dec]!=="99.99.99.99" & test[t_dec]!==undefined){
                 if(times[t]!=="99.99.99.999"){
                   // Day has to be set (otherwise we have a shifting)
                   var x = (new moment.utc(times[t], "HH:mm:ss-SSS")).diff(new moment.utc(test[t_dec], "HH:mm:ss-SSS"), 'milleseconds')/1000
@@ -195,17 +191,21 @@ module.exports = {
         }
         for(let k of Object.keys(axis_config)){
           for(let p of axis_config[k]){
-            traces.push({
-              type: "scattergl",
-              mode: "lines+markers",
-              x: data_res[p].x,
-              y: data_res[p].y,
-              name: p,
-              xaxis:"x",
-              yaxis:`y${k}`
-            })
+            try{
+              traces.push({
+                type: "scattergl",
+                mode: "lines+markers",
+                x: data_res[p].x,
+                y: data_res[p].y,
+                name: p,
+                xaxis:"x",
+                yaxis:`y${k}`
+              })
+            }
+            catch(error){
+              console.error(error)
+            }
           }
-
         }
         res.status(200)
         console.log("Data has been correctly send to browser")

@@ -154,8 +154,6 @@ module.exports = {
           flightData.YEAR = ""
           summary.aircraft = flightData.AIRCRAFT
           summary.test = flightData.TEST
-          var parameters_values = await IDADataManager.FetchParametersPBV(mr, PBVConfig.DATA, aircraft.substring(1), type)
-          Object.assign(summary, parameters_values)
           var filters = await Filter.find({
             activity: 'PBV'
           });

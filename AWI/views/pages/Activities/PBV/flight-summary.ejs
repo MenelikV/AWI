@@ -24,31 +24,6 @@
         <td>
           <%= "Flight Date : "+summary.flight_date %>
         </td>
-    </tr>
-    <td>
-       <%="FLEX MODE : "+summary.FLEX%>
-    </td>
-    <td>
-        <%="RUNWAY : "+summary.RUNWAY%>
-    </td>
-    <tr>
-      <td id="SLAT" data-slat=<%=summary.SLAT%>>
-        <%="SLAT : "+summary.SLAT%>
-      </td>
-      <td id="FLAP" data-flap=<%=summary.FLAP%> data-flapi="<%=summary.flapi%>" data-flapol="<%=summary.flapol%>" data-flapor="<%=summary.flapor%>">
-       <% if(summary.FLAP.length !== 0){%>
-        <%="FLAP : "+summary.FLAP%>
-        <%}
-        else{%>
-          <%="FLAPI : "+summary.FLAPI%>
-          <br>
-          <%="FLAPOL : "+summary.FLAPOL%>
-          <br>
-          <%="FLAPOR : "+summary.FLAPOR%>
-          <%}
-        %>
-      </td>
-    </tr>
   </table>
   <br>
   <table  class="table text-center width=100%" id="cor_slat_flap" data-prog="<%=summary.prog%>">
