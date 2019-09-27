@@ -175,7 +175,7 @@ module.exports = {
           var tickformat = undefined
         }
         else{
-          var tickformat = "%H:%M:%S"
+          var tickformat = "%H:%M:%S-%L"
         }
         var data_layout = {
           title: text,
