@@ -2,7 +2,7 @@ module.exports = {
     DECOLLAGE: {
         110:{
             shift: "DT_dec",
-            cursors:["PLTDMPD_dec","PLTVR_dec","PLTVLOF_dec", "PLTVLOFB_dec", "35ft"],
+            cursors:["PLTDMP_dec","PLTVR_dec","PLTVLOF_dec", "PLTVLOFB_dec", "35ft"],
             axis:{
                 N6464:{
                     1: ["TLA1_C", "TLA2_C"],
@@ -581,8 +581,8 @@ module.exports = {
                     "WS8": "3221N2701-"
                 },
                 V0001:{
-                    "ZTPD TD":"50LMD030D-",
-                    "ZTPG TD":"50LMJ030D-",
+                    "ZTPD TD":"50LMJ030D-",
+                    "ZTPG TD":"50LMD030D-",
                     "MAIN_DOOR": "MAIN_DOOR",
                     "WOW":"32U0GRND--",
                     "WS1":"322F0027F1",
@@ -672,56 +672,56 @@ module.exports = {
                 N6464:{
                     DDM1: "27E130502-",
                     DDM2: "27E130601-",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
                 F6101: {
                     DDM1: "27E130502-",
                     DDM2: "27E130601-",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-" 
                 },
                 M6673:{
                     DDM1: "27E130502-",
                     DDM2: "27E130601-",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
                 M6839:{
                     DDM1: "27E130502-",
                     DDM2: "27E130601-",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
                 P1795: {
                     DDM1: "27P130506C",
                     DDM2: "27P130606C",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
                 P1813:{
                     DDM1: "27P130506C",
                     DDM2: "27P130606C",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
                 P1888:{
                     DDM1: "27P130506C",
                     DDM2: "27P130606C",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
                 U1824:{
                     DDM1: "27P130506C",
                     DDM2: "27P130606C",
-                    TETAIRS: "34210001P-",
+                    TETAIRS: "342132401-",
                     TETA1ret: "TETA1ret",
                     ZRA: "346116401-"
                 },
@@ -1003,7 +1003,7 @@ module.exports = {
                     6: ["TETA1ret"],
                     7: ["PEDD", "PEDG"],
                     8: ["Brake Press1", "Brake Press2", "Brake Press3", "Brake Press4", "Brake Press5", "Brake Press6", "Brake Press7", "Brake Press8"],
-                    9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
+                    9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12"]
                 },
                 P1813:{
                     1: ["TRA1_C", "TRA2_C"],
@@ -1014,7 +1014,7 @@ module.exports = {
                     6: ["TETA1ret"],
                     7: ["PEDD", "PEDG"],
                     8: ["Brake Press1", "Brake Press2", "Brake Press3", "Brake Press4", "Brake Press5", "Brake Press6", "Brake Press7", "Brake Press8"],
-                    9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
+                    9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12"]
                 },
                 P1888:{
                     0: ["TRA1_C", "TRA2_C"],
@@ -1025,7 +1025,7 @@ module.exports = {
                     5: ["TETA1ret"],
                     6: ["PEDD", "PEDG"],
                     7: ["Brake Press1", "Brake Press2", "Brake Press3", "Brake Press4", "Brake Press5", "Brake Press6", "Brake Press7", "Brake Press8"],
-                    8: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
+                    8: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12"]
                 },
                 U1824:{
                     1: ["TRA1_C", "TRA2_C"],
@@ -1036,7 +1036,7 @@ module.exports = {
                     6: ["TETA1ret"],
                     7: ["PEDD", "PEDG"],
                     8: ["Brake Press1", "Brake Press2", "Brake Press3", "Brake Press4", "Brake Press5", "Brake Press6", "Brake Press7", "Brake Press8"],
-                    9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"]
+                    9: ["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", "SPL6", "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12"]
                 },
                 V0001:{
                     1: ["TSA1_C", "TSA2_C"],
@@ -1181,8 +1181,8 @@ module.exports = {
                     H_att: "H_att",
                     VWH_att: "VWH_att",
                     TETA1ret: "TETA1ret",
-                    PEDD: "322133004-",
-                    PEDG: "322133104-",
+                    PEDD: "3221N3001-",
+                    PEDG: "3221N3101-",
                     "Brake Press1": "3221N0001-",
                     "Brake Press2": "3221N0101-",
                     "Brake Press3": "3221N0201-",
@@ -1191,19 +1191,18 @@ module.exports = {
                     "Brake Press6": "3221N0501-",
                     "Brake Press7": "3221N0601-",
                     "Brake Press8": "3221N0701-",
-                    SPL1: "27D134007E",
-                    SPL2: "27D136107E",
-                    SPL3: "27D136207E",
-                    SPL4: "27D136307E",
-                    SPL5: "27D136407E",
-                    SPL6: "27D136507E",
-                    SPL7: "27D136607E",
-                    SPL8: "27D137107E",
-                    SPL9: "27D137207E",
-                    SPL10: "27D137307E",
-                    SPL11: "27D137407E",
-                    SPL12: "27D137507E", 
-                    SPL13: "27D137607E"
+                    SPL1: "27D136107E",
+                    SPL2: "27D136207E",
+                    SPL3: "27D136307E",
+                    SPL4: "27D136407E",
+                    SPL5: "27D136507E",
+                    SPL6: "27D136607E",
+                    SPL7: "27D137107E",
+                    SPL8: "27D137207E",
+                    SPL9: "27D137307E",
+                    SPL10: "27D137407E",
+                    SPL11: "27D137507E",
+                    SPL12: "27D137607E"
                 },
                 P1813:{
                     TRA1_C: "TRA1_C",
@@ -1215,8 +1214,8 @@ module.exports = {
                     H_att: "H_att",
                     VWH_att: "VWH_att",
                     TETA1ret: "TETA1ret",
-                    PEDD: "322133004-",
-                    PEDG: "322133104-",
+                    PEDD: "3221N3001-",
+                    PEDG: "3221N3101-",
                     "Brake Press1": "3221N0001-",
                     "Brake Press2": "3221N0101-",
                     "Brake Press3": "3221N0201-",
@@ -1225,19 +1224,18 @@ module.exports = {
                     "Brake Press6": "3221N0501-",
                     "Brake Press7": "3221N0601-",
                     "Brake Press8": "3221N0701-",
-                    SPL1: "27D134007E",
-                    SPL2: "27D136107E",
-                    SPL3: "27D136207E",
-                    SPL4: "27D136307E",
-                    SPL5: "27D136407E",
-                    SPL6: "27D136507E",
-                    SPL7: "27D136607E",
-                    SPL8: "27D137107E",
-                    SPL9: "27D137207E",
-                    SPL10: "27D137307E",
-                    SPL11: "27D137407E",
-                    SPL12: "27D137507E", 
-                    SPL13: "27D137607E"
+                    SPL1: "27D136107E",
+                    SPL2: "27D136207E",
+                    SPL3: "27D136307E",
+                    SPL4: "27D136407E",
+                    SPL5: "27D136507E",
+                    SPL6: "27D136607E",
+                    SPL7: "27D137107E",
+                    SPL8: "27D137207E",
+                    SPL9: "27D137307E",
+                    SPL10: "27D137407E",
+                    SPL11: "27D137507E",
+                    SPL12: "27D137607E"
                 },
                 P1888: {
                     TRA1_C: "TRA1_C",
@@ -1249,8 +1247,8 @@ module.exports = {
                     H_att: "H_att",
                     VWH_att: "VWH_att",
                     TETA1ret: "TETA1ret",
-                    PEDD: "322133004-",
-                    PEDG: "322133104-",
+                    PEDD: "3221N3001-",
+                    PEDG: "3221N3101-",
                     "Brake Press1": "3221N0001-",
                     "Brake Press2": "3221N0101-",
                     "Brake Press3": "3221N0201-",
@@ -1259,19 +1257,18 @@ module.exports = {
                     "Brake Press6": "3221N0501-",
                     "Brake Press7": "3221N0601-",
                     "Brake Press8": "3221N0701-",
-                    SPL1: "27D134007E",
-                    SPL2: "27D136107E",
-                    SPL3: "27D136207E",
-                    SPL4: "27D136307E",
-                    SPL5: "27D136407E",
-                    SPL6: "27D136507E",
-                    SPL7: "27D136607E",
-                    SPL8: "27D137107E",
-                    SPL9: "27D137207E",
-                    SPL10: "27D137307E",
-                    SPL11: "27D137407E",
-                    SPL12: "27D137507E", 
-                    SPL13: "27D137607E"
+                    SPL1: "27D136107E",
+                    SPL2: "27D136207E",
+                    SPL3: "27D136307E",
+                    SPL4: "27D136407E",
+                    SPL5: "27D136507E",
+                    SPL6: "27D136607E",
+                    SPL7: "27D137107E",
+                    SPL8: "27D137207E",
+                    SPL9: "27D137307E",
+                    SPL10: "27D137407E",
+                    SPL11: "27D137507E",
+                    SPL12: "27D137607E"
                 },
                 U1824:{
                     TRA1_C: "TRA1_C",
@@ -1283,8 +1280,8 @@ module.exports = {
                     H_att: "H_att",
                     VWH_att: "VWH_att",
                     TETA1ret: "TETA1ret",
-                    PEDD: "322133004-",
-                    PEDG: "322133104-",
+                    PEDD: "3221N3001-",
+                    PEDG: "3221N3101-",
                     "Brake Press1": "3221N0001-",
                     "Brake Press2": "3221N0101-",
                     "Brake Press3": "3221N0201-",
@@ -1293,19 +1290,18 @@ module.exports = {
                     "Brake Press6": "3221N0501-",
                     "Brake Press7": "3221N0601-",
                     "Brake Press8": "3221N0701-",
-                    SPL1: "27D134007E",
-                    SPL2: "27D136107E",
-                    SPL3: "27D136207E",
-                    SPL4: "27D136307E",
-                    SPL5: "27D136407E",
-                    SPL6: "27D136507E",
-                    SPL7: "27D136607E",
-                    SPL8: "27D137107E",
-                    SPL9: "27D137207E",
-                    SPL10: "27D137307E",
-                    SPL11: "27D137407E",
-                    SPL12: "27D137507E", 
-                    SPL13: "27D137607E"
+                    SPL1: "27D136107E",
+                    SPL2: "27D136207E",
+                    SPL3: "27D136307E",
+                    SPL4: "27D136407E",
+                    SPL5: "27D136507E",
+                    SPL6: "27D136607E",
+                    SPL7: "27D137107E",
+                    SPL8: "27D137207E",
+                    SPL9: "27D137307E",
+                    SPL10: "27D137407E",
+                    SPL11: "27D137507E",
+                    SPL12: "27D137607E"
                 },
                 V0001:{
                     TSA1_C: "TSA1_C",
@@ -1317,8 +1313,8 @@ module.exports = {
                     H_att: "H_att",
                     VWH_att: "VWH_att",
                     TETA1ret: "TETA1ret",
-                    PEDD: "322133004-",
-                    PEDG: "322133104-",
+                    PEDD: "322F0023F1",
+                    PEDG: "322F0024F1",
                     "Brake Press1": "322100861A",
                     "Brake Press2": "322100871A",
                     "Brake Press3": "322100881A",
@@ -1352,8 +1348,8 @@ module.exports = {
                     H_att: "H_att",
                     VWH_att: "VWH_att",
                     TETA1ret: "TETA1ret",
-                    PEDD: "322133004-",
-                    PEDG: "322133104-",
+                    PEDD: "322F0023F1",
+                    PEDG: "322F0024F1",
                     "Brake Press1": "322100861A",
                     "Brake Press2": "322100871A",
                     "Brake Press3": "322100881A",
@@ -1442,7 +1438,7 @@ module.exports = {
                     1: ["ZTPG DF", "ZTPD DF"],
                     2: ["WS1", "WS2", "WS3", "WS4", "WS5","WS6", "WS7", "WS8"],
                     3: ["WOW"],
-                    4: ["50LRN23-DF", "50LRN13-DF"],
+                    4: ["ZTAV"],
                     5: ["H_att"]
                 },
                 V0001:{
@@ -1506,8 +1502,8 @@ module.exports = {
                     "ZTAV TD": "50LR103-DF"
                 },
                 P1795: {
-                    "ZTPG DF": "50LX203-DF",
-                    "ZTPD DF": "50LX303-DF",
+                    "ZTPG DF": "50LMJ030DF",
+                    "ZTPD DF": "50LMD030DF",
                     WS1: "3221N2001-",
                     WS2: "3221N2101-",
                     WS3: "3221N2201-",
@@ -1518,11 +1514,11 @@ module.exports = {
                     WS8: "3221N2701-",
                     WOW: "32U0GRND--",
                     H_att: "H_att",
-                    "ZTAV TD": "50LR103-DF"
+                    "ZTAV TD": "50LMN430DF"
                 },
                 P1813: {
-                    "ZTPG DF": "50LX203-DF",
-                    "ZTPD DF": "50LX303-DF",
+                    "ZTPG DF": "50LMJ030DF",
+                    "ZTPD DF": "50LMD030DF",
                     WS1: "3221N2001-",
                     WS2: "3221N2101-",
                     WS3: "3221N2201-",
@@ -1533,11 +1529,11 @@ module.exports = {
                     WS8: "3221N2701-",
                     WOW: "32U0GRND--",
                     H_att: "H_att",
-                    "ZTAV TD": "50LR103-DF"
+                    "ZTAV TD": "50LMN430DF"
                 },
                 P1888:{
-                    "ZTPG DF": "50LX203-DF",
-                    "ZTPD DF": "50LX303-DF",
+                    "ZTPG DF": "50LMJ030DF",
+                    "ZTPD DF": "50LMD030DF",
                     WS1: "3221N2001-",
                     WS2: "3221N2101-",
                     WS3: "3221N2201-",
@@ -1548,7 +1544,7 @@ module.exports = {
                     WS8: "3221N2701-",
                     WOW: "32U0GRND--",
                     H_att: "H_att",
-                    "ZTAV TD": "50LR103-DF"
+                    "ZTAV TD": "50LMN430DF"
                 },
                 U1824: {
                     "ZTPG DF": "50LMJ030DF",
@@ -1563,6 +1559,7 @@ module.exports = {
                     WS8: "3221N2701-",
                     WOW: "32U0GRND--",
                     H_att: "H_att",
+                    "ZTAV": "50LMN430DF",
                     "50LRN23-DF": "50LRN23-DF",
                     "50LRN13-DF": "50LRN13-DF"
                 },
@@ -1670,14 +1667,14 @@ module.exports = {
                         1:["TSA1_C", "TSA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "34210001P-"],
+                        4:["TETA1ret", "TETA"],
                         5: ["ZRA"]
                     },
                     V0059:{
                         1:["TSA1_C", "TSA2_C"],
                         2:["N11_IND_C", "N12_IND_C"],
                         3:["DDM1", "DDM2"],
-                        4:["TETA1ret", "34210001P-"],
+                        4:["TETA1ret", "TETA"],
                         5:["ZRA"] 
                     }
                 },
@@ -1778,7 +1775,7 @@ module.exports = {
                         DDM1: "27U-M003--",
                         DDM2: "27U-M005--",
                         TETA1ret: "TETA1ret",
-                        "34210001P-": "34210001P-",
+                        "TETA": "34210001P-",
                         "ZRA": "346100011-"
                     },
                     V0059:{
@@ -1789,7 +1786,7 @@ module.exports = {
                         DDM1: "27U-M003--",
                         DDM2: "27U-M005--",
                         TETA1ret: "TETA1ret",
-                        "34210001P-": "34210001P-",
+                        "TETA": "34210001P-",
                         "ZRA": "346100011-"
                     }
                 }
@@ -1842,7 +1839,7 @@ module.exports = {
                     U1824:{
                         1:["PEDD", "PEDG"],
                         2:["WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7", "WP8"],
-                        3:["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", 'SPL6', "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12", "SPL13"],
+                        3:["SPL1", "SPL2", "SPL3", "SPL4", "SPL5", 'SPL6', "SPL7", "SPL8", "SPL9", "SPL10", "SPL11", "SPL12"],
                         4:["AB LOW", "AB MED", "AB MAX"]
                     },
                     V0001:{
