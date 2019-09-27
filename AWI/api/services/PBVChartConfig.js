@@ -429,7 +429,7 @@ module.exports = {
                     4:['WS1', 'WS2', 'WS3', 'WS4']
                 },
                 F6101:{
-                    1:["ZTPD TD", "ZTPG TD"],
+                    1:["ZTPD TD", "ZTPG TD", "ZTPD TD_2"],
                     2:["MAIN_DOOR"],
                     3:["WOW"],
                     4:['WS1', 'WS2', 'WS3', 'WS4']
@@ -495,8 +495,9 @@ module.exports = {
                     "WS4": "322132304-"
                 },
                 F6101:{
-                    "ZTPD TD":"50LX203---",
-                    "ZTPG TD":"50LR303---",
+                    "ZTPD TD":"50LR303-DF",
+                    "ZTPD TD_2": "50LX303-DF",
+                    "ZTPG TD":"50LR203-DF",
                     "MAIN_DOOR": "MAIN_DOOR",
                     "WOW":"32U0GRND--",
                     "WS1":"322132004-",
@@ -1393,7 +1394,7 @@ module.exports = {
                     5: ["H_att"]
                 },
                 F6101:{
-                    1: ["ZTPG DF", "ZTPD DF"],
+                    1: ["ZTPG DF", "ZTPD DF", "ZTPD DF_2"],
                     2: ["WS1", "WS2", "WS3", "WS4"],
                     3: ["WOW"],
                     4: ["ZTAV TD"],
@@ -1469,8 +1470,9 @@ module.exports = {
                     "ZTAV TD": "50LR103-DF"
                 },
                 F6101: {
-                    "ZTPG DF": "50LX203-DF",
-                    "ZTPD DF": "50LX303-DF",
+                    "ZTPG DF": "50LR203-DF",
+                    "ZTPD DF": "50LR303-DF",
+                    "ZTPD DF_2": "50LX303-DF",
                     WS1: "322132004-",
                     WS2: "322132104-",
                     WS3: "322132204-",
@@ -1793,6 +1795,15 @@ module.exports = {
             },
             "Brk-spl":{
                 cursors: ["PLTDAF_att", "PLTSPL_att"],
+                types: {
+                    "3221027L4-": "long",
+                    "3221027M4-": "long",
+                    "3221027N4-": "long",
+                    "3221B27L1-": "long",
+                    "3221B27M1-": "long",
+                    "3221B27N1-": "long",
+                    "ABRAKE": "long",
+                },
                 axis:{
                     N6464:{
                         1:["PEDD", "PEDG"],
