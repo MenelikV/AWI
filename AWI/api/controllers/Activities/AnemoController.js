@@ -250,12 +250,16 @@ module.exports = {
               results.data.forEach(function (item) {
                 var startcsv = item["START"].split("-")[1];
                 var endcsv = item["END"].split("-")[1];
-                if (endcsv > startpvol && startcsv < endpvol) {
+                if (endcsv >= startpvol && startcsv <= endpvol) {
                   item.MAX = sails.helpers.numberFormat(item.MAX)
                   item.MIN = sails.helpers.numberFormat(item.MIN)
                   item["STYLE"] = color_mapper[item["PARAMETER"]]
                   items.push(item)
                   var type = item["TYPE"]
+                  if(type === undefined){
+                    // Type should be defined no matter what
+                    return
+                  }
                   if(currentMap[type] === undefined){
                     currentMap[type] = 1
                   }
@@ -267,7 +271,10 @@ module.exports = {
                 if (filterType.length) {
                   filterType.forEach(function (filter) {
                     if (item["TYPE"] === filter["type"] && item['PARAMETER'] === filter["parameter"] && item['PHASE'] === filter["phase"]) {
-                      items.pop();
+                      let index = items.indexOf(item)
+                      if(index > -1){
+                        items.splice(index, 1)
+                      }
                       currentMap[type]--;
                       filter["raiseError"] = false;
                     }
